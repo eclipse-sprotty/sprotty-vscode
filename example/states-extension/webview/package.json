@@ -1,0 +1,12 @@
+{
+    "private": true,
+    "scripts": {
+      "prepare": "lerna run prepare"
+    },
+    "devDependencies": {
+      "lerna": "2.4.0"
+    },
+    "workspaces": [
+      "states-sprotty", "states-sprotty-vscode"
+    ]
+  }

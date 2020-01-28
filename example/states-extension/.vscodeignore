@@ -1,0 +1,8 @@
+**/tsconfig.json
+**/tslint.json
+**/*.log
+node_modules
+states-language-server.zip
+webview/states-sprotty
+webview/node_modules
+webview/lerna.json
