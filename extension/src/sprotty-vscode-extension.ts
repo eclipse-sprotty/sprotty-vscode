@@ -97,9 +97,14 @@ export abstract class SprottyVscodeExtension {
         if (!uri || !diagramType)
             return undefined;
         const clientId = diagramType + '_' + SprottyWebview.viewCount++;
+        let uriString = uri.toString();
+        const match = uriString.match(/file:\/\/\/([a-z])%3A/i);
+        if (match) {
+            uriString = 'file:///' + match[1] + ':' + uriString.substring(match[0].length);
+        }
         return {
             diagramType,
-            uri: uri.toString(),
+            uri: uriString,
             clientId
         };
     }
