@@ -6,6 +6,8 @@
     "src",
     "css"
   ],
+  "main": "lib/index",
+  "types": "lib/index",
   "dependencies": {
     "reflect-metadata": "^0.1.12",
     "sprotty": "next"
