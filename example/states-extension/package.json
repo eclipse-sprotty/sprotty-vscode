@@ -122,8 +122,8 @@
     "scripts": {
         "clean": "rimraf lib",
         "watch": "tsc -w",
-        "postinstall": "node ./node_modules/vscode/bin/install && yarn unzip-ls && yarn build",
-        "unzip-ls": "unzip ./states-language-server.zip -d server/",
+        "prepare": "node ./node_modules/vscode/bin/install && yarn unzip-ls && yarn build",
+        "unzip-ls": "unzip  -o ./states-language-server.zip -d server/",
         "build": "tsc && webpack --mode=development",
         "vscode:prepublish": "webpack --mode=production"
     }
