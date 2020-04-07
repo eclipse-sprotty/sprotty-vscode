@@ -17,7 +17,7 @@
 }
 
 .sprotty-edge .sprotty-label {
-    fill: var(--theia-ui-font-color0);
+    fill: #444;
 }
 
 .sprotty-edge {
@@ -57,4 +57,3 @@
     width: 0px;
     height: 0px;
 }
-
