@@ -1,11 +1,35 @@
 {
     "name": "sprotty-vscode",
     "displayName": "Sprotty VSCode Integration",
-    "description": "Glue code to integrate Sprotty diagrams in VSCode extensions",
-    "publisher": "TypeFox",
+    "description": "Glue code to integrate Sprotty diagrams in VSCode extensions (extension part)",
+    "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
+    "keywords": [
+      "vscode",
+      "graph",
+      "diagram",
+      "layout",
+      "sprotty"
+    ],
+    "homepage": "https://github.com/eclipse/sprotty-vscode",
+    "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
+    "author": {
+      "name": "Eclipse Sprotty"
+    },
+    "contributors": [
+      {
+        "name": "Jan Köhnlein",
+        "email": "jan.koehnlein@typefox.io",
+        "url": "http://typefox.io"
+      },
+      {
+        "name": "Miro Spönemann",
+        "email": "miro.spoenemann@typefox.io",
+        "url": "http://typefox.io"
+      }
+    ],
     "repository": {
-        "type": "git",
-        "url": "https://github.com/TypeFox/sprotty-vscode"
+      "type": "git",
+      "url": "https://github.com/eclipse/sprotty-vscode.git"
     },
     "version": "0.0.20",
     "engines": {

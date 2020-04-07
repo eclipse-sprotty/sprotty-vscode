@@ -1,5 +1,36 @@
 {
   "name": "states-sprotty",
+  "description": "Example of a Sprotty diagram in a VS Code extensions (Sprotty part)",
+  "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
+  "keywords": [
+    "vscode",
+    "graph",
+    "diagram",
+    "layout",
+    "sprotty"
+  ],
+  "homepage": "https://github.com/eclipse/sprotty-vscode",
+  "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
+  "author": {
+    "name": "Eclipse Sprotty"
+  },
+  "contributors": [
+    {
+      "name": "Jan Köhnlein",
+      "email": "jan.koehnlein@typefox.io",
+      "url": "http://typefox.io"
+    },
+    {
+      "name": "Miro Spönemann",
+      "email": "miro.spoenemann@typefox.io",
+      "url": "http://typefox.io"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eclipse/sprotty-vscode.git"
+  },
+
   "version": "0.0.0",
   "files": [
     "lib",
@@ -7,7 +38,7 @@
     "css"
   ],
   "dependencies": {
-    "sprotty": "next"
+    "sprotty": "0.8.0"
   },
   "devDependencies": {
     "rimraf": "latest",

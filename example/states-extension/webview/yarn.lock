@@ -339,6 +339,11 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autocompleter@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/autocompleter/-/autocompleter-5.1.0.tgz#da80488ddf1f1d89b0a8f5d36cab24439de18ab8"
+  integrity sha512-xFZla6guwywqFJutoi5xrhAmaKw4/TU8CcLuNep/3OtiUfpNXtgzuBkkXJ6ysJIfG6MEEXFtUBg3PREN6HUVyw==
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
@@ -1434,10 +1439,10 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-file-saver@1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.3.tgz#cdd4c44d3aa264eac2f68ec165bc791c34af1232"
-  integrity sha1-zdTETTqiZOrC9o7BZbx5HDSvEjI=
+file-saver@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.2.tgz#06d6e728a9ea2df2cce2f8d9e84dfcdc338ec17a"
+  integrity sha512-Wz3c3XQ5xroCxd1G8b7yL0Ehkf0TC9oYC6buPFkNnU9EnaPlifeAFCyCh+iewXTyFRcg0a6j3J7FmJsIhlhBdw==
 
 fill-range@^4.0.0:
   version "4.0.0"
@@ -1919,10 +1924,10 @@ interpret@^1.1.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
   integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
-inversify@^4.3.0:
-  version "4.14.0"
-  resolved "https://registry.yarnpkg.com/inversify/-/inversify-4.14.0.tgz#393c1f86ee92aef0592eb0e493623b9d88dfb376"
-  integrity sha512-DQLg2u2tWaiHo6V5lGr47a/M9YBX3g72c8Y58+JPH0Lx9fXugEsnXRc08mwsTvDg6gGWBKSkIgtBS/eJCQmDVg==
+inversify@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/inversify/-/inversify-5.0.1.tgz#500d709b1434896ce5a0d58915c4a4210e34fb6e"
+  integrity sha512-Ieh06s48WnEYGcqHepdsJUIJUXpwH5o5vodAX+DK2JA/gjy4EbEcQZxw+uFfzysmKjiLXGYwNG3qDZsKVMcINQ==
 
 invert-kv@^1.0.0:
   version "1.0.0"
@@ -3611,21 +3616,21 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-snabbdom-jsx@^0.4.2:
+snabbdom-jsx@0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/snabbdom-jsx/-/snabbdom-jsx-0.4.2.tgz#e580682d60b4cc1da9898c6a0bacfcd062a0cffc"
   integrity sha512-6akqPyuossD3niO3RCgaqAIrQ6ylBI+shzUKukIwqkNOybCmgst81khJ48BHYtEamQ7ltlFaEKjvKi3N0NPNVw==
   dependencies:
     snabbdom "^0.7.0"
 
-snabbdom-virtualize@^0.7.0:
+snabbdom-virtualize@0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/snabbdom-virtualize/-/snabbdom-virtualize-0.7.0.tgz#31f683338b66457bded8c1e22cdd8ed438c2a387"
   integrity sha1-MfaDM4tmRXve2MHiLN2O1DjCo4c=
   dependencies:
     html-parse-stringify2 "^2"
 
-snabbdom@^0.7.0:
+snabbdom@0.7.3, snabbdom@^0.7.0:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.7.3.tgz#27b29b41228779ae5d99696a07edaaff4912fc54"
   integrity sha512-XNh90GQiV36hWdfSL46fIVrSSvmBuZlWk3++qaEgBeQWQJCqTphcbjTODPv8/vyZHJaB3VhePsWfGxi/zBxXyw==
@@ -3761,24 +3766,25 @@ split@^1.0.0:
   dependencies:
     through "2"
 
-sprotty-vscode-webview@0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/sprotty-vscode-webview/-/sprotty-vscode-webview-0.0.10.tgz#5a4947cb06c93988b7ac3c34e3d4bb5108a75d70"
-  integrity sha512-0NuW3eh+qdsC+6pADxy297uGIFbICRRlK8ACM1GfSljloNeVnST9adwc6YfYHN7oYO9XMoqRj5rE7V7LzvUltg==
+sprotty-vscode-webview@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/sprotty-vscode-webview/-/sprotty-vscode-webview-0.0.11.tgz#e566c081e52d08d4815eb5402e32345455645b78"
+  integrity sha512-8Y7EIrgbY0cqoDnbzO/XyBfgiw8n32T8F638WfanH5QILV4/vCSfKLARb2bpy2Dxx+ISLH2hUdw8Ng64nUGkrQ==
   dependencies:
     reflect-metadata "^0.1.12"
-    sprotty next
+    sprotty "0.8.0"
 
-sprotty@next:
-  version "0.5.0-next.b31f29d"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.5.0-next.b31f29d.tgz#686c09076e5a1a85e6b91e6048c9cb73e7d39569"
-  integrity sha512-g8iFq5eLLHg9YD5eqkazQ36aOlgHznQ6Wd49BhqcfOdmYe+QXfQPeczAzIuzlzVrF8UL1574SjdoVhyPYqgBqQ==
+sprotty@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.8.0.tgz#fe0b3e64aa698f7e7d6de90eb22176a5340ec92e"
+  integrity sha512-P5iTJGGLD9rqVqsNjpuCsWN1ifVoPwlhbvf+6Sl/J/o/tpYwnwDsHZiQkD72UFteV+0r0aZWvwppzLf8g9YpKw==
   dependencies:
-    file-saver "1.3.3"
-    inversify "^4.3.0"
-    snabbdom "^0.7.0"
-    snabbdom-jsx "^0.4.2"
-    snabbdom-virtualize "^0.7.0"
+    autocompleter "5.1.0"
+    file-saver "2.0.2"
+    inversify "5.0.1"
+    snabbdom "0.7.3"
+    snabbdom-jsx "0.4.2"
+    snabbdom-virtualize "0.7.0"
 
 ssri@^6.0.1:
   version "6.0.1"
