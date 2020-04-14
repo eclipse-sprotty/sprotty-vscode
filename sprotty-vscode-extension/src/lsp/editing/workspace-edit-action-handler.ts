@@ -13,13 +13,19 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from "sprotty";
+import { Action, WorkspaceEditAction } from 'sprotty-vscode-protocol';
+import { workspace } from 'vscode';
 
-export class CustomRouter extends ManhattanEdgeRouter {
-    getOptions(edge: SRoutableElement): ManhattanRouterOptions {
-        const defaultOptions = super.getOptions(edge);
-        return edge.id === edgeInProgressID
-            ? { ...defaultOptions, standardDistance: 1 }
-            : defaultOptions;
+import { ActionHandler } from '../../action-handler';
+import { convertWorkspaceEdit } from './lsp-to-vscode';
+
+export class WorkspaceEditActionHandler implements ActionHandler {
+    readonly kind = WorkspaceEditAction.KIND;
+
+    async handleAction(action: Action): Promise<boolean> {
+        if (WorkspaceEditAction.is(action))
+            return workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
+        else
+            return false;
     }
 }

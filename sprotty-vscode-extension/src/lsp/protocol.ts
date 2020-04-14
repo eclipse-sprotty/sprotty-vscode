@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 TypeFox and others.
+ * Copyright (c) 2018 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -13,13 +13,18 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from "sprotty";
 
-export class CustomRouter extends ManhattanEdgeRouter {
-    getOptions(edge: SRoutableElement): ManhattanRouterOptions {
-        const defaultOptions = super.getOptions(edge);
-        return edge.id === edgeInProgressID
-            ? { ...defaultOptions, standardDistance: 1 }
-            : defaultOptions;
-    }
+import { NotificationType, Location } from 'vscode-languageclient';
+import { ActionMessage } from 'sprotty-vscode-protocol';
+
+/////////////////////////////////////
+// Sprotty LSP extensions
+
+export const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept');
+export const didCloseMessageType = new NotificationType<string, void>('diagram/didClose');
+export const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor');
+
+export interface OpenInTextEditorMessage {
+    location: Location
+    forceOpen: boolean
 }

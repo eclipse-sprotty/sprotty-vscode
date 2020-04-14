@@ -8,6 +8,6 @@
     }
   },
   "packages": [
-    "states-sprotty*"
+    "sprotty-vscode-*", "examples/states-extension/webview", "examples/states-extension"
   ]
 }

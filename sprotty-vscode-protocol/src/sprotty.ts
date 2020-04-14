@@ -13,13 +13,23 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from "sprotty";
 
-export class CustomRouter extends ManhattanEdgeRouter {
-    getOptions(edge: SRoutableElement): ManhattanRouterOptions {
-        const defaultOptions = super.getOptions(edge);
-        return edge.id === edgeInProgressID
-            ? { ...defaultOptions, standardDistance: 1 }
-            : defaultOptions;
-    }
+/////////////////////////////////////
+// sprotty action messages
+
+export interface Action {
+    readonly kind: string
+}
+
+export function isAction(object?: any): object is Action {
+    return object !== undefined && object.hasOwnProperty('kind') && typeof(object['kind']) === 'string';
+}
+
+export interface ActionMessage {
+    clientId: string
+    action: Action
+}
+
+export function isActionMessage(object: any): object is ActionMessage {
+    return object !== undefined && object.hasOwnProperty('clientId') && object.hasOwnProperty('action');
 }

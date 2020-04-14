@@ -5,3 +5,4 @@ server
 pack
 *.vsix
 src-gen/
+*.tgz

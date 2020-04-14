@@ -13,13 +13,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from "sprotty";
+import { Action } from 'sprotty-vscode-protocol';
 
-export class CustomRouter extends ManhattanEdgeRouter {
-    getOptions(edge: SRoutableElement): ManhattanRouterOptions {
-        const defaultOptions = super.getOptions(edge);
-        return edge.id === edgeInProgressID
-            ? { ...defaultOptions, standardDistance: 1 }
-            : defaultOptions;
-    }
+export interface ActionHandler {
+    readonly kind: string;
+    handleAction(action: Action): Thenable<boolean>
 }

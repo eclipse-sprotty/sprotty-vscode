@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+	"prepare": "lerna run prepare",
+	"clean": "lerna run clean",
+    "publish:next": "lerna publish --canary --npm-tag next"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  },
+  "workspaces": [
+    "sprotty-vscode-protocol",
+    "sprotty-vscode-extension",
+    "sprotty-vscode-webview",
+    "example/states-extension/webview/states-sprotty",
+    "example/states-extension/webview/states-sprotty-webview",
+    "example/states-extension"
+  ]
+}
