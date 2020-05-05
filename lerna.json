@@ -1,0 +1,13 @@
+{
+  "version": "independent",
+  "useWorkspaces": true,
+  "npmClient": "yarn",
+  "command": {
+    "run": {
+      "stream": true
+    }
+  },
+  "packages": [
+    "sprotty-vscode-*", "examples/states/webview", "examples/states/extension"
+  ]
+}

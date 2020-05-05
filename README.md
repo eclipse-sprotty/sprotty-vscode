@@ -30,6 +30,20 @@ require to interact with the VS Code workbench.
 
 The repo is structured as follows
 - `example/`: an example using an Xtext-based Language Server and with Sprotty visualization.
-- `extension/`: library code for the VSCode extension.
-- `webview/`: library code for the script that is run in the webview.
+- `sprotty-vscode-extension/`: library code for the VSCode extension.
+- `sprotty-vscode-protocol/`: common protocol classes for the communication between the extension and the webview.
+- `sprotty-vscode-webview/`: library code for the script that is run in the webview.
+
+## Development
+
+Compile the library code
+```
+yarn
+```
+
+Compile the example against the versions at npmjs.org:
+```
+yarn --cwd example/states-extension/webview
+yarn --cwd example/states-extension
+```
 

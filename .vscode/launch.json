@@ -11,7 +11,8 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}/example/states-extension"
+                "${workspaceFolder}/example/states/workspace",
+                "--extensionDevelopmentPath=${workspaceFolder}/example/states/extension"
             ]
         }
     ]
