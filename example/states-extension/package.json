@@ -125,7 +125,7 @@
         "clean": "rimraf extension/lib extension/pack",
         "watch": "tsc -w",
         "prepare": "npx vscode-install && yarn unzip-ls && yarn build",
-        "unzip-ls": "unzip -o ./states-language-server.zip -d server/",
+        "unzip-ls": "unzip -o ../states-ls/io.typefox.examples.theia.states.ide/build/distributions/states-language-server.zip -d server",
         "build": "tsc && webpack --mode=development",
         "vscode:prepublish": "yarn build"
     }
