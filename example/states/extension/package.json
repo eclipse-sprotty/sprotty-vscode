@@ -105,8 +105,7 @@
     "main": "./pack/states-extension",
     "dependencies": {
         "path": "^0.12.7",
-        "sprotty-vscode-protocol": "0.0.1",
-        "sprotty-vscode": "0.0.21",
+        "sprotty-vscode": "0.0.23",
         "vscode-languageclient": "^5.2.1",
         "vscode-languageserver": "^5.2.1"
     },
@@ -126,6 +125,6 @@
         "watch": "tsc -w",
         "prepare": "npx vscode-install && yarn build",
         "build": "tsc && webpack --mode=development",
-        "vscode:prepublish": "yarn build"
+        "vscode:prepublish": "yarn install"
     }
 }
