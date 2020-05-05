@@ -1,12 +1,61 @@
 {
-    "private": true,
-    "scripts": {
-      "prepare": "lerna run prepare"
+  "name": "states-sprotty-webview",
+  "version": "0.0.0",
+  "description": "Example of a Sprotty diagram in a VS Code extensions (WebView part)",
+  "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
+  "keywords": [
+    "vscode",
+    "graph",
+    "diagram",
+    "layout",
+    "sprotty"
+  ],
+  "homepage": "https://github.com/eclipse/sprotty-vscode",
+  "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
+  "author": {
+    "name": "Eclipse Sprotty"
+  },
+  "contributors": [
+    {
+      "name": "Jan Köhnlein",
+      "email": "jan.koehnlein@typefox.io",
+      "url": "http://typefox.io"
     },
-    "devDependencies": {
-      "lerna": "^3.20.2"
-    },
-    "workspaces": [
-      "states-sprotty", "states-sprotty-webview"
-    ]
+    {
+      "name": "Miro Spönemann",
+      "email": "miro.spoenemann@typefox.io",
+      "url": "http://typefox.io"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eclipse/sprotty-vscode.git"
+  },
+  "files": [
+    "lib",
+    "src",
+    "css"
+  ],
+  "dependencies": {
+    "sprotty-vscode-protocol": "0.0.1",
+    "sprotty-vscode-webview": "0.0.12",
+	"sprotty": "0.8.0"
+  },
+  "devDependencies": {
+    "rimraf": "latest",
+    "typescript": "latest",
+    "webpack": "^4.28.1",
+    "webpack-cli": "^3.2.1",
+    "circular-dependency-plugin": "^5.0.2",
+    "yargs": "^12.0.5",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "css-loader": "^2.1.0"
+  },
+  "scripts": {
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf lib pack",
+    "build": "tsc && webpack --mode=development",
+    "watch": "tsc -w"
   }
+}

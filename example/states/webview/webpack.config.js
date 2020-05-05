@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const yargs = require('yargs');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const outputPath = path.resolve(__dirname, '../../extension/pack');
+const outputPath = path.resolve(__dirname, '../extension/pack');
 const { mode }  = yargs.option('mode', {
     description: "Mode to use",
     choices: ["development", "production"],
