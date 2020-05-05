@@ -14,7 +14,7 @@ apply plugin: 'application'
 mainClassName = "io.typefox.examples.theia.states.ide.launch.StatesServerLauncher"
 applicationName = 'states-language-server'
 
-task unzipServer(type: Copy) {
+task unzipServer(type: Copy, dependsOn: distZip) {
 	def zipFile = file("${buildDir}/distributions/states-language-server.zip")
 	def outputDir = file("${buildDir}/../../../extension/server")
 
@@ -22,4 +22,4 @@ task unzipServer(type: Copy) {
 	into outputDir
 }
 
-installDist.dependsOn unzipServer
+build.dependsOn unzipServer

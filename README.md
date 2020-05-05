@@ -1,3 +1,5 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse/sprotty-vscode) 
+
 # sprotty-vscode
 
 This repository contains the glue code to integrate [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without a language server - in VSCode extensions.
@@ -36,14 +38,8 @@ The repo is structured as follows
 
 ## Development
 
-Compile the library code
+Compile the library code and the example
 ```
+example/states/language-server/gradlew -p example/states/language-server/ build &&
 yarn
 ```
-
-Compile the example against the versions at npmjs.org:
-```
-yarn --cwd example/states-extension/webview
-yarn --cwd example/states-extension
-```
-

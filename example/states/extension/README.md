@@ -12,8 +12,9 @@ Features
 ## Build it
 
 ```bash
-cd webview && yarn && cd .. # build the bundle.js for the webview
-yarn                        # build the extension
+language-server/gradlew -p language-server build  # build the language server
+yarn --cwd webview                                # build the bundle.js for the webview
+yarn --cwd extension                              # build the extension
 ```
 
 ## Run it
