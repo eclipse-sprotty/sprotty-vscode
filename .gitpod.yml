@@ -1,0 +1,14 @@
+tasks:
+  - init: >
+      example/states/language-server/gradlew -p example/states/language-server/ build &&
+      yarn 
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: false
+    addCheck: true
+    addComment: true
+    addBadge: false
+    addLabel: false
