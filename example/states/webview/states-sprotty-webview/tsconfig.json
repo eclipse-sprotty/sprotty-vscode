@@ -14,12 +14,12 @@
             "dom"
         ],
         "sourceMap": true,
-        "rootDir": "extension/src",
-        "outDir": "extension/lib",
+        "rootDir": "src",
+        "outDir": "lib",
         "skipLibCheck": true,
         "strictPropertyInitialization": false
     },
     "include": [
-        "extension/src"
+        "src"
     ]
 }

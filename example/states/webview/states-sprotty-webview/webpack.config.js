@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const yargs = require('yargs');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const outputPath = path.resolve(__dirname, 'pack');
+const outputPath = path.resolve(__dirname, '../../extension/pack');
 const { mode }  = yargs.option('mode', {
     description: "Mode to use",
     choices: ["development", "production"],
@@ -15,7 +15,7 @@ const development = mode === 'development';
 module.exports = {
     entry: path.resolve(__dirname, 'lib/main.js'),
     output: {
-        filename: 'bundle.js',
+		filename: 'webview.js',
         path: outputPath
     },
     target: 'web',

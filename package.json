@@ -12,8 +12,8 @@
     "sprotty-vscode-protocol",
     "sprotty-vscode-extension",
     "sprotty-vscode-webview",
-    "example/states-extension/webview/states-sprotty",
-    "example/states-extension/webview/states-sprotty-webview",
-    "example/states-extension"
+    "example/states/webview/states-sprotty",
+    "example/states/webview/states-sprotty-webview",
+    "example/states/extension"
   ]
 }

@@ -102,7 +102,7 @@
         "syntaxes",
         "webview"
     ],
-    "main": "./extension/lib/states-extension",
+    "main": "./pack/states-extension",
     "dependencies": {
         "path": "^0.12.7",
         "sprotty-vscode-protocol": "0.0.1",
@@ -124,8 +124,7 @@
     "scripts": {
         "clean": "rimraf extension/lib extension/pack",
         "watch": "tsc -w",
-        "prepare": "npx vscode-install && yarn unzip-ls && yarn build",
-        "unzip-ls": "unzip -o ../states-ls/io.typefox.examples.theia.states.ide/build/distributions/states-language-server.zip -d server",
+        "prepare": "npx vscode-install && yarn build",
         "build": "tsc && webpack --mode=development",
         "vscode:prepublish": "yarn build"
     }
