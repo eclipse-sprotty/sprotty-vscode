@@ -31,12 +31,12 @@ import {
     SetPopupModelAction,
     EMPTY_ROOT,
 } from 'sprotty';
-import { WorkspaceEditAction } from 'sprotty-vscode-protocol';
+import { WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { CodeAction, Range } from 'vscode-languageserver-protocol';
 
 import { CodeActionProvider } from './code-action-provider';
 import { EditDiagramLocker } from './edit-diagram-locker';
-import { getRange } from '../traceable';
+import { getRange } from './traceable';
 import { IRootPopupModelProvider } from '../../root-popup-model-provider';
 
 /**

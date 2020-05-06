@@ -22,12 +22,12 @@ import {
     SModelElementSchema,
     SModelIndex,
 } from 'sprotty';
-import { LspLabelEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol';
+import { LspLabelEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
-import { VscodeDiagramServer } from '../vscode-diagram-server';
+import { VscodeDiagramServer } from '../../vscode-diagram-server';
 import { getRange, getURI, isTraceable } from './traceable';
 
-export class VscodeLspDiagramServer extends VscodeDiagramServer {
+export class VscodeLspEditDiagramServer extends VscodeDiagramServer {
 
     initialize(registry: ActionHandlerRegistry) {
         super.initialize(registry);

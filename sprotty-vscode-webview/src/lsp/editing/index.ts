@@ -19,3 +19,4 @@ export * from './code-action-provider';
 export * from './edit-diagram-locker';
 export * from './language-client-proxy';
 export * from './sprotty-lsp-edit-starter';
+export * from './vscode-lsp-edit-diagram-server';

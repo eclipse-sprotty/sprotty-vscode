@@ -22,11 +22,14 @@ import { CodeActionPopupPaletteProvider } from './code-action-popup-palette';
 import { CodeActionProvider } from './code-action-provider';
 import { EditDiagramLocker } from './edit-diagram-locker';
 import { LanguageClientProxy } from './language-client-proxy';
-import { SprottyLspStarter } from '../sprotty-lsp-starter';
+import { SprottyStarter } from '../../sprotty-starter';
+import { VscodeDiagramServer } from '../../vscode-diagram-server';
+import { VscodeLspEditDiagramServer } from './vscode-lsp-edit-diagram-server';
 
-export abstract class SprottyLspEditStarter extends SprottyLspStarter {
+export abstract class SprottyLspEditStarter extends SprottyStarter {
     protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier) {
         super.addVscodeBindings(container, diagramIdentifier);
+        container.rebind(VscodeDiagramServer).to(VscodeLspEditDiagramServer);
         container.bind(EditDiagramLocker).toSelf().inSingletonScope();
         container.rebind(TYPES.IDiagramLocker).toService(EditDiagramLocker);
         container.bind(LanguageClientProxy).toSelf().inSingletonScope();
