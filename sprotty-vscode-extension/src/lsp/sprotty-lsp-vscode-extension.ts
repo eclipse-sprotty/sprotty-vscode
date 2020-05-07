@@ -58,6 +58,12 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
             const end = this.toPosition(message.location.range.end);
             editor.selection = new vscode.Selection(start, end);
             editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenter);
+        } else if (message.forceOpen) {
+            vscode.window.showTextDocument(vscode.Uri.parse(message.location.uri), {
+                selection: new vscode.Range(this.toPosition(message.location.range.start),
+                                            this.toPosition(message.location.range.end)),
+                viewColumn: vscode.ViewColumn.One
+            });
         }
     }
 
