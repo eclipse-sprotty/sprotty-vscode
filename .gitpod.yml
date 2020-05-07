@@ -9,6 +9,6 @@ github:
     pullRequests: true
     pullRequestsFromForks: false
     addCheck: true
-    addComment: true
+    addComment: false
     addBadge: false
     addLabel: false
