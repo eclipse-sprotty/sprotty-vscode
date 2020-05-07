@@ -29,8 +29,8 @@ export abstract class SprottyVscodeExtension {
 
     protected registerCommands() {
         this.context.subscriptions.push(
-            vscode.commands.registerCommand(this.extensionPrefix + '.diagram.open', (...commandArgs: any) => {
-                const identifier = this.createDiagramIdentifier(commandArgs);
+            vscode.commands.registerCommand(this.extensionPrefix + '.diagram.open', async (...commandArgs: any) => {
+                const identifier = await this.createDiagramIdentifier(commandArgs);
                 if (identifier) {
                     const key = this.getKey(identifier);
                     const webView = this.webviewMap.get(key);
@@ -91,9 +91,9 @@ export abstract class SprottyVscodeExtension {
 
     protected abstract createWebView(diagramIdentifier: SprottyDiagramIdentifier): SprottyWebview;
 
-    protected createDiagramIdentifier(commandArgs: any[]): SprottyDiagramIdentifier | undefined {
-        const uri = this.getURI(commandArgs);
-        const diagramType = this.getDiagramType(commandArgs);
+    protected async createDiagramIdentifier(commandArgs: any[]): Promise<SprottyDiagramIdentifier | undefined> {
+        const uri = await this.getURI(commandArgs);
+        const diagramType = await this.getDiagramType(commandArgs);
         if (!uri || !diagramType)
             return undefined;
         const clientId = diagramType + '_' + SprottyWebview.viewCount++;
@@ -109,9 +109,9 @@ export abstract class SprottyVscodeExtension {
         };
     }
 
-    protected abstract getDiagramType(commandArgs: any[]): string | undefined;
+    protected abstract getDiagramType(commandArgs: any[]): Promise<string | undefined> | string | undefined;
 
-    protected getURI(commandArgs: any[]): vscode.Uri | undefined {
+    protected async getURI(commandArgs: any[]): Promise<vscode.Uri | undefined> {
         if (commandArgs.length > 0) {
             if (commandArgs[0] instanceof vscode.Uri) {
                 return commandArgs[0];
