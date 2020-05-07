@@ -1,6 +1,6 @@
 {
   "name": "states-sprotty-webview",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Example of a Sprotty diagram in a VS Code extensions (WebView part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
@@ -37,19 +37,19 @@
     "css"
   ],
   "dependencies": {
-    "sprotty-vscode-webview": "0.0.13",
-	"sprotty": "0.8.0"
+    "sprotty": "0.8.0",
+    "sprotty-vscode-webview": "^0.0.14"
   },
   "devDependencies": {
+    "circular-dependency-plugin": "^5.0.2",
+    "css-loader": "^2.1.0",
     "rimraf": "latest",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
     "typescript": "latest",
     "webpack": "^4.28.1",
     "webpack-cli": "^3.2.1",
-    "circular-dependency-plugin": "^5.0.2",
-    "yargs": "^12.0.5",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^0.23.1",
-    "css-loader": "^2.1.0"
+    "yargs": "^12.0.5"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",
