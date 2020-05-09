@@ -139,6 +139,7 @@
         "watch": "tsc -w",
         "prepare": "npx vscode-install && yarn build",
         "build": "tsc && webpack --mode=development",
-        "vscode:prepublish": "yarn install"
+        "vscode:prepublish": "yarn install",
+        "publish": "vsce publish"
     }
 }
