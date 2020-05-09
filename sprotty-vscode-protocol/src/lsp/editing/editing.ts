@@ -42,3 +42,15 @@ export namespace WorkspaceEditAction {
 export interface WorkspaceEditAction extends Action {
     workspaceEdit: WorkspaceEdit
 }
+
+export namespace DeleteWithWorkspaceEditAction {
+    export const KIND = 'deleteWithWorkspaceEdit';
+
+    export function is(action: Action): action is DeleteWithWorkspaceEditAction {
+        return action.kind === KIND;
+    }
+}
+
+export interface DeleteWithWorkspaceEditAction extends Action {
+}
+

@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import { Container } from 'inversify';
-import { TYPES } from 'sprotty';
+import { TYPES, configureCommand, CreateElementCommand } from 'sprotty';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 
 import { IRootPopupModelProvider } from '../../root-popup-model-provider';
@@ -25,6 +25,7 @@ import { LanguageClientProxy } from './language-client-proxy';
 import { SprottyStarter } from '../../sprotty-starter';
 import { VscodeDiagramServer } from '../../vscode-diagram-server';
 import { VscodeLspEditDiagramServer } from './vscode-lsp-edit-diagram-server';
+import { DeleteWithWorkspaceEditCommand } from './delete-with-workspace-edit';
 
 export abstract class SprottyLspEditStarter extends SprottyStarter {
     protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier) {
@@ -36,5 +37,7 @@ export abstract class SprottyLspEditStarter extends SprottyStarter {
         container.bind(CodeActionProvider).toSelf().inSingletonScope();
         container.bind(CodeActionPopupPaletteProvider).toSelf().inSingletonScope();
         container.bind(IRootPopupModelProvider).toService(CodeActionPopupPaletteProvider);
+        configureCommand(container, CreateElementCommand);
+        configureCommand(container, DeleteWithWorkspaceEditCommand);
     }
 }

@@ -16,6 +16,7 @@
 
 export * from './code-action-popup-palette';
 export * from './code-action-provider';
+export * from './delete-with-workspace-edit';
 export * from './edit-diagram-locker';
 export * from './language-client-proxy';
 export * from './sprotty-lsp-edit-starter';

@@ -17,11 +17,11 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
-import { LspLabelEditActionHandler, WorkspaceEditActionHandler } from "sprotty-vscode/lib/lsp/editing";
-import { SprottyLspVscodeExtension, SprottyDiagramIdentifier, SprottyLspWebview } from 'sprotty-vscode/lib/lsp';
+import { LspLabelEditActionHandler, WorkspaceEditActionHandler, SprottyLspEditVscodeExtension } from "sprotty-vscode/lib/lsp/editing";
+import { SprottyDiagramIdentifier, SprottyLspWebview } from 'sprotty-vscode/lib/lsp';
 import { SprottyWebview } from 'sprotty-vscode/lib/sprotty-webview';
 
-export class StatesLspVscodeExtension extends SprottyLspVscodeExtension {
+export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
 
     constructor(context: vscode.ExtensionContext) {
         super('states', context);

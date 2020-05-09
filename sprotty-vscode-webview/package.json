@@ -51,7 +51,7 @@
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",
-    "clean": "rimraf lib sprotty-vscode*.tgz",
+    "clean": "rimraf lib",
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint -c ./tslint.json --project ./tsconfig.json"

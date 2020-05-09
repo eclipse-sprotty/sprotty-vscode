@@ -27,7 +27,7 @@ import { PaletteButton } from 'sprotty-vscode-webview/lib/lsp/editing';
 export class StatesSprottyStarter extends SprottyLspEditStarter {
 
     createContainer(diagramIdentifier: SprottyDiagramIdentifier) {
-        return createStateDiagramContainer(diagramIdentifier.clientId + '_sprotty');
+        return createStateDiagramContainer(diagramIdentifier.clientId);
     }
 
     protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier): void {

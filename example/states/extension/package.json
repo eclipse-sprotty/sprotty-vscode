@@ -52,6 +52,11 @@
                 "category": "States Diagram"
             },
             {
+                "command": "states.diagram.delete",
+                "title": "Delete selected element",
+                "category": "States Diagram"
+            },
+            {
                 "command": "states.diagram.export",
                 "title": "Export diagram to SVG",
                 "category": "States Diagram"
@@ -77,7 +82,7 @@
             {
                 "key": "alt+f",
                 "mac": "alt+f",
-                "command": "states.diagram.fit"
+                "command": "states.diagram.fit",
             },
             {
                 "key": "alt+c",
@@ -88,6 +93,11 @@
                 "key": "alt+e",
                 "mac": "alt+e",
                 "command": "states.diagram.export"
+            },
+            {
+                "key": "delete",
+                "mac": "delete",
+                "command": "states.diagram.delete",
             }
         ]
     },
@@ -102,7 +112,7 @@
         "syntaxes",
         "webview"
     ],
-    "main": "./pack/states-extension",
+    "main": "./lib/states-extension",
     "dependencies": {
         "path": "^0.12.7",
         "sprotty-vscode": "^0.0.24",
