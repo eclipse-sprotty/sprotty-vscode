@@ -83,21 +83,25 @@
                 "key": "alt+f",
                 "mac": "alt+f",
                 "command": "states.diagram.fit",
+                "when" : "states-diagram-focused"
             },
             {
                 "key": "alt+c",
                 "mac": "alt+c",
-                "command": "states.diagram.center"
+                "command": "states.diagram.center",
+                "when" : "states-diagram-focused"
             },
             {
                 "key": "alt+e",
                 "mac": "alt+e",
-                "command": "states.diagram.export"
+                "command": "states.diagram.export",
+                "when" : "states-diagram-focused"
             },
             {
                 "key": "delete",
                 "mac": "delete",
                 "command": "states.diagram.delete",
+                "when" : "states-diagram-focused"
             }
         ]
     },

@@ -114,6 +114,7 @@ export class SprottyWebview {
                 this.messageQueue.forEach(message => this.sendToWebview(message));
                 this.messageQueue = [];
             }
+            this.setWebviewActiveContext(event.webviewPanel.active);
         }));
         this.disposables.push(this.diagramPanel.onDidDispose(() => {
             this.extension.didCloseWebview(this.diagramIdentifier);
@@ -121,6 +122,10 @@ export class SprottyWebview {
         }));
         this.disposables.push(this.diagramPanel.webview.onDidReceiveMessage(message => this.receiveFromWebview(message)));
         this.sendDiagramIdentifier();
+    }
+
+    protected setWebviewActiveContext(isActive: boolean) {
+        vscode.commands.executeCommand('setContext', this.diagramIdentifier.diagramType + '-focused', isActive);
     }
 
     protected async sendDiagramIdentifier() {
