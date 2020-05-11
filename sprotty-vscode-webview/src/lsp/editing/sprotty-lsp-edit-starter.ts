@@ -18,7 +18,7 @@ import { TYPES, configureCommand, CreateElementCommand } from 'sprotty';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 
 import { IRootPopupModelProvider } from '../../root-popup-model-provider';
-import { CodeActionPopupPaletteProvider } from './code-action-popup-palette';
+import { CodeActionPopupPaletteProvider, PaletteMouseListener } from './code-action-popup-palette';
 import { CodeActionProvider } from './code-action-provider';
 import { EditDiagramLocker } from './edit-diagram-locker';
 import { LanguageClientProxy } from './language-client-proxy';
@@ -37,6 +37,8 @@ export abstract class SprottyLspEditStarter extends SprottyStarter {
         container.bind(CodeActionProvider).toSelf().inSingletonScope();
         container.bind(CodeActionPopupPaletteProvider).toSelf().inSingletonScope();
         container.bind(IRootPopupModelProvider).toService(CodeActionPopupPaletteProvider);
+        container.bind(PaletteMouseListener).toSelf().inSingletonScope();
+        container.rebind(TYPES.PopupMouseListener).to(PaletteMouseListener);
         configureCommand(container, CreateElementCommand);
         configureCommand(container, DeleteWithWorkspaceEditCommand);
     }
