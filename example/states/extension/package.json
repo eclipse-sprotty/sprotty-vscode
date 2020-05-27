@@ -7,7 +7,7 @@
         "type": "git",
         "url": "https://github.com/TypeFox/sprotty-vscode"
     },
-    "version": "0.0.14",
+    "version": "0.0.15",
     "engines": {
         "vscode": "^1.30.0"
     },
@@ -116,14 +116,12 @@
         "syntaxes",
         "webview"
     ],
-    "main": "./lib/states-extension",
-    "dependencies": {
+    "main": "./pack/states-extension",
+    "devDependencies": {
         "path": "^0.12.7",
         "sprotty-vscode": "^0.0.25",
         "vscode-languageclient": "^5.2.1",
-        "vscode-languageserver": "^5.2.1"
-    },
-    "devDependencies": {
+        "vscode-languageserver": "^5.2.1",
         "@types/node": "^8.0.0",
         "rimraf": "^2.6.3",
         "states-sprotty-webview": "^0.0.3",
@@ -137,9 +135,8 @@
     "scripts": {
         "clean": "rimraf extension/lib extension/pack",
         "watch": "tsc -w",
-        "prepare": "npx vscode-install && yarn build",
+        "prepare": "npx vscode-install && yarn run build",
         "build": "tsc && webpack --mode=development",
-        "vscode:prepublish": "yarn install",
         "publish": "vsce publish"
     }
 }
