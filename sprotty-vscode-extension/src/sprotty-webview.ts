@@ -102,7 +102,7 @@ export class SprottyWebview {
                     crossorigin="anonymous">
             </head>
             <body>
-                <div id="${this.diagramIdentifier.clientId}" style="height: 100%;"></div>
+                <div id="${this.diagramIdentifier.clientId}_container" style="height: 100%;"></div>
                 <script src="${this.extension.resourceUri(this.scriptPath).toString()}"></script>
             </body>
         </html>`;

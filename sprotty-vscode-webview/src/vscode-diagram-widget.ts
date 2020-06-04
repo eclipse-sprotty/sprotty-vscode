@@ -48,7 +48,7 @@ export abstract class VscodeDiagramWidget {
     }
 
     protected initializeHtml() {
-        const containerDiv = document.getElementById(this.diagramIdentifier.clientId);
+        const containerDiv = document.getElementById(this.diagramIdentifier.clientId + '_container');
         if (containerDiv) {
             const svgContainer = document.createElement("div");
             svgContainer.id = this.viewerOptions.baseDiv;
