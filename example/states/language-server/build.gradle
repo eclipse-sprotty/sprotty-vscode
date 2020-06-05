@@ -8,11 +8,12 @@ buildscript {
 }
 
 subprojects {
-	ext.xtextVersion = '2.21.0'
-	ext.sprottyVersion = "0.8.0"
+	ext.xtextVersion = '2.22.0'
+	ext.sprottyVersion = "0.9.0-SNAPSHOT"
 	ext.elkVersion = "0.6.1"
 	
 	repositories {
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }		
 		maven { url 'https://oss.sonatype.org/content/repositories/releases' }		
 	}
 	
