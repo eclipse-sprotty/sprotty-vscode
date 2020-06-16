@@ -1,37 +1,37 @@
 .sprotty-node {
-    fill: lightblue
+    fill: var(--vscode-button-background)
 }
 
 .sprotty-node.selected {
     stroke-width: 2;
-    stroke: #0070be;
+    stroke: var(--vscode-button-hover-background);
 }
 
 .sprotty-label {
-    fill: black;
+    fill: var(--vscode-button-foreground);
     stroke-width: 0;
 }
 
 .sprotty-button {
-    fill: #B4B4B488;
+    fill: var(--vscode-editorActiveLineNumber-foreground);
 }
 
 .sprotty-edge .sprotty-label {
-    fill: #444;
+    fill: var(--vscode-editorActiveLineNumber-foreground);
 }
 
 .sprotty-edge {
     fill:none;
-    stroke:#B4B4B4;
+    stroke: var(--vscode-editorActiveLineNumber-foreground);
     stroke-width: 2px;
 }
 
 .sprotty-edge-arrow {
-    fill:#B4B4B4;
+    fill:var(--vscode-editorActiveLineNumber-foreground);
 }
 
 .sprotty-edge > .sprotty-routing-handle {
-    fill: #888;
+    fill: var(--vscode-editor-selectionBackground);
     stroke: none;
     z-index: 1000;
 }
@@ -41,11 +41,11 @@
 }
 
 .sprotty-edge > .sprotty-routing-handle.selected {
-    fill: #0070be;
+    fill: var(--vscode-editor-selectionHighlightBackground);
 }
 
 .sprotty-edge > .sprotty-routing-handle.mouseover {
-    stroke: #0191f8;
+    stroke: var(--vscode-editor-symbolHighlightBackground);
     stroke-width: 1;
 }
 
