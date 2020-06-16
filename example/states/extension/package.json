@@ -7,7 +7,7 @@
         "type": "git",
         "url": "https://github.com/TypeFox/sprotty-vscode"
     },
-    "version": "0.0.17",
+    "version": "0.0.18",
     "engines": {
         "vscode": "^1.30.0"
     },
@@ -121,7 +121,7 @@
         "@types/node": "^8.0.0",
         "path": "^0.12.7",
         "rimraf": "^2.6.3",
-        "sprotty-vscode": "^0.0.26",
+        "sprotty-vscode": "^0.0.27",
         "states-sprotty-webview": "^0.0.4",
         "ts-loader": "^6.2.1",
         "tslint": "^5.11.0",
