@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018 TypeFox and others.
+ * Copyright (c) 2020 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,7 +27,6 @@ import * as vscode from 'vscode';
 import { ActionHandler } from './action-handler';
 import { SprottyVscodeExtension } from './sprotty-vscode-extension';
 import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/messages';
-
 
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension
@@ -133,11 +132,17 @@ export class SprottyWebview {
         this.sendToWebview(this.diagramIdentifier);
     }
 
-    protected receiveFromWebview(message: any) {
+    /**
+     * @return true if the message should be propagated, e.g. to a language server
+     */
+    protected receiveFromWebview(message: any): Thenable<boolean> {
         if (isActionMessage(message))
-            this.accept(message.action);
-        else if (isWebviewReadyMessage(message))
+            return this.accept(message.action);
+        else if (isWebviewReadyMessage(message)) {
             this.resolveWebviewReady(message);
+            return Promise.resolve(false);
+        }
+        return Promise.resolve(true);
     }
 
     protected sendToWebview(message: any) {
@@ -145,7 +150,7 @@ export class SprottyWebview {
             if (this.diagramPanel.visible) {
                 if (isActionMessage(message)) {
                     const actionHandler = this.actionHandlers.get(message.action.kind);
-                    if (actionHandler && actionHandler.handleAction(message.action))
+                    if (actionHandler && !actionHandler.handleAction(message.action))
                         return;
                 }
                 this.diagramPanel.webview.postMessage(message);
@@ -162,10 +167,11 @@ export class SprottyWebview {
         });
     }
 
-    accept(action: Action) {
+    accept(action: Action): Thenable<boolean> {
         const actionHandler = this.actionHandlers.get(action.kind);
         if (actionHandler)
-            actionHandler.handleAction(action);
+            return actionHandler.handleAction(action);
+        return Promise.resolve(true);
     }
 
     addActionHandler(actionHandlerConstructor: new(webview: SprottyWebview) => ActionHandler) {

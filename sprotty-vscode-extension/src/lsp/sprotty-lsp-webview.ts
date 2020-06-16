@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018 TypeFox and others.
+ * Copyright (c) 2020 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -50,21 +50,24 @@ export class SprottyLspWebview extends SprottyWebview {
         // defer first message until language client is ready
     }
 
-    protected async receiveFromWebview(message: any) {
-        super.receiveFromWebview(message);
-        if (isActionMessage(message)) {
-            this.languageClient.sendNotification(acceptMessageType, message);
-        } else if (isRequestMessage(message)) {
-            const result = (message.params)
-                ? await this.languageClient.sendRequest(message.method, message.params)
-                : await this.languageClient.sendRequest(message.method);
-            this.sendToWebview(<ResponseMessage> {
-                jsonrpc: 'response',
-                id: message.id,
-                result: result
-            });
-        } else if (isNotificationMessage(message)) {
-            this.languageClient.sendNotification(message.method, message.params);
+    protected async receiveFromWebview(message: any): Promise<boolean> {
+        const shouldPropagate = await super.receiveFromWebview(message);
+        if (shouldPropagate) {
+            if (isActionMessage(message)) {
+                this.languageClient.sendNotification(acceptMessageType, message);
+            } else if (isRequestMessage(message)) {
+                const result = (message.params)
+                    ? await this.languageClient.sendRequest(message.method, message.params)
+                    : await this.languageClient.sendRequest(message.method);
+                this.sendToWebview(<ResponseMessage> {
+                    jsonrpc: 'response',
+                    id: message.id,
+                    result: result
+                });
+            } else if (isNotificationMessage(message)) {
+                this.languageClient.sendNotification(message.method, message.params);
+            }
         }
+        return false;
     }
 }

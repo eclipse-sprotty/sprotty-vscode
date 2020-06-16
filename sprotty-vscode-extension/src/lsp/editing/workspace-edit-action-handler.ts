@@ -25,8 +25,7 @@ export class WorkspaceEditActionHandler implements ActionHandler {
 
     async handleAction(action: Action): Promise<boolean> {
         if (WorkspaceEditAction.is(action))
-            return workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
-        else
-            return false;
+            await workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
+        return false;
     }
 }
