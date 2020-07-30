@@ -31,8 +31,8 @@ import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/messages'
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension
     identifier: SprottyDiagramIdentifier
-    localResourceRoots: string[]
-    scriptPath: string
+    localResourceRoots: vscode.Uri[]
+    scriptUri: vscode.Uri
 }
 
 export class SprottyWebview {
@@ -41,8 +41,8 @@ export class SprottyWebview {
 
     readonly extension: SprottyVscodeExtension;
     readonly diagramIdentifier: SprottyDiagramIdentifier;
-    readonly localResourceRoots: string[];
-    readonly scriptPath: string;
+    readonly localResourceRoots: vscode.Uri[];
+    readonly scriptUri: vscode.Uri;
     readonly title: any;
     readonly diagramPanel: vscode.WebviewPanel;
     readonly actionHandlers = new Map<string, ActionHandler>();
@@ -56,7 +56,7 @@ export class SprottyWebview {
         this.extension = options.extension;
         this.diagramIdentifier = options.identifier;
         this.localResourceRoots = options.localResourceRoots;
-        this.scriptPath = options.scriptPath;
+        this.scriptUri = options.scriptUri;
         this.title = this.createTitle();
         this.diagramPanel = this.createWebviewPanel();
         this.connect();
@@ -77,34 +77,32 @@ export class SprottyWebview {
             this.title,
             vscode.ViewColumn.Beside,
             {
-                localResourceRoots: this.localResourceRoots.map(root =>
-                    this.extension.resourceUri(root)
-                ),
+                localResourceRoots: this.localResourceRoots,
                 enableScripts: true,
                 retainContextWhenHidden: true
             });
-        diagramPanel.webview.html = this.getWebViewContent();
+        this.initializeWebview(diagramPanel.webview);
         return diagramPanel;
     }
 
-    protected getWebViewContent() {
-        return `
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, height=device-height">
-                <title>${this.title}</title>
-                <link
-                    rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-                    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-                    crossorigin="anonymous">
-            </head>
-            <body>
-                <div id="${this.diagramIdentifier.clientId}_container" style="height: 100%;"></div>
-                <script src="${this.extension.resourceUri(this.scriptPath).toString()}"></script>
-            </body>
-        </html>`;
+    protected initializeWebview(webview: vscode.Webview) {
+        webview.html = `
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, height=device-height">
+                    <title>${this.title}</title>
+                    <link
+                        rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+                        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+                        crossorigin="anonymous">
+                </head>
+                <body>
+                    <div id="${this.diagramIdentifier.clientId}_container" style="height: 100%;"></div>
+                    <script src="${webview.asWebviewUri(this.scriptUri).toString()}"></script>
+                </body>
+            </html>`;
     }
 
     protected async connect() {

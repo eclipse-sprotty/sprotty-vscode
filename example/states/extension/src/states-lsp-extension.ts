@@ -36,9 +36,9 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
             extension: this,
             identifier,
             localResourceRoots: [
-                'pack'
+                this.getExtensionFileUri('pack')
             ],
-            scriptPath: 'pack/webview.js'
+            scriptUri: this.getExtensionFileUri('pack', 'webview.js')
         });
         webview.addActionHandler(WorkspaceEditActionHandler);
         webview.addActionHandler(LspLabelEditActionHandler);

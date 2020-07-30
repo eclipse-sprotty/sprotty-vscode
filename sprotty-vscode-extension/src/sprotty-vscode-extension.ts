@@ -122,9 +122,8 @@ export abstract class SprottyVscodeExtension {
         return undefined;
     }
 
-    resourceUri(...segments: string[]): vscode.Uri {
+    getExtensionFileUri(...segments: string[]): vscode.Uri {
         return vscode.Uri
-            .file(path.join(this.context.extensionPath, ...segments))
-            .with({ scheme: 'vscode-resource' });
+            .file(path.join(this.context.extensionPath, ...segments));
     }
 }
