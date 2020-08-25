@@ -64,24 +64,46 @@
             }
         ],
         "menus": {
+            "commandPalette": [
+                {
+                    "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'"
+                },
+                {
+                    "command": "states.diagram.fit",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.center",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.delete",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.export",
+                    "when": "states-diagram-focused"
+                }
+            ],
             "editor/context": [
                 {
-                    "when": "editorLangId==states",
                     "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'",
                     "group": "navigation"
                 }
             ],
             "editor/title": [
                 {
-                    "when": "editorLangId==states",
                     "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'",
                     "group": "navigation"
                 }
             ],
             "explorer/context": [
                 {
-                    "when": "resourceExtname == '.sm'",
                     "command": "states.diagram.open",
+                    "when": "resourceExtname == '.sm'",
                     "group": "navigation"
                 }
             ]
