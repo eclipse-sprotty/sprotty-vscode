@@ -1,5 +1,9 @@
 build/
+bin/
 xtext-gen/
 xtend-gen/
 .gradle/
 generated/
+org.eclipse.buildship.core.prefs
+.classpath
+.project

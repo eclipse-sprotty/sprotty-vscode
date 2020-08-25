@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "sourceMap": true,
         "declaration": true,
         "declarationMap": true,
         "downlevelIteration": true,
@@ -14,7 +15,6 @@
         "noUnusedLocals": true,
         "skipLibCheck": true,
         "strict": true,
-        "sourceMap": true,
         "strictPropertyInitialization": false,
         "target": "es5"
     }

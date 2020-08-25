@@ -15,13 +15,8 @@
  ********************************************************************************/
 import { inject, injectable, postConstruct } from 'inversify';
 import {
-    DiagramServer,
-    IActionDispatcher,
-    ModelSource,
-    RequestModelAction,
-    ServerStatusAction,
-    TYPES,
-    ViewerOptions,
+    DiagramServer, IActionDispatcher, ModelSource, RequestModelAction, ServerStatusAction,
+    TYPES, ViewerOptions,
 } from 'sprotty';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 
@@ -42,12 +37,12 @@ export abstract class VscodeDiagramWidget {
     constructor() {}
 
     @postConstruct()
-    initialize() {
+    initialize(): void {
         this.initializeHtml();
         this.initializeSprotty();
     }
 
-    protected initializeHtml() {
+    protected initializeHtml(): void {
         const containerDiv = document.getElementById(this.diagramIdentifier.clientId + '_container');
         if (containerDiv) {
             const svgContainer = document.createElement("div");
@@ -71,13 +66,25 @@ export abstract class VscodeDiagramWidget {
         }
     }
 
-    protected initializeSprotty() {
+    protected initializeSprotty(): void {
         if (this.modelSource instanceof DiagramServer)
             this.modelSource.clientId = this.diagramIdentifier.clientId;
-        this.actionDispatcher.dispatch(new RequestModelAction({
-            sourceUri: this.diagramIdentifier.uri,
-            diagramType: this.diagramIdentifier.diagramType
-        }));
+        this.requestModel();
+    }
+
+    async requestModel(): Promise<void> {
+        try {
+            const response = await this.actionDispatcher.request(RequestModelAction.create({
+                sourceUri: this.diagramIdentifier.uri,
+                diagramType: this.diagramIdentifier.diagramType
+            }));
+            await this.actionDispatcher.dispatch(response);
+        } catch (err) {
+            const status = new ServerStatusAction();
+            status.message = err instanceof Error ? err.message : err.toString();
+            status.severity = 'FATAL';
+            this.setStatus(status);
+        }
     }
 
     setStatus(status: ServerStatusAction): void {
@@ -107,7 +114,7 @@ export abstract class VscodeDiagramWidget {
         }
     }
 
-    protected removeClasses(element: Element, keep: number) {
+    protected removeClasses(element: Element, keep: number): void {
         const classes = element.classList;
         while (classes.length > keep) {
             const item = classes.item(classes.length - 1);
