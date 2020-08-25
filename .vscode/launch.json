@@ -13,7 +13,12 @@
             "args": [
                 "${workspaceFolder}/example/states/workspace",
                 "--extensionDevelopmentPath=${workspaceFolder}/example/states/extension"
-            ]
+            ],
+            "outFiles": [
+                "${workspaceFolder}/example/states/extension/pack/*.js",
+                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+            ],
+            "sourceMaps": true
         }
     ]
 }

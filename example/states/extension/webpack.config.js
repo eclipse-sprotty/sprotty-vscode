@@ -7,14 +7,14 @@ const path = require('path');
 const config = {
     target: 'node', 
 
-    entry: './src/states-extension.ts',
+    entry: path.resolve(__dirname, 'src/states-extension.ts'),
     output: { 
         path: path.resolve(__dirname, 'pack'),
         filename: 'states-extension.js',
         libraryTarget: "commonjs2",
         devtoolModuleFilenameTemplate: "../[resource-path]",
     },
-    devtool: "eval-source-map",
+    devtool: 'source-map',
     externals: {
         vscode: "commonjs vscode"
     },
@@ -22,18 +22,25 @@ const config = {
         extensions: ['.ts', '.js']
     },
     module: {
-        rules: [{
-            test: /\.ts$/,
-            exclude: /node_modules/,
-            use: [{
-                loader: 'ts-loader',
-                options: {
-                    compilerOptions: {
-                        "module": "es6" // override `tsconfig.json` so that TypeScript emits native JavaScript modules.
+        rules: [
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'ts-loader',
+                    options: {
+                        compilerOptions: {
+                            "module": "es6" // override `tsconfig.json` so that TypeScript emits native JavaScript modules.
+                        }
                     }
-                }
-            }]
-        }]
+                }]
+            },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+            }
+        ]
     },
 }
 

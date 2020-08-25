@@ -23,25 +23,35 @@ import { VscodeDiagramWidget, VscodeDiagramWidgetFactory } from './vscode-diagra
 
 export abstract class SprottyStarter {
 
+    protected container?: Container;
+
     constructor() {
         this.sendReadyMessage();
         this.acceptDiagramIdentifier();
     }
 
-    protected sendReadyMessage() {
-        vscodeApi.postMessage({ readyMessage: 'Sprotty Webview ready'} as WebviewReadyMessage);
+    protected sendReadyMessage(): void {
+        vscodeApi.postMessage({ readyMessage: 'Sprotty Webview ready' } as WebviewReadyMessage);
     }
 
-    protected acceptDiagramIdentifier() {
+    protected acceptDiagramIdentifier(): void {
         console.log('Waiting for diagram identifier...');
         const eventListener = (message: any) => {
-            console.log(`...received...`, message);
             if (isDiagramIdentifier(message.data)) {
-                const diagramIdentifier = message.data as SprottyDiagramIdentifier;
-                const diContainer = this.createContainer(diagramIdentifier);
-                this.addVscodeBindings(diContainer, diagramIdentifier);
-                diContainer.get(VscodeDiagramWidget);
-                window.removeEventListener('message', eventListener);
+                if (this.container) {
+                    const oldIdentifier = this.container.get<SprottyDiagramIdentifier>(SprottyDiagramIdentifier);
+                    const newIdentifier = message.data as SprottyDiagramIdentifier;
+                    oldIdentifier.diagramType = newIdentifier.diagramType;
+                    oldIdentifier.uri = newIdentifier.uri;
+                    const diagramWidget = this.container.get(VscodeDiagramWidget);
+                    diagramWidget.requestModel();
+                } else {
+                    console.log(`...received...`, message);
+                    const diagramIdentifier = message.data as SprottyDiagramIdentifier;
+                    this.container = this.createContainer(diagramIdentifier);
+                    this.addVscodeBindings(this.container, diagramIdentifier);
+                    this.container.get(VscodeDiagramWidget);
+                }
             }
         };
         window.addEventListener('message', eventListener);
@@ -49,7 +59,7 @@ export abstract class SprottyStarter {
 
     protected abstract createContainer(diagramIdentifier: SprottyDiagramIdentifier): Container;
 
-    protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier) {
+    protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier): void {
         container.bind(VscodeDiagramWidget).toSelf().inSingletonScope();
         container.bind(VscodeDiagramWidgetFactory).toFactory(context => {
             return () => context.container.get<VscodeDiagramWidget>(VscodeDiagramWidget);

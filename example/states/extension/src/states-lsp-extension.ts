@@ -27,8 +27,11 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
         super('states', context);
     }
 
-    protected getDiagramType(commandArgs: any[]): string {
-        return 'states-diagram';
+    protected getDiagramType(commandArgs: any[]): string | undefined {
+        if (commandArgs.length === 0
+            || commandArgs[0] instanceof vscode.Uri && commandArgs[0].path.endsWith('.sm')) {
+            return 'states-diagram';
+        }
     }
 
     createWebView(identifier: SprottyDiagramIdentifier): SprottyWebview {
@@ -38,7 +41,8 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
             localResourceRoots: [
                 this.getExtensionFileUri('pack')
             ],
-            scriptUri: this.getExtensionFileUri('pack', 'webview.js')
+            scriptUri: this.getExtensionFileUri('pack', 'webview.js'),
+            singleton: false // Change this to `true` to enable a singleton view
         });
         webview.addActionHandler(WorkspaceEditActionHandler);
         webview.addActionHandler(LspLabelEditActionHandler);

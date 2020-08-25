@@ -39,8 +39,12 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
     }
 
     didCloseWebview(identifier: SprottyDiagramIdentifier): void {
-        if (this.webviewMap.delete(this.getKey(identifier)))
+        if (this.webviewMap.delete(this.getKey(identifier))) {
             this.languageClient.sendNotification(didCloseMessageType, identifier.clientId);
+        }
+        if (this.singleton) {
+            this.singleton = undefined;
+        }
     }
 
     protected abstract activateLanguageClient(context: vscode.ExtensionContext): LanguageClient;

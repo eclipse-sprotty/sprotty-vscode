@@ -14,18 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import {
-    Action,
-    ActionMessage,
-    isActionMessage,
-    isDiagramIdentifier,
-    isWebviewReadyMessage,
-    SprottyDiagramIdentifier,
-    WebviewReadyMessage,
+    Action, ActionMessage, isActionMessage, isDiagramIdentifier, isWebviewReadyMessage, SprottyDiagramIdentifier
 } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 
 import { ActionHandler } from './action-handler';
-import { SprottyVscodeExtension } from './sprotty-vscode-extension';
+import { SprottyVscodeExtension, serializeUri } from './sprotty-vscode-extension';
 import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/messages';
 
 export interface SprottyWebviewOptions {
@@ -33,6 +27,7 @@ export interface SprottyWebviewOptions {
     identifier: SprottyDiagramIdentifier
     localResourceRoots: vscode.Uri[]
     scriptUri: vscode.Uri
+    singleton?: boolean
 }
 
 export class SprottyWebview {
@@ -43,23 +38,30 @@ export class SprottyWebview {
     readonly diagramIdentifier: SprottyDiagramIdentifier;
     readonly localResourceRoots: vscode.Uri[];
     readonly scriptUri: vscode.Uri;
-    readonly title: any;
     readonly diagramPanel: vscode.WebviewPanel;
     readonly actionHandlers = new Map<string, ActionHandler>();
 
-    protected resolveWebviewReady: (message: WebviewReadyMessage) => void;
-    protected readonly webviewReady = new Promise<WebviewReadyMessage>((resolve) => this.resolveWebviewReady = resolve);
     protected messageQueue: (ActionMessage | SprottyDiagramIdentifier | ResponseMessage)[] = [];
     protected disposables: vscode.Disposable[] = [];
+
+    private resolveWebviewReady: () => void;
+    private readonly webviewReady = new Promise<void>((resolve) => this.resolveWebviewReady = resolve);
 
     constructor(protected options: SprottyWebviewOptions) {
         this.extension = options.extension;
         this.diagramIdentifier = options.identifier;
         this.localResourceRoots = options.localResourceRoots;
         this.scriptUri = options.scriptUri;
-        this.title = this.createTitle();
         this.diagramPanel = this.createWebviewPanel();
         this.connect();
+    }
+
+    get singleton(): boolean {
+        return !!this.options.singleton;
+    }
+
+    protected ready(): Promise<void> {
+        return this.webviewReady;
     }
 
     protected createTitle(): string {
@@ -72,27 +74,28 @@ export class SprottyWebview {
     }
 
     protected createWebviewPanel(): vscode.WebviewPanel {
+        const title = this.createTitle();
         const diagramPanel = vscode.window.createWebviewPanel(
             this.diagramIdentifier.diagramType || 'diagram',
-            this.title,
+            title,
             vscode.ViewColumn.Beside,
             {
                 localResourceRoots: this.localResourceRoots,
                 enableScripts: true,
                 retainContextWhenHidden: true
             });
-        this.initializeWebview(diagramPanel.webview);
+        this.initializeWebview(diagramPanel.webview, title);
         return diagramPanel;
     }
 
-    protected initializeWebview(webview: vscode.Webview) {
+    protected initializeWebview(webview: vscode.Webview, title?: string) {
         webview.html = `
             <!DOCTYPE html>
             <html lang="en">
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, height=device-height">
-                    <title>${this.title}</title>
+                    <title>${title}</title>
                     <link
                         rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
                         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
@@ -118,7 +121,31 @@ export class SprottyWebview {
             this.disposables.forEach(disposable => disposable.dispose());
         }));
         this.disposables.push(this.diagramPanel.webview.onDidReceiveMessage(message => this.receiveFromWebview(message)));
+        if (this.singleton) {
+            this.disposables.push(vscode.window.onDidChangeActiveTextEditor(async editor => {
+                if (editor) {
+                    const uri = editor.document.uri;
+                    const diagramType = await this.extension.getDiagramTypeForUri(uri);
+                    if (diagramType) {
+                        this.reloadContent({
+                            diagramType,
+                            uri: serializeUri(uri),
+                            clientId: this.diagramIdentifier.clientId
+                        });
+                    }
+                }
+            }));
+        }
         this.sendDiagramIdentifier();
+    }
+
+    async reloadContent(newId: SprottyDiagramIdentifier): Promise<void> {
+        if (newId.diagramType !== this.diagramIdentifier.diagramType || newId.uri !== this.diagramIdentifier.uri) {
+            this.diagramIdentifier.diagramType = newId.diagramType;
+            this.diagramIdentifier.uri = newId.uri;
+            this.sendDiagramIdentifier();
+            this.diagramPanel.title = this.createTitle();
+        }
     }
 
     protected setWebviewActiveContext(isActive: boolean) {
@@ -126,7 +153,7 @@ export class SprottyWebview {
     }
 
     protected async sendDiagramIdentifier() {
-        await this.webviewReady;
+        await this.ready();
         this.sendToWebview(this.diagramIdentifier);
     }
 
@@ -137,7 +164,7 @@ export class SprottyWebview {
         if (isActionMessage(message))
             return this.accept(message.action);
         else if (isWebviewReadyMessage(message)) {
-            this.resolveWebviewReady(message);
+            this.resolveWebviewReady();
             return Promise.resolve(false);
         }
         return Promise.resolve(true);

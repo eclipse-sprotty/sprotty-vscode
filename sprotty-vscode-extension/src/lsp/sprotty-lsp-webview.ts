@@ -34,20 +34,19 @@ export class SprottyLspWebview extends SprottyWebview {
             throw new Error('SprottyLspWebview must be initialized with a SprottyLspVscodeExtension');
     }
 
+    protected ready(): Promise<void> {
+        return Promise.all([super.ready(), this.languageClient.onReady()]) as any;
+    }
+
     protected get languageClient(): LanguageClient {
         return this.extension.languageClient;
     }
 
     protected async connect() {
         super.connect();
-        this.extension.languageClient.onReady().then(() => {
+        this.languageClient.onReady().then(() => {
             this.disposables.push(this.extension.onAcceptFromLanguageServer(message => this.sendToWebview(message)));
-            super.sendDiagramIdentifier();
         });
-    }
-
-    protected async sendDiagramIdentifier() {
-        // defer first message until language client is ready
     }
 
     protected async receiveFromWebview(message: any): Promise<boolean> {
