@@ -39,11 +39,11 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
     }
 
     didCloseWebview(identifier: SprottyDiagramIdentifier): void {
-        if (this.webviewMap.delete(this.getKey(identifier))) {
+        super.didCloseWebview(identifier);
+        try {
             this.languageClient.sendNotification(didCloseMessageType, identifier.clientId);
-        }
-        if (this.singleton) {
-            this.singleton = undefined;
+        } catch (err) {
+            // Ignore the error and proceed
         }
     }
 
