@@ -19,50 +19,14 @@ import 'sprotty/css/sprotty.css';
 
 import { Container, ContainerModule } from 'inversify';
 import {
-    boundsModule,
-    buttonModule,
-    configureCommand,
-    configureModelElement,
-    ConsoleLogger,
-    CreateElementCommand,
-    decorationModule,
-    defaultModule,
-    edgeLayoutModule,
-    expandModule,
-    exportModule,
-    fadeModule,
-    hoverModule,
-    HtmlRoot,
-    HtmlRootView,
-    labelEditModule,
-    LogLevel,
-    ManhattanEdgeRouter,
-    modelSourceModule,
-    moveModule,
-    openModule,
-    overrideViewerOptions,
-    PreRenderedElement,
-    PreRenderedView,
-    RectangularNodeView,
-    routingModule,
-    SEdge,
-    selectModule,
-    SGraphView,
-    SLabelView,
-    SModelRoot,
-    SRoutingHandle,
-    SRoutingHandleView,
-    TYPES,
-    undoRedoModule,
-    updateModule,
-    viewportModule,
-    zorderModule,
-    commandPaletteModule,
-    edgeEditModule,
+    configureCommand, configureModelElement, ConsoleLogger, CreateElementCommand, HtmlRoot,
+    HtmlRootView, LogLevel, ManhattanEdgeRouter, overrideViewerOptions, PreRenderedElement,
+    PreRenderedView, RectangularNodeView, SEdge, SGraphView, SLabelView, SModelRoot,
+    SRoutingHandle, SRoutingHandleView, TYPES, loadDefaultModules, SGraph, SLabel,
+    hoverFeedbackFeature, popupFeature, creatingOnDragFeature, editLabelFeature
 } from 'sprotty';
-
 import { CustomRouter } from './custom-edge-router';
-import { CreateTransitionPort, StatesDiagram, StatesLabel, StatesModelFactory, StatesNode } from './model';
+import { CreateTransitionPort, StatesModelFactory, StatesNode } from './model';
 import { PolylineArrowEdgeView, TriangleButtonView } from './views';
 
 const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -73,27 +37,31 @@ const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
     bind(ManhattanEdgeRouter).to(CustomRouter).inSingletonScope();
 
     const context = { bind, unbind, isBound, rebind };
-    configureModelElement(context, 'graph', StatesDiagram, SGraphView);
+    configureModelElement(context, 'graph', SGraph, SGraphView, {
+        enable: [hoverFeedbackFeature, popupFeature]
+    });
     configureModelElement(context, 'node', StatesNode, RectangularNodeView);
-    configureModelElement(context, 'label', StatesLabel, SLabelView);
-    configureModelElement(context, 'label:xref', StatesLabel, SLabelView);
+    configureModelElement(context, 'label', SLabel, SLabelView);
+    configureModelElement(context, 'label:xref', SLabel, SLabelView, {
+        enable: [editLabelFeature]
+    });
     configureModelElement(context, 'edge', SEdge, PolylineArrowEdgeView);
     configureModelElement(context, 'html', HtmlRoot, HtmlRootView);
     configureModelElement(context, 'pre-rendered', PreRenderedElement, PreRenderedView);
     configureModelElement(context, 'palette', SModelRoot, HtmlRootView);
     configureModelElement(context, 'routing-point', SRoutingHandle, SRoutingHandleView);
     configureModelElement(context, 'volatile-routing-point', SRoutingHandle, SRoutingHandleView);
-    configureModelElement(context, 'port', CreateTransitionPort, TriangleButtonView);
+    configureModelElement(context, 'port', CreateTransitionPort, TriangleButtonView, {
+        enable: [popupFeature, creatingOnDragFeature]
+    });
 
     configureCommand(context, CreateElementCommand);
 });
 
 export function createStateDiagramContainer(widgetId: string): Container {
     const container = new Container();
-    container.load(defaultModule, selectModule, moveModule, boundsModule, undoRedoModule, viewportModule,
-        hoverModule, fadeModule, exportModule, expandModule, openModule, buttonModule, modelSourceModule,
-        decorationModule, updateModule, routingModule, zorderModule, edgeEditModule,
-        edgeLayoutModule, labelEditModule, commandPaletteModule, statesDiagramModule);
+    loadDefaultModules(container);
+    container.load(statesDiagramModule);
     overrideViewerOptions(container, {
         needsClientLayout: true,
         needsServerLayout: true,

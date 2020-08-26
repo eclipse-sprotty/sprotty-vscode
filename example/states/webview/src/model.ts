@@ -13,28 +13,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+
 import { injectable } from 'inversify';
 import {
-    Action,
-    CreateElementAction,
-    CreatingOnDrag,
-    creatingOnDragFeature,
-    EdgePlacement,
-    EditableLabel,
-    editLabelFeature,
-    hoverFeedbackFeature,
-    ManhattanEdgeRouter,
-    popupFeature,
-    RectangularNode,
-    RectangularPort,
-    SChildElement,
-    SEdge,
-    SGraph,
-    SGraphFactory,
-    SLabel,
-    SModelElementSchema,
-    SParentElement,
-    SRoutableElement,
+    Action, CreateElementAction, CreatingOnDrag, EdgePlacement, ManhattanEdgeRouter,
+    RectangularNode, RectangularPort, SChildElement, SEdge, SGraphFactory, SLabel,
+    SModelElementSchema, SParentElement, SRoutableElement
 } from 'sprotty';
 
 
@@ -56,12 +40,6 @@ export class StatesModelFactory extends SGraphFactory {
     }
 }
 
-export class StatesDiagram extends SGraph {
-    hasFeature(feature: symbol): boolean {
-        return feature === hoverFeedbackFeature || feature === popupFeature || super.hasFeature(feature);
-    }
-}
-
 export class StatesNode extends RectangularNode {
     canConnect(routable: SRoutableElement, role: string) {
         return true;
@@ -73,15 +51,5 @@ export class CreateTransitionPort extends RectangularPort implements CreatingOnD
         return new CreateElementAction(this.root.id, <SModelElementSchema> {
             id, type: 'edge', sourceId: this.parent.id, targetId: this.id
         });
-    }
-
-    hasFeature(feature: symbol): boolean {
-        return feature === popupFeature || feature === creatingOnDragFeature || super.hasFeature(feature);
-    }
-}
-
-export class StatesLabel extends SLabel implements EditableLabel {
-    hasFeature(feature: symbol): boolean {
-        return feature === editLabelFeature || super.hasFeature(feature);
     }
 }
