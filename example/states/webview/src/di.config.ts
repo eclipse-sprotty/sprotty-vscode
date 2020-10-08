@@ -41,7 +41,9 @@ const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
         enable: [hoverFeedbackFeature, popupFeature]
     });
     configureModelElement(context, 'node', StatesNode, RectangularNodeView);
-    configureModelElement(context, 'label', SLabel, SLabelView);
+    configureModelElement(context, 'label', SLabel, SLabelView, {
+        enable: [editLabelFeature]
+    });
     configureModelElement(context, 'label:xref', SLabel, SLabelView, {
         enable: [editLabelFeature]
     });
