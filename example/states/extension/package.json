@@ -147,10 +147,8 @@
         "webview"
     ],
     "main": "./pack/states-extension",
-    "dependencies": {
-        "sprotty-vscode": "^0.1.0"
-    },
     "devDependencies": {
+        "sprotty-vscode": "^0.1.0",
         "@types/node": "^8.0.0",
         "@types/vscode": "1.46.0",
         "rimraf": "^2.6.3",

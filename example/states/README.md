@@ -6,6 +6,12 @@ This folder contains an example VS Code extension with an Xtext-based language s
 
 ```bash 
 language-server/gradlew -p language-server/ build 
-yarn --cwd webview
-yarn --cwd extension
+yarn --cwd ..
+```
+
+
+## Publish to VS Code Marketplace
+
+```
+yarn --cwd extension publish
 ```
