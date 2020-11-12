@@ -1,6 +1,6 @@
 {
   "name": "sprotty-vscode-webview",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Integration of Sprotty in a VS Code extensions (WebView part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
