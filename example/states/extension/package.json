@@ -7,7 +7,7 @@
         "type": "git",
         "url": "https://github.com/TypeFox/sprotty-vscode"
     },
-    "version": "0.0.20",
+    "version": "0.0.21",
     "engines": {
         "vscode": "^1.46.0"
     },
@@ -148,7 +148,7 @@
     ],
     "main": "./pack/states-extension",
     "dependencies": {
-        "sprotty-vscode": "^0.1.0"
+        "sprotty-vscode": "^0.1.2"
     },
     "devDependencies": {
         "@types/node": "^8.0.0",
