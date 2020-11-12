@@ -136,7 +136,7 @@ export class SprottyWebview {
                 }
             }));
         }
-        this.sendDiagramIdentifier();
+        await this.ready();
     }
 
     async reloadContent(newId: SprottyDiagramIdentifier): Promise<void> {
@@ -165,6 +165,7 @@ export class SprottyWebview {
             return this.accept(message.action);
         else if (isWebviewReadyMessage(message)) {
             this.resolveWebviewReady();
+            this.sendDiagramIdentifier();
             return Promise.resolve(false);
         }
         return Promise.resolve(true);
