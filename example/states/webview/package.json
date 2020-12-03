@@ -1,6 +1,6 @@
 {
   "name": "states-sprotty-webview",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Example of a Sprotty diagram in a VS Code extensions (WebView part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
