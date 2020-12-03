@@ -23,7 +23,7 @@ import {
     HtmlRootView, LogLevel, ManhattanEdgeRouter, overrideViewerOptions, PreRenderedElement,
     PreRenderedView, RectangularNodeView, SEdge, SGraphView, SLabelView, SModelRoot,
     SRoutingHandle, SRoutingHandleView, TYPES, loadDefaultModules, SGraph, SLabel,
-    hoverFeedbackFeature, popupFeature, creatingOnDragFeature, editLabelFeature
+    hoverFeedbackFeature, popupFeature, creatingOnDragFeature, editLabelFeature, labelEditUiModule
 } from 'sprotty';
 import { CustomRouter } from './custom-edge-router';
 import { CreateTransitionPort, StatesModelFactory, StatesNode } from './model';
@@ -62,7 +62,7 @@ const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
 
 export function createStateDiagramContainer(widgetId: string): Container {
     const container = new Container();
-    loadDefaultModules(container);
+    loadDefaultModules(container, { exclude: [ labelEditUiModule ] });
     container.load(statesDiagramModule);
     overrideViewerOptions(container, {
         needsClientLayout: true,
