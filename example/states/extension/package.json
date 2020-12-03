@@ -14,6 +14,7 @@
     "categories": [
         "Programming Languages"
     ],
+    "icon": "icon.png",
     "contributes": {
         "languages": [
             {
@@ -164,7 +165,7 @@
     "scripts": {
         "prepare": "yarn run clean && yarn run build",
         "clean": "rimraf extension/lib extension/pack",
-        "build": "tsc && webpack --mode=development",
+        "build": "tsc && webpack --mode=production",
         "watch": "tsc -w",
         "watch:webpack": "webpack --mode=development --watch",
         "publish": "vsce publish"
