@@ -21,13 +21,12 @@ import {
     CompletionItemKind,
     CompletionList,
     CompletionRequest,
-    LanguageClient,
     PrepareRenameRequest,
     RenameParams,
     RenameRequest,
     TextDocumentPositionParams,
 } from 'vscode-languageclient';
-
+import { CommonLanguageClient } from 'vscode-languageclient';
 import { ActionHandler } from '../../action-handler';
 import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
 import { SprottyWebview } from '../../sprotty-webview';
@@ -52,7 +51,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
         return false;
     }
 
-    protected get languageClient(): LanguageClient {
+    protected get languageClient(): CommonLanguageClient {
         return (this.webview.extension as SprottyLspVscodeExtension).languageClient;
     }
 
@@ -67,18 +66,19 @@ export class LspLabelEditActionHandler implements ActionHandler {
                 : completions as CompletionItem[];
 
             const quickPickItems = this.filterCompletionItems(completionItems)
-                .map(completionItem => { return <QuickPickItem> {
-                    label: completionItem.textEdit!.newText,
-                    value: completionItem
-                };
-            });
+                .map(completionItem => {
+                    return <QuickPickItem>{
+                        label: completionItem.textEdit!.newText,
+                        value: completionItem
+                    };
+                });
             const pick = await window.showQuickPick(quickPickItems);
             if (pick) {
                 const pickedCompletionItem = (pick as any).value as CompletionItem;
                 if (pickedCompletionItem.textEdit) {
                     const workspaceEdit = new WorkspaceEdit();
                     const textEdit = TextEdit.replace(convertRange(action.location.range), pickedCompletionItem.textEdit.newText);
-                    workspaceEdit.set(convertUri(action.location.uri), [ textEdit ]);
+                    workspaceEdit.set(convertUri(action.location.uri), [textEdit]);
                     return workspace.applyEdit(workspaceEdit);
                 }
             }
@@ -91,7 +91,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
     }
 
     async renameElement(action: LspLabelEditAction): Promise<boolean> {
-        const canRename = await this.languageClient.sendRequest(PrepareRenameRequest.type, <TextDocumentPositionParams> {
+        const canRename = await this.languageClient.sendRequest(PrepareRenameRequest.type, <TextDocumentPositionParams>{
             textDocument: {
                 uri: action.location.uri
             },
@@ -104,7 +104,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
                 value: action.initialText
             });
             if (newName) {
-                const workspaceEdit = await this.languageClient.sendRequest(RenameRequest.type, <RenameParams> {
+                const workspaceEdit = await this.languageClient.sendRequest(RenameRequest.type, <RenameParams>{
                     textDocument: {
                         uri: action.location.uri
                     },

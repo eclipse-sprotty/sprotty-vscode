@@ -16,18 +16,18 @@
 
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
 import { LspLabelEditActionHandler, WorkspaceEditActionHandler, SprottyLspEditVscodeExtension } from "sprotty-vscode/lib/lsp/editing";
 import { SprottyDiagramIdentifier, SprottyLspWebview } from 'sprotty-vscode/lib/lsp';
 import { SprottyWebview } from 'sprotty-vscode/lib/sprotty-webview';
 
 export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(context: vscode.ExtensionContext) {
         super('states', context);
     }
 
-    protected getDiagramType(commandArgs: any[]): string | undefined {
+    protected getDiagramType(commandArgs: any[]): string | undefined {
         if (commandArgs.length === 0
             || commandArgs[0] instanceof vscode.Uri && commandArgs[0].path.endsWith('.sm')) {
             return 'states-diagram';
@@ -51,7 +51,7 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
 
     protected activateLanguageClient(context: vscode.ExtensionContext): LanguageClient {
         const executable = process.platform === 'win32' ? 'states-language-server.bat' : 'states-language-server';
-        const languageServerPath =  path.join('server', 'states-language-server', 'bin', executable);
+        const languageServerPath = path.join('server', 'states-language-server', 'bin', executable);
         const serverLauncher = context.asAbsolutePath(languageServerPath);
         const serverOptions: ServerOptions = {
             run: {
