@@ -41,7 +41,7 @@ export class SprottyWebview {
     readonly diagramPanel: vscode.WebviewPanel;
     readonly actionHandlers = new Map<string, ActionHandler>();
 
-    protected messageQueue: (ActionMessage | SprottyDiagramIdentifier | ResponseMessage)[] = [];
+    protected messageQueue: (ActionMessage | SprottyDiagramIdentifier | ResponseMessage)[] = [];
     protected disposables: vscode.Disposable[] = [];
 
     private resolveWebviewReady: () => void;
@@ -76,7 +76,7 @@ export class SprottyWebview {
     protected createWebviewPanel(): vscode.WebviewPanel {
         const title = this.createTitle();
         const diagramPanel = vscode.window.createWebviewPanel(
-            this.diagramIdentifier.diagramType || 'diagram',
+            this.diagramIdentifier.diagramType || 'diagram',
             title,
             vscode.ViewColumn.Beside,
             {
@@ -172,7 +172,7 @@ export class SprottyWebview {
     }
 
     protected sendToWebview(message: any) {
-        if (isActionMessage(message) || isDiagramIdentifier(message) || isResponseMessage(message)) {
+        if (isActionMessage(message) || isDiagramIdentifier(message) || isResponseMessage(message)) {
             if (this.diagramPanel.visible) {
                 if (isActionMessage(message)) {
                     const actionHandler = this.actionHandlers.get(message.action.kind);
@@ -186,14 +186,14 @@ export class SprottyWebview {
         }
     }
 
-    dispatch(action: Action) {
+    dispatch(action: Action) {
         this.sendToWebview({
             clientId: this.diagramIdentifier.clientId,
             action
         });
     }
 
-    accept(action: Action): Thenable<boolean> {
+    accept(action: Action): Thenable<boolean> {
         const actionHandler = this.actionHandlers.get(action.kind);
         if (actionHandler)
             return actionHandler.handleAction(action);
