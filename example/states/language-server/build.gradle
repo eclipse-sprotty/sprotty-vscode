@@ -1,23 +1,26 @@
 buildscript {
 	repositories {
-		maven { url 'https://oss.sonatype.org/content/repositories/releases' }		
+		mavenCentral()
 	}
 	dependencies {
-		classpath 'org.xtext:xtext-gradle-plugin:2.0.1'
+		classpath 'org.xtext:xtext-gradle-plugin:2.0.8'
 	}
 }
 
 subprojects {
-	ext.xtextVersion = '2.22.0'
-	ext.sprottyVersion = "0.10.0-SNAPSHOT"
-	ext.elkVersion = "0.7.0"
+	ext.xtextVersion = '2.25.0'
+	ext.sprottyVersion = '0.9.1'
+	ext.elkVersion = '0.7.1'
 	
 	repositories {
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 		mavenCentral()
 	}
 	
 	apply plugin: 'java'
+	dependencies {
+		compile platform("org.eclipse.xtext:xtext-dev-bom:${xtextVersion}")
+	}
+
 	apply plugin: 'org.xtext.xtend'
 	apply from: "${rootDir}/gradle/source-layout.gradle"
 	apply from: "${rootDir}/gradle/maven-deployment.gradle"
@@ -26,8 +29,8 @@ subprojects {
 	group = 'io.typefox.examples.theia.states'
 	//version = '1.0.0-SNAPSHOT'
 	
-	sourceCompatibility = '1.8'
-	targetCompatibility = '1.8'
+	sourceCompatibility = '11'
+	targetCompatibility = '11'
 	
 	configurations.all {
 		exclude group: 'asm'
