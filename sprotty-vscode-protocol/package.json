@@ -40,7 +40,7 @@
   "types": "lib/index",
   "dependencies": {
     "path": "^0.12.7",
-    "vscode-languageserver-protocol": "^3.14.1"
+    "vscode-languageserver-protocol": "^3.16.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.0",

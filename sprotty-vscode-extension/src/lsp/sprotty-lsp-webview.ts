@@ -14,8 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import { isActionMessage } from 'sprotty-vscode-protocol';
-import { isNotificationMessage, isRequestMessage, ResponseMessage } from 'vscode-jsonrpc/lib/messages';
-import { LanguageClient } from 'vscode-languageclient';
+import { isNotificationMessage, isRequestMessage, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { CommonLanguageClient } from 'vscode-languageclient';
 
 import { acceptMessageType } from './protocol';
 import { SprottyLspVscodeExtension } from './sprotty-lsp-vscode-extension';
@@ -38,7 +38,7 @@ export class SprottyLspWebview extends SprottyWebview {
         return Promise.all([super.ready(), this.languageClient.onReady()]) as any;
     }
 
-    protected get languageClient(): LanguageClient {
+    protected get languageClient(): CommonLanguageClient {
         return this.extension.languageClient;
     }
 

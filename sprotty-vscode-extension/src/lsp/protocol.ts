@@ -20,9 +20,9 @@ import { ActionMessage } from 'sprotty-vscode-protocol';
 /////////////////////////////////////
 // Sprotty LSP extensions
 
-export const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept');
-export const didCloseMessageType = new NotificationType<string, void>('diagram/didClose');
-export const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor');
+export const acceptMessageType = new NotificationType<ActionMessage>('diagram/accept');
+export const didCloseMessageType = new NotificationType<string>('diagram/didClose');
+export const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage>('diagram/openInTextEditor');
 
 export interface OpenInTextEditorMessage {
     location: Location

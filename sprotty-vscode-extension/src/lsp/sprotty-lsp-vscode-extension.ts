@@ -15,13 +15,14 @@
  ********************************************************************************/
 
 import * as vscode from 'vscode';
-import { Emitter, LanguageClient } from 'vscode-languageclient';
+import { Emitter } from 'vscode-languageclient';
+import { CommonLanguageClient } from 'vscode-languageclient';
 import { acceptMessageType, didCloseMessageType, OpenInTextEditorMessage, openInTextEditorMessageType } from './protocol';
 import { ActionMessage, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyVscodeExtension } from '../sprotty-vscode-extension';
 
 export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
-    readonly languageClient: LanguageClient;
+    readonly languageClient: CommonLanguageClient;
 
     protected acceptFromLanguageServerEmitter = new Emitter<ActionMessage>();
 
@@ -29,8 +30,8 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
         super(extensionPrefix, context);
         this.languageClient = this.activateLanguageClient(context);
         this.languageClient.onReady().then(() => {
-            this.languageClient.onNotification(acceptMessageType, message => this.acceptFromLanguageServerEmitter.fire(message));
-            this.languageClient.onNotification(openInTextEditorMessageType, message => this.openInTextEditor(message));
+            this.languageClient.onNotification(acceptMessageType, (message: ActionMessage) => this.acceptFromLanguageServerEmitter.fire(message));
+            this.languageClient.onNotification(openInTextEditorMessageType, (message: OpenInTextEditorMessage) => this.openInTextEditor(message));
         });
     }
 
@@ -47,7 +48,7 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
         }
     }
 
-    protected abstract activateLanguageClient(context: vscode.ExtensionContext): LanguageClient;
+    protected abstract activateLanguageClient(context: vscode.ExtensionContext): CommonLanguageClient;
 
     deactivateLanguageClient(): Thenable<void> {
         if (!this.languageClient)

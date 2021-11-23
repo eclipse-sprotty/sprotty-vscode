@@ -33,7 +33,7 @@
     "url": "https://github.com/eclipse/sprotty-vscode.git"
   },
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.60.0"
   },
   "files": [
     "lib",
@@ -44,8 +44,8 @@
   "dependencies": {
     "path": "^0.12.7",
     "sprotty-vscode-protocol": "^0.0.5",
-    "vscode-languageclient": "^5.2.1",
-    "vscode-languageserver": "^5.2.1"
+    "vscode-languageclient": "^7.0.0",
+    "vscode-languageserver": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.0",
