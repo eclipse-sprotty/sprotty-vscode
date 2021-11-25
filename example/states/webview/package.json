@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "css-loader": "^4.2.1",
+    "file-loader": "6.2.0",
     "rimraf": "latest",
     "source-map-loader": "^1.0.2",
     "style-loader": "^1.2.1",
