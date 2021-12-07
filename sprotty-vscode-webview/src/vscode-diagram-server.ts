@@ -18,7 +18,7 @@ import {
     ActionHandlerRegistry, DiagramServerProxy, SelectCommand, ServerStatusAction
 } from 'sprotty';
 import {
-    ActionMessage, isActionMessage, RequestPopupModelAction, SetPopupModelAction, Action,
+    ActionMessage, isActionMessage, RequestPopupModelAction, SetPopupModelAction, Action
 } from 'sprotty-protocol';
 
 import { VscodeDiagramWidgetFactory } from './vscode-diagram-widget';

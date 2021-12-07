@@ -15,7 +15,7 @@
  ********************************************************************************/
 import { inject, injectable, postConstruct } from 'inversify';
 import {
-    DiagramServerProxy, IActionDispatcher, ModelSource, ServerStatusAction, TYPES, ViewerOptions,
+    DiagramServerProxy, IActionDispatcher, ModelSource, ServerStatusAction, TYPES, ViewerOptions
 } from 'sprotty';
 import { RequestModelAction } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';

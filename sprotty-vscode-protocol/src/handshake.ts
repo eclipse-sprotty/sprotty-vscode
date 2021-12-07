@@ -14,15 +14,17 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-/////////////////////////////////////
-// initial handshake
+import { hasOwnProperty } from 'sprotty-protocol';
+
+// ----------------------------------
+// Initial Handshake
 
 export interface WebviewReadyMessage {
     readyMessage: string
 }
 
-export function isWebviewReadyMessage(object: any): object is WebviewReadyMessage {
-    return object !== undefined && object.hasOwnProperty('readyMessage');
+export function isWebviewReadyMessage(object: unknown): object is WebviewReadyMessage {
+    return hasOwnProperty(object, 'readyMessage');
 }
 
 export const SprottyDiagramIdentifier = Symbol('SprottyDiagramIdentifier');
@@ -33,6 +35,6 @@ export interface SprottyDiagramIdentifier {
     uri: string
 }
 
-export function isDiagramIdentifier(object: any): object is SprottyDiagramIdentifier {
-    return object !== undefined && object.hasOwnProperty('clientId') && object.hasOwnProperty('diagramType') && object.hasOwnProperty('uri');
+export function isDiagramIdentifier(object: unknown): object is SprottyDiagramIdentifier {
+    return hasOwnProperty(object, ['clientId', 'diagramType', 'uri']);
 }

@@ -22,8 +22,8 @@ export function convertWorkspaceEdit(workspaceEdit: lsp.WorkspaceEdit): vscode.W
     const changes = workspaceEdit.changes;
     if (changes) {
         for (const uri in changes) {
-            if (changes.hasOwnProperty(uri)) {
-                const textEdits = changes[uri];
+            const textEdits = changes[uri];
+            if (Array.isArray(textEdits)) {
                 result.set(convertUri(uri), textEdits.map(convertTextEdit));
             }
         }

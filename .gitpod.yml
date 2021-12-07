@@ -2,3 +2,7 @@ tasks:
   - init: |
       example/states/language-server/gradlew -p example/states/language-server/ build
       yarn 
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
