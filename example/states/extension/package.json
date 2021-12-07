@@ -164,10 +164,9 @@
     },
     "scripts": {
         "prepare": "yarn run clean && yarn run build",
-        "clean": "rimraf extension/lib extension/pack",
-        "build": "tsc && webpack --mode=production",
-        "watch": "tsc -w",
-        "watch:webpack": "webpack --mode=development --watch",
+        "clean": "rimraf lib pack",
+        "build": "webpack --mode=production",
+        "watch": "webpack --mode=development --watch",
         "publish": "vsce publish"
     }
 }

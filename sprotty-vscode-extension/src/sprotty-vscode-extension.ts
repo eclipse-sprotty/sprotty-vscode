@@ -34,15 +34,16 @@ export abstract class SprottyVscodeExtension {
                 const identifier = await this.createDiagramIdentifier(commandArgs);
                 if (identifier) {
                     const key = this.getKey(identifier);
-                    let webView = this.singleton || this.webviewMap.get(key);
+                    let webView = this.singleton ?? this.webviewMap.get(key);
                     if (webView) {
                         webView.reloadContent(identifier);
                         webView.diagramPanel.reveal(webView.diagramPanel.viewColumn);
                     } else {
                         webView = this.createWebView(identifier);
-                        this.webviewMap.set(key, webView);
                         if (webView.singleton) {
                             this.singleton = webView;
+                        } else {
+                            this.webviewMap.set(key, webView);
                         }
                     }
                 }
@@ -78,9 +79,13 @@ export abstract class SprottyVscodeExtension {
     }
 
     protected findActiveWebview(): SprottyWebview | undefined {
+        if (this.singleton && this.singleton.diagramPanel.active) {
+            return this.singleton;
+        }
         for (const webview of this.webviewMap.values()) {
-            if (webview.diagramPanel.active)
+            if (webview.diagramPanel.active) {
                 return webview;
+            }
         }
         return undefined;
     }
