@@ -17,7 +17,7 @@
 import { NotificationType, Location } from 'vscode-languageclient';
 import { ActionMessage } from 'sprotty-protocol';
 
-/////////////////////////////////////
+// ----------------------------------
 // Sprotty LSP extensions
 
 export const acceptMessageType = new NotificationType<ActionMessage>('diagram/accept');

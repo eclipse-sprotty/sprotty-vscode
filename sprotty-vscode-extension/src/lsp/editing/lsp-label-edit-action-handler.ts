@@ -32,7 +32,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
 
     constructor(readonly webview: SprottyWebview) {
         if (!(webview.extension instanceof SprottyLspVscodeExtension))
-            throw new Error('LspLabelEditActionHandler must be initialized wit a SprottyLspWebview');
+            throw new Error('LspLabelEditActionHandler must be initialized with a SprottyLspWebview');
     }
 
     async handleAction(action: Action): Promise<boolean> {
@@ -60,11 +60,12 @@ export class LspLabelEditActionHandler implements ActionHandler {
                 : completions as CompletionItem[];
 
             const quickPickItems = this.filterCompletionItems(completionItems)
-                .map(completionItem => { return <QuickPickItem> {
-                    label: completionItem.textEdit!.newText,
-                    value: completionItem
-                };
-            });
+                .map(completionItem => {
+                    return <QuickPickItem> {
+                        label: completionItem.textEdit!.newText,
+                        value: completionItem
+                    };
+                });
             const pick = await window.showQuickPick(quickPickItems);
             if (pick) {
                 const pickedCompletionItem = (pick as any).value as CompletionItem;

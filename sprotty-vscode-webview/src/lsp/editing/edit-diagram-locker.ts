@@ -17,7 +17,7 @@ import { injectable } from 'inversify';
 import { HoverFeedbackAction, IDiagramLocker, ServerStatusAction } from 'sprotty';
 import {
     Action, CenterAction, FitToScreenAction, RequestPopupModelAction, SelectAction, SelectAllAction,
-    SetModelAction, SetPopupModelAction, SetViewportAction, UpdateModelAction,
+    SetModelAction, SetPopupModelAction, SetViewportAction, UpdateModelAction
 } from 'sprotty-protocol';
 
 
