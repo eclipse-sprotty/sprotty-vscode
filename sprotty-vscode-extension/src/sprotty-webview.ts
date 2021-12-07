@@ -13,9 +13,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import {
-    Action, ActionMessage, isActionMessage, isDiagramIdentifier, isWebviewReadyMessage, SprottyDiagramIdentifier
-} from 'sprotty-vscode-protocol';
+
+import { Action, ActionMessage, isActionMessage } from 'sprotty-protocol';
+import { isDiagramIdentifier, isWebviewReadyMessage, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 
 import { ActionHandler } from './action-handler';

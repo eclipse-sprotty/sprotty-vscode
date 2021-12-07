@@ -13,15 +13,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+
+import { ActionHandlerRegistry, EditLabelAction, } from 'sprotty';
 import {
-    Action,
-    ActionHandlerRegistry,
-    EditLabelAction,
-    getBasicType,
-    getSubType,
-    SModelElementSchema,
-    SModelIndex,
-} from 'sprotty';
+    Action, getBasicType, getSubType, SModelElement as SModelElementSchema, SModelIndex
+} from 'sprotty-protocol';
 import { LspLabelEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
 import { VscodeDiagramServer } from '../../vscode-diagram-server';

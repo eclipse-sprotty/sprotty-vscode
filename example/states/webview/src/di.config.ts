@@ -21,20 +21,18 @@ import { Container, ContainerModule } from 'inversify';
 import {
     configureCommand, configureModelElement, ConsoleLogger, CreateElementCommand, HtmlRoot,
     HtmlRootView, LogLevel, ManhattanEdgeRouter, overrideViewerOptions, PreRenderedElement,
-    PreRenderedView, RectangularNodeView, SEdge, SGraphView, SLabelView, SModelRoot,
+    PreRenderedView, RectangularNodeView, SGraphView, SLabelView, SModelRoot,
     SRoutingHandle, SRoutingHandleView, TYPES, loadDefaultModules, SGraph, SLabel,
     hoverFeedbackFeature, popupFeature, creatingOnDragFeature, editLabelFeature, labelEditUiModule
 } from 'sprotty';
 import { CustomRouter } from './custom-edge-router';
-import { CreateTransitionPort, StatesModelFactory, StatesNode } from './model';
+import { CreateTransitionPort, StatesEdge, StatesNode } from './model';
 import { PolylineArrowEdgeView, TriangleButtonView } from './views';
 
 const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
     rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
     rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn);
-    rebind(TYPES.IModelFactory).to(StatesModelFactory);
-    unbind(ManhattanEdgeRouter);
-    bind(ManhattanEdgeRouter).to(CustomRouter).inSingletonScope();
+    rebind(ManhattanEdgeRouter).to(CustomRouter).inSingletonScope();
 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, 'graph', SGraph, SGraphView, {
@@ -47,7 +45,7 @@ const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
     configureModelElement(context, 'label:xref', SLabel, SLabelView, {
         enable: [editLabelFeature]
     });
-    configureModelElement(context, 'edge', SEdge, PolylineArrowEdgeView);
+    configureModelElement(context, 'edge', StatesEdge, PolylineArrowEdgeView);
     configureModelElement(context, 'html', HtmlRoot, HtmlRootView);
     configureModelElement(context, 'pre-rendered', PreRenderedElement, PreRenderedView);
     configureModelElement(context, 'palette', SModelRoot, HtmlRootView);

@@ -13,8 +13,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+
 import { Container } from 'inversify';
-import { DiagramServer, KeyTool, TYPES } from 'sprotty';
+import { DiagramServerProxy, KeyTool, TYPES } from 'sprotty';
 import { isDiagramIdentifier, SprottyDiagramIdentifier, WebviewReadyMessage } from 'sprotty-vscode-protocol';
 import { DisabledKeyTool } from './disabled-keytool';
 import { vscodeApi } from './vscode-api';
@@ -67,7 +68,7 @@ export abstract class SprottyStarter {
         container.bind(SprottyDiagramIdentifier).toConstantValue(diagramIdentifier);
         container.bind(VscodeDiagramServer).toSelf().inSingletonScope();
         container.bind(TYPES.ModelSource).toService(VscodeDiagramServer);
-        container.bind(DiagramServer).toService(VscodeDiagramServer);
+        container.bind(DiagramServerProxy).toService(VscodeDiagramServer);
         container.rebind(KeyTool).to(DisabledKeyTool);
     }
 }

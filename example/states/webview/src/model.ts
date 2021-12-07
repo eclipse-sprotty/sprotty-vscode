@@ -14,30 +14,22 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { injectable } from 'inversify';
 import {
-    Action, CreateElementAction, CreatingOnDrag, EdgePlacement, ManhattanEdgeRouter,
-    RectangularNode, RectangularPort, SChildElement, SEdge, SGraphFactory, SLabel,
-    SModelElementSchema, SParentElement, SRoutableElement
+    CreateElementAction, CreatingOnDrag, EdgePlacement, ManhattanEdgeRouter, RectangularNode,
+    RectangularPort, SEdge, SLabel, SRoutableElement
 } from 'sprotty';
+import { Action, SEdge as SEdgeSchema } from 'sprotty-protocol';
 
+export class StatesEdge extends SEdge {
+    routerKind = ManhattanEdgeRouter.KIND;
+    targetAnchorCorrection = Math.sqrt(5);
+}
 
-@injectable()
-export class StatesModelFactory extends SGraphFactory {
-
-    protected initializeChild(child: SChildElement, schema: SModelElementSchema, parent?: SParentElement): SChildElement {
-        super.initializeChild(child, schema, parent);
-        if (child instanceof SEdge) {
-            child.routerKind = ManhattanEdgeRouter.KIND;
-            child.targetAnchorCorrection = Math.sqrt(5);
-        } else if (child instanceof SLabel) {
-            child.edgePlacement = <EdgePlacement> {
-                rotate: true,
-                position: 0.6
-            };
-        }
-        return child;
-    }
+export class StatesEdgeLabel extends SLabel {
+    edgePlacement = <EdgePlacement> {
+        rotate: true,
+        position: 0.6
+    };
 }
 
 export class StatesNode extends RectangularNode {
@@ -48,8 +40,12 @@ export class StatesNode extends RectangularNode {
 
 export class CreateTransitionPort extends RectangularPort implements CreatingOnDrag {
     createAction(id: string): Action {
-        return new CreateElementAction(this.root.id, <SModelElementSchema> {
-            id, type: 'edge', sourceId: this.parent.id, targetId: this.id
-        });
+        const edge: SEdgeSchema = {
+            id,
+            type: 'edge',
+            sourceId: this.parent.id,
+            targetId: this.id
+        };
+        return CreateElementAction.create(edge, { containerId: this.root.id });
     }
 }

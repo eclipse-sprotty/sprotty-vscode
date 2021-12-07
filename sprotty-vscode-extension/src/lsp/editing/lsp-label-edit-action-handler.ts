@@ -13,7 +13,8 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { Action } from 'sprotty-vscode-protocol';
+
+import { Action } from 'sprotty-protocol';
 import { LspLabelEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { QuickPickItem, window, workspace, WorkspaceEdit, TextEdit } from 'vscode';
 import {

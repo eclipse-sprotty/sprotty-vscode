@@ -15,9 +15,9 @@
  ********************************************************************************/
 import { inject, injectable, postConstruct } from 'inversify';
 import {
-    DiagramServer, IActionDispatcher, ModelSource, RequestModelAction, ServerStatusAction,
-    TYPES, ViewerOptions,
+    DiagramServerProxy, IActionDispatcher, ModelSource, ServerStatusAction, TYPES, ViewerOptions,
 } from 'sprotty';
+import { RequestModelAction } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 
 export const VscodeDiagramWidgetFactory = Symbol('VscodeDiagramWidgetFactory');
@@ -67,7 +67,7 @@ export abstract class VscodeDiagramWidget {
     }
 
     protected initializeSprotty(): void {
-        if (this.modelSource instanceof DiagramServer)
+        if (this.modelSource instanceof DiagramServerProxy)
             this.modelSource.clientId = this.diagramIdentifier.clientId;
         this.requestModel();
     }
@@ -81,7 +81,7 @@ export abstract class VscodeDiagramWidget {
             await this.actionDispatcher.dispatch(response);
         } catch (err) {
             const status = new ServerStatusAction();
-            status.message = err instanceof Error ? err.message : err.toString();
+            status.message = err instanceof Error ? err.message : (err as any).toString();
             status.severity = 'FATAL';
             this.setStatus(status);
         }
