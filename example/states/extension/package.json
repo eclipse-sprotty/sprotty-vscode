@@ -157,8 +157,7 @@
         "ts-loader": "^8.0.3",
         "tslint": "^5.11.0",
         "typescript": "3.8.3",
-        "vscode-languageclient": "^5.2.1",
-        "vscode-languageserver": "^5.2.1",
+        "vscode-languageclient": "^7.0.0",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.12"
     },
