@@ -14,8 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { inject, injectable } from "inversify";
-import { CommandExecutionContext, isSelectable, SChildElement, SEdge, Selectable, SModelElement, TYPES, Command, CommandReturn, IActionDispatcher } from "sprotty";
+import { inject, injectable } from 'inversify';
+import {
+    CommandExecutionContext, isSelectable, SChildElement, SEdge, Selectable, SModelElement, TYPES, Command,
+    CommandReturn, IActionDispatcher
+} from 'sprotty';
 import { DeleteWithWorkspaceEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { Range, TextEdit, WorkspaceEdit } from 'vscode-languageserver-protocol';
 import { getRange, getURI, isTraceable, Traceable } from "./traceable";

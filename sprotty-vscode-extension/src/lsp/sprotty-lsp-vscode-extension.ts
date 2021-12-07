@@ -17,7 +17,8 @@
 import * as vscode from 'vscode';
 import { Emitter, LanguageClient } from 'vscode-languageclient';
 import { acceptMessageType, didCloseMessageType, OpenInTextEditorMessage, openInTextEditorMessageType } from './protocol';
-import { ActionMessage, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
+import { ActionMessage } from 'sprotty-protocol';
+import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyVscodeExtension } from '../sprotty-vscode-extension';
 
 export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {

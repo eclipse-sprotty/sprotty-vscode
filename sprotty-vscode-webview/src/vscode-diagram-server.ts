@@ -15,22 +15,17 @@
  ********************************************************************************/
 import { inject, optional } from 'inversify';
 import {
-    ActionHandlerRegistry,
-    ActionMessage,
-    DiagramServer,
-    isActionMessage,
-    SelectCommand,
-    ServerStatusAction,
-    RequestPopupModelAction,
-    SetPopupModelAction,
-    Action,
+    ActionHandlerRegistry, DiagramServerProxy, SelectCommand, ServerStatusAction
 } from 'sprotty';
+import {
+    ActionMessage, isActionMessage, RequestPopupModelAction, SetPopupModelAction, Action,
+} from 'sprotty-protocol';
 
 import { VscodeDiagramWidgetFactory } from './vscode-diagram-widget';
 import { vscodeApi } from './vscode-api';
 import { IRootPopupModelProvider } from './root-popup-model-provider';
 
-export class VscodeDiagramServer extends DiagramServer {
+export class VscodeDiagramServer extends DiagramServerProxy {
 
     @inject(VscodeDiagramWidgetFactory) diagramWidgetFactory: VscodeDiagramWidgetFactory;
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
@@ -50,8 +45,8 @@ export class VscodeDiagramServer extends DiagramServer {
     }
 
     handleLocally(action: Action): boolean {
-        if (action instanceof RequestPopupModelAction) {
-            return this.handleRequestPopupModel(action);
+        if (action.kind === RequestPopupModelAction.KIND) {
+            return this.handleRequestPopupModel(action as RequestPopupModelAction);
         } else {
             return super.handleLocally(action);
         }
@@ -66,7 +61,7 @@ export class VscodeDiagramServer extends DiagramServer {
         if (this.rootPopupModelProvider && action.elementId === this.currentRoot.id) {
             this.rootPopupModelProvider.getPopupModel(action, this.currentRoot).then(model => {
                 if (model)
-                    this.actionDispatcher.dispatch(new SetPopupModelAction(model));
+                    this.actionDispatcher.dispatch(SetPopupModelAction.create(model));
             });
             return false;
         } else {

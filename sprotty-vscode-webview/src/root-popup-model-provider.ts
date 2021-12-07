@@ -13,9 +13,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+
+import { RequestPopupModelAction, SModelRoot, SModelElement } from 'sprotty-protocol';
+
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');
-import { RequestPopupModelAction, SModelRootSchema, SModelElementSchema } from "sprotty";
 
 export interface IRootPopupModelProvider {
-    getPopupModel(action: RequestPopupModelAction, rootElement: SModelRootSchema): Promise<SModelElementSchema | undefined>;
+    getPopupModel(action: RequestPopupModelAction, rootElement: SModelRoot): Promise<SModelElement | undefined>;
 }

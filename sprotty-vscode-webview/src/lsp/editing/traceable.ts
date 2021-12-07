@@ -14,8 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SModelElement, SModelExtension, MouseListener, Action, findParent, OpenAction, SModelElementSchema } from "sprotty";
-import { Range } from "vscode-languageserver-protocol";
+import { SModelElement, SModelExtension, MouseListener, findParent, OpenAction } from 'sprotty';
+import { Action, SModelElement as  SModelElementSchema } from 'sprotty-protocol';
+import { Range } from 'vscode-languageserver-protocol';
 import { URI } from 'vscode-uri';
 
 export interface Traceable extends SModelExtension {
@@ -62,7 +63,7 @@ export class TraceableMouseListener extends MouseListener {
     doubleClick(target: SModelElement, event: WheelEvent): (Action | Promise<Action>)[] {
         const traceable = findParent(target, (element) => isTraceable(element));
         if (traceable)
-            return [ new OpenAction(traceable.id) ];
+            return [ OpenAction.create(traceable.id) ];
         else
             return [];
     }

@@ -15,22 +15,13 @@
  ********************************************************************************/
 import { inject, injectable } from 'inversify';
 import {
-    Action,
-    HtmlRootSchema,
-    IContextMenuItemProvider,
-    MenuItem,
-    Point,
-    PopupHoverMouseListener,
-    RequestPopupModelAction,
-    SButton,
-    SButtonSchema,
-    SModelElement,
-    SModelElementSchema,
-    SModelRoot,
-    SModelRootSchema,
-    SetPopupModelAction,
-    EMPTY_ROOT,
+    IContextMenuItemProvider, MenuItem, PopupHoverMouseListener, SButton, SButtonSchema,
+    SModelElement, SModelRoot, EMPTY_ROOT
 } from 'sprotty';
+import {
+    Action, HtmlRoot as HtmlRootSchema, Point, RequestPopupModelAction, SModelElement as SModelElementSchema,
+    SModelRoot as SModelRootSchema, SetPopupModelAction
+} from 'sprotty-protocol';
 import { WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { CodeAction, Range } from 'vscode-languageserver-protocol';
 
@@ -110,7 +101,7 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
                     };
             }
         }
-        return new SetPopupModelAction(EMPTY_ROOT);
+        return SetPopupModelAction.create(EMPTY_ROOT);
     }
 }
 

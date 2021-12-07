@@ -13,7 +13,8 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { Action } from 'sprotty-vscode-protocol';
+
+import { Action } from 'sprotty-protocol';
 
 /**
  * Used to locally intercept and handle actions in the VS Code extension.

@@ -16,7 +16,6 @@
 
 import * as vscode from 'vscode';
 import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
-import { Action } from 'sprotty-vscode-protocol';
 import { DeleteWithWorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
 export abstract class SprottyLspEditVscodeExtension extends SprottyLspVscodeExtension {
@@ -28,7 +27,7 @@ export abstract class SprottyLspEditVscodeExtension extends SprottyLspVscodeExte
                 if (activeWebview)
                     activeWebview.dispatch({
                         kind: DeleteWithWorkspaceEditAction.KIND
-                    } as Action);
+                    });
             }));
     }
 }

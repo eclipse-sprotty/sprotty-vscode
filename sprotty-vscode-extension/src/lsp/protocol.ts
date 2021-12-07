@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { NotificationType, Location } from 'vscode-languageclient';
-import { ActionMessage } from 'sprotty-vscode-protocol';
+import { ActionMessage } from 'sprotty-protocol';
 
 /////////////////////////////////////
 // Sprotty LSP extensions

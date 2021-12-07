@@ -14,35 +14,38 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action } from "../../sprotty";
+import { Action } from 'sprotty-protocol';
 import { Location, WorkspaceEdit } from 'vscode-languageserver-protocol';
 
+export interface LspLabelEditAction extends Action {
+    kind: typeof LspLabelEditAction.KIND
+    location: Location
+    editKind: 'xref' | 'name'
+    initialText: string
+}
 export namespace LspLabelEditAction {
-    export const KIND = "languageLabelEdit";
+    export const KIND = 'languageLabelEdit';
 
     export function is(action: Action): action is LspLabelEditAction {
         return action.kind === KIND;
     }
 }
 
-export interface LspLabelEditAction extends Action {
-    location: Location
-    editKind: "xref" | "name"
-    initialText: string
+export interface WorkspaceEditAction extends Action {
+    kind: typeof WorkspaceEditAction.KIND
+    workspaceEdit: WorkspaceEdit
 }
-
 export namespace WorkspaceEditAction {
-    export const KIND = "workspaceEdit";
+    export const KIND = 'workspaceEdit';
 
     export function is(action: Action): action is WorkspaceEditAction {
         return action.kind === KIND;
     }
 }
 
-export interface WorkspaceEditAction extends Action {
-    workspaceEdit: WorkspaceEdit
+export interface DeleteWithWorkspaceEditAction extends Action {
+    kind: typeof DeleteWithWorkspaceEditAction.KIND
 }
-
 export namespace DeleteWithWorkspaceEditAction {
     export const KIND = 'deleteWithWorkspaceEdit';
 
@@ -50,7 +53,3 @@ export namespace DeleteWithWorkspaceEditAction {
         return action.kind === KIND;
     }
 }
-
-export interface DeleteWithWorkspaceEditAction extends Action {
-}
-

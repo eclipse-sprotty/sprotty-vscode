@@ -16,7 +16,8 @@
 
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { Action, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
+import { Action } from 'sprotty-protocol';
+import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyWebview } from './sprotty-webview';
 
 export abstract class SprottyVscodeExtension {
