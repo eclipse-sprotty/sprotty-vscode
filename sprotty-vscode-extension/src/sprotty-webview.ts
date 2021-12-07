@@ -20,7 +20,7 @@ import * as vscode from 'vscode';
 
 import { ActionHandler } from './action-handler';
 import { SprottyVscodeExtension, serializeUri } from './sprotty-vscode-extension';
-import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/messages';
+import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
 
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension

@@ -8,7 +8,7 @@ buildscript {
 }
 
 subprojects {
-	ext.xtextVersion = '2.25.0'
+	ext.xtextVersion = '2.26.0.M2'
 	ext.sprottyVersion = '0.9.1'
 	ext.elkVersion = '0.7.1'
 	
