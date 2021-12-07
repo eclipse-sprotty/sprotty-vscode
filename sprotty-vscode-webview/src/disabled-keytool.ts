@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { KeyTool, SModelElement } from "sprotty";
-import { VNode } from "snabbdom/vnode";
+import { VNode } from "snabbdom";
 
 /**
  * Key mappings should be provided via the vscode extensions's `package.json`.

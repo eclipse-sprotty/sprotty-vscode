@@ -25,7 +25,7 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
 
     protected acceptFromLanguageServerEmitter = new Emitter<ActionMessage>();
 
-    constructor(extensionPrefix: string, context: vscode.ExtensionContext) {
+    constructor(extensionPrefix: string, context: vscode.ExtensionContext) {
         super(extensionPrefix, context);
         this.languageClient = this.activateLanguageClient(context);
         this.languageClient.onReady().then(() => {

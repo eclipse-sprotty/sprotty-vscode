@@ -32,7 +32,17 @@ const config = {
                 test: /\.css$/,
                 exclude: /\.useable\.css$/,
                 use: ['style-loader', 'css-loader']
-            }
+            },
+            {
+                test: /\.(ttf)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: '',
+                    publicPath: '..',
+                    postTransformPublicPath: (p) => `__webpack_public_path__ + ${p}`,
+                }
+            },
         ]
     },
     node : { fs: 'empty', net: 'empty' }
