@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-	"prepare": "lerna run prepare",
-	"clean": "lerna run clean",
+    "prepare": "lerna run prepare",
+    "clean": "lerna run clean",
     "publish:next": "lerna publish --canary --npm-tag next"
   },
   "devDependencies": {
@@ -12,7 +12,9 @@
     "sprotty-vscode-protocol",
     "sprotty-vscode-extension",
     "sprotty-vscode-webview",
-    "example/states/webview",
-    "example/states/extension"
+    "examples/states-langium/extension",
+    "examples/states-langium/language-server",
+    "examples/states-xtext/extension",
+    "examples/states-webview"
   ]
 }

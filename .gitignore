@@ -1,7 +1,9 @@
-node_modules
-lib
-*.log
-pack
-*.vsix
+node_modules/
+lib/
+out/
+pack/
 src-gen/
+*.log
+*.vsix
 *.tgz
+.DS_Store

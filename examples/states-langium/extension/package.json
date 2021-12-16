@@ -1,0 +1,170 @@
+{
+    "name": "states-extension-langium",
+    "displayName": "States Example (Langium)",
+    "description": "An example Xtext-based DSL with Sprotty diagrams for statemachines",
+    "publisher": "TypeFox",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TypeFox/sprotty-vscode",
+        "directory": "examples/states-langium/extension"
+    },
+    "version": "0.0.23",
+    "engines": {
+        "vscode": "^1.46.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "icon": "icon.png",
+    "contributes": {
+        "languages": [{
+            "id": "states",
+            "aliases": [
+                "states",
+                "sm"
+            ],
+            "extensions": [
+                ".sm"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "states",
+            "scopeName": "source.states",
+            "path": "./syntaxes/states.tmLanguage.json"
+        }],
+        "commands": [
+            {
+                "command": "states.diagram.open",
+                "title": "Open in Diagram",
+                "icon": "$(symbol-structure)",
+                "category": "States Diagram"
+            },
+            {
+                "command": "states.diagram.fit",
+                "title": "Fit to Screen",
+                "category": "States Diagram"
+            },
+            {
+                "command": "states.diagram.center",
+                "title": "Center selection",
+                "category": "States Diagram"
+            },
+            {
+                "command": "states.diagram.delete",
+                "title": "Delete selected element",
+                "category": "States Diagram"
+            },
+            {
+                "command": "states.diagram.export",
+                "title": "Export diagram to SVG",
+                "category": "States Diagram"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'"
+                },
+                {
+                    "command": "states.diagram.fit",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.center",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.delete",
+                    "when": "states-diagram-focused"
+                },
+                {
+                    "command": "states.diagram.export",
+                    "when": "states-diagram-focused"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'",
+                    "group": "navigation"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "states.diagram.open",
+                    "when": "editorLangId == 'states'",
+                    "group": "navigation"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "states.diagram.open",
+                    "when": "resourceExtname == '.sm'",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "keybindings": [
+            {
+                "key": "alt+f",
+                "mac": "alt+f",
+                "command": "states.diagram.fit",
+                "when": "states-diagram-focused"
+            },
+            {
+                "key": "alt+c",
+                "mac": "alt+c",
+                "command": "states.diagram.center",
+                "when": "states-diagram-focused"
+            },
+            {
+                "key": "alt+e",
+                "mac": "alt+e",
+                "command": "states.diagram.export",
+                "when": "states-diagram-focused"
+            },
+            {
+                "key": "delete",
+                "mac": "delete",
+                "command": "states.diagram.delete",
+                "when": "states-diagram-focused"
+            }
+        ]
+    },
+    "activationEvents": [
+        "onLanguage:states",
+        "onCommand:states.diagram.open"
+    ],
+    "files": [
+        "lib",
+        "extension",
+        "server",
+        "syntaxes",
+        "webview"
+    ],
+    "main": "./pack/states-extension",
+    "devDependencies": {
+        "@types/node": "^12.12.6",
+        "@types/vscode": "1.46.0",
+        "rimraf": "^3.0.2",
+        "source-map-loader": "^3.0.0",
+        "sprotty-vscode": "^0.2.0",
+        "states-language-server": "^0.0.0",
+        "states-sprotty-webview": "^0.0.8",
+        "ts-loader": "^9.2.6",
+        "typescript": "3.8.3",
+        "vscode-languageclient": "^7.0.0",
+        "webpack": "^5.64.2",
+        "webpack-cli": "^4.9.1"
+    },
+    "scripts": {
+        "prepare": "yarn run clean && yarn run build && yarn run copy-language-server && yarn run copy-webview",
+        "clean": "rimraf pack",
+        "build": "webpack --mode=development",
+        "watch": "webpack --mode=development --watch",
+        "copy-language-server": "cp ../language-server/out/* pack/",
+        "copy-webview": "cp ../../states-webview/out/* pack/"
+    }
+}
