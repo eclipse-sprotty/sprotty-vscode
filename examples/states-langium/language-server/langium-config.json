@@ -1,0 +1,12 @@
+{
+    "projectName": "States",
+    "languages": [{
+        "id": "states",
+        "grammar": "src/states.langium",
+        "fileExtensions": [".sm"],
+        "textMate": {
+            "out": "../extension/syntaxes/states.tmLanguage.json"
+        }
+    }],
+    "out": "src/generated"
+}

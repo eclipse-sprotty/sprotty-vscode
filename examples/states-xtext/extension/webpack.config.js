@@ -5,10 +5,10 @@ const path = require('path');
 
 /**@type {import('webpack').Configuration}*/
 const config = {
-    target: 'node', 
+    target: 'node',
 
     entry: path.resolve(__dirname, 'src/states-extension.ts'),
-    output: { 
+    output: {
         path: path.resolve(__dirname, 'pack'),
         filename: 'states-extension.js',
         libraryTarget: "commonjs2",
@@ -26,14 +26,7 @@ const config = {
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                use: [{
-                    loader: 'ts-loader',
-                    options: {
-                        compilerOptions: {
-                            "module": "es6" // override `tsconfig.json` so that TypeScript emits native JavaScript modules.
-                        }
-                    }
-                }]
+                use: ['ts-loader']
             },
             {
                 test: /\.js$/,

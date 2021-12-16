@@ -1,0 +1,47 @@
+{
+  "name": "states",
+  "scopeName": "source.states",
+  "fileTypes": [
+    ".sm"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.states",
+      "match": "\\b(event|state|statemachine)\\b"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.states",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.states"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.states"
+            }
+          }
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.states"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.states"
+        }
+      ]
+    }
+  }
+}

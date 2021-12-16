@@ -6,16 +6,31 @@
 	"version": "0.2.0",
     "configurations": [
         {
-            "name": "States Example Extension",
+            "name": "States Example (Langium)",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "${workspaceFolder}/example/states/workspace",
-                "--extensionDevelopmentPath=${workspaceFolder}/example/states/extension"
+                "${workspaceFolder}/examples/workspace",
+                "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
             ],
             "outFiles": [
-                "${workspaceFolder}/example/states/extension/pack/*.js",
+                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
+                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "name": "States Example (Xtext)",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "${workspaceFolder}/examples/workspace",
+                "--extensionDevelopmentPath=${workspaceFolder}/examples/states-xtext/extension"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/examples/states-xtext/extension/pack/*.js",
                 "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
             ],
             "sourceMaps": true

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018 TypeFox and others.
+ * Copyright (c) 2018-2021 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,7 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate(): Thenable<void> {
-    if (!extension)
-       return Promise.resolve(undefined);
+    if (!extension) {
+       return Promise.resolve();
+    }
     return extension.deactivateLanguageClient();
 }
