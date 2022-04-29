@@ -3821,30 +3821,30 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-langium-cli@0.3.0-next.5e9d27d:
-  version "0.3.0-next.5e9d27d"
-  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-0.3.0-next.5e9d27d.tgz#be848a855c642ced35a6ec6a978015ee9f18f15b"
-  integrity sha512-oH8psUBQhcM2EmtGwylRpovYh0HgejZUgQe9GOpRyAimv1LiimDPUwFqPrH1y7q0dnG2veUF7+NNCeYJoANz4g==
+langium-cli@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-0.3.0.tgz#00dbfbcae4be29e37ba32c08d22aab0d4f25d259"
+  integrity sha512-jMfcrsVbqpSMS56DyxtmgDvQZFJk4ej7B6DKBinAu+Sw2LLobUgSuL3RyLV/bZLZfpdhLdF6pSiwQWq5lu2djQ==
   dependencies:
     colors "^1.4.0"
     commander "^7.2.0"
     fs-extra "^9.1.0"
     jsonschema "^1.4.0"
-    langium "0.3.0-next.5e9d27d"
+    langium "~0.3.0"
     lodash "^4.17.21"
 
-langium-sprotty@0.3.0-next.5e9d27d:
-  version "0.3.0-next.5e9d27d"
-  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-0.3.0-next.5e9d27d.tgz#95bf11625ec67c85d90b2d50bf4a7dbc0b835b95"
-  integrity sha512-vS0GC9HyE3j3yCi8Ii5hvBBCalHogACmviaE/5hiUIRSRd/lmcFqKPirzI6eAGYhPaGHI9NFEf2MjUaYLuB+Fw==
+langium-sprotty@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-0.3.0.tgz#26f36cf413175868ee27d74dc89c9a65f8ed9ea1"
+  integrity sha512-gNGDwq3ZHpytuPK0LGawcVOvNRLNlhow8ZBraIhDtSkvr4wZvHfdetNo2TYCU3X5fyM0vRMg1YnnrikYlXG/Dg==
   dependencies:
-    langium "0.3.0-next.5e9d27d"
+    langium "~0.3.0"
     sprotty-protocol "^0.11.0"
 
-langium@0.3.0-next.5e9d27d:
-  version "0.3.0-next.5e9d27d"
-  resolved "https://registry.yarnpkg.com/langium/-/langium-0.3.0-next.5e9d27d.tgz#ada95590a9ceed415e17940e71564787e3286252"
-  integrity sha512-bsRFqmDdHmLH0yCSdkchvxVDzf1lebIbB4K1fEry7U5XETjK+ZltNoWlaKDbQfc2pzRTTEKVbUm6V627CPfZ8Q==
+langium@0.3.0, langium@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/langium/-/langium-0.3.0.tgz#29ffec2d7ac8d8c1fd1e856426fc799797887233"
+  integrity sha512-7v6VFmzj+LReOOFWegVMlaR6CbUr6cYOW5B60jVawJ066jrBq2omYToGR74KKRsuj7egseUNWWrfsYB3UR9klw==
   dependencies:
     chevrotain "^9.1.0"
     vscode-languageserver "^7.0.0"

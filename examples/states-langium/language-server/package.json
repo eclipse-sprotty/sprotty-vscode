@@ -4,14 +4,15 @@
     "description": "Please enter a brief description here",
     "version": "0.0.0",
     "dependencies": {
-        "langium-sprotty": "0.3.0-next.5e9d27d",
+        "langium": "0.3.0",
+        "langium-sprotty": "0.3.0",
         "sprotty-elk": "^0.11.0",
         "vscode-languageserver": "^7.0.0"
     },
     "devDependencies": {
         "@types/node": "^14.17.3",
         "@types/vscode": "^1.56.0",
-        "langium-cli": "0.3.0-next.5e9d27d",
+        "langium-cli": "0.3.0",
         "ts-loader": "^9.2.6",
         "typescript": "3.8.3",
         "webpack": "^5.64.2",
