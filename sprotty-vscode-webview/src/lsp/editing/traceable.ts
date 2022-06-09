@@ -14,8 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SModelElement, SModelExtension, MouseListener, findParent, OpenAction } from 'sprotty';
-import { Action, SModelElement as  SModelElementSchema } from 'sprotty-protocol';
+import { SModelElement, SModelExtension, MouseListener, findParent } from 'sprotty';
+import { Action, OpenAction, SModelElement as  SModelElementSchema } from 'sprotty-protocol';
 import { Range } from 'vscode-languageserver-protocol';
 import { URI } from 'vscode-uri';
 

@@ -3424,7 +3424,7 @@ interpret@^2.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
 
-inversify@^5.0.1:
+inversify@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/inversify/-/inversify-5.1.1.tgz#6fbd668c591337404e005a1946bfe0d802c08730"
   integrity sha512-j8grHGDzv1v+8T1sAQ+3boTCntFPfvxLCkNcxB1J8qA0lUN+fAlSyYd+RXKvaPRL4AGyPxViutBEJHNXOyUdFQ==
@@ -3821,30 +3821,30 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-langium-cli@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-0.3.0.tgz#00dbfbcae4be29e37ba32c08d22aab0d4f25d259"
-  integrity sha512-jMfcrsVbqpSMS56DyxtmgDvQZFJk4ej7B6DKBinAu+Sw2LLobUgSuL3RyLV/bZLZfpdhLdF6pSiwQWq5lu2djQ==
+langium-cli@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-0.4.0.tgz#94b876251640368827e33a2e0fb37cfe80eb5224"
+  integrity sha512-4Q5QX7ChLbBRRqZwxdCxvYkKTpzDc1vKx/WdfooCssW2EWKdowRkLsGUXucMPvfegnMKkhchzoElPHQM0LU6RA==
   dependencies:
     colors "^1.4.0"
     commander "^7.2.0"
     fs-extra "^9.1.0"
     jsonschema "^1.4.0"
-    langium "~0.3.0"
+    langium "~0.4.0"
     lodash "^4.17.21"
 
-langium-sprotty@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-0.3.0.tgz#26f36cf413175868ee27d74dc89c9a65f8ed9ea1"
-  integrity sha512-gNGDwq3ZHpytuPK0LGawcVOvNRLNlhow8ZBraIhDtSkvr4wZvHfdetNo2TYCU3X5fyM0vRMg1YnnrikYlXG/Dg==
+langium-sprotty@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-0.4.0.tgz#72a68823f22c521e360f7bb2732721b2399139d4"
+  integrity sha512-2pk0cWfXJUd2nO5Kr7rprDYLWNdWJEo1rYIjkJTt45wk4EgK4X5x8uOIHbTGf6xkP4Vo51ZtV6TTxVWo1k2jYA==
   dependencies:
-    langium "~0.3.0"
+    langium "~0.4.0"
     sprotty-protocol "^0.11.0"
 
-langium@0.3.0, langium@~0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/langium/-/langium-0.3.0.tgz#29ffec2d7ac8d8c1fd1e856426fc799797887233"
-  integrity sha512-7v6VFmzj+LReOOFWegVMlaR6CbUr6cYOW5B60jVawJ066jrBq2omYToGR74KKRsuj7egseUNWWrfsYB3UR9klw==
+langium@0.4.0, langium@~0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/langium/-/langium-0.4.0.tgz#cbca579a9805a35047d226e516136feb05baff23"
+  integrity sha512-VDwbcSdd4Uzektou73gcuqSt1eJcizHWJic7ZGIkTQyBIiRTP66YvMlxLUUE9T9p4/lCZGwf9D8CCBc7RiXZ7A==
   dependencies:
     chevrotain "^9.1.0"
     vscode-languageserver "^7.0.0"
@@ -5745,32 +5745,37 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sprotty-elk@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/sprotty-elk/-/sprotty-elk-0.11.0.tgz#d26c41348aad9894c7be27ddc488f3a67b03dc22"
-  integrity sha512-bodKN+9L/kW24b31QPh3Y50Vn84C2nriO06Bs5+xaoAEA9WWmHxEQ8UMFaecdCXrjE7lWnYmvmS8iH57Ike//A==
+sprotty-elk@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/sprotty-elk/-/sprotty-elk-0.12.0.tgz#2f2a164d1637209026954848217b6c717285e513"
+  integrity sha512-7mrQRiG3mSo4+oQLd9huM8FEW18e4ZwA3rt+dtVj9yHDcVfjWGSraLmWBu3qc4lia94X1sR2UcecURzxQQxKgg==
   dependencies:
     elkjs "^0.7.1"
-    sprotty-protocol "~0.11.0"
+    sprotty-protocol "~0.12.0"
   optionalDependencies:
-    inversify "^5.0.1"
+    inversify "^5.1.1"
 
-sprotty-protocol@^0.11.0, sprotty-protocol@~0.11.0:
+sprotty-protocol@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/sprotty-protocol/-/sprotty-protocol-0.11.0.tgz#f8ff89121155520b4e32ea0c05927e7a56173b99"
   integrity sha512-OxRKrKx8mNOxX8CBKsP4epu7YGjT4XvaGwNfAwtVQVh2OPQq98t78A86XGjJThw9axm950QX0KQWGbrzX7FJuQ==
 
-sprotty@~0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.11.1.tgz#3a04703cf10efe8bd89f02ecd6bb33637d9312c5"
-  integrity sha512-wHeDbhZeGPgZebJqoWpqrkQQlpfJ1uiXIjLgIIJOhY8+bkTkGClQDMget7H6Zun7yU56x/XtwgesDyMXA4BVFg==
+sprotty-protocol@~0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/sprotty-protocol/-/sprotty-protocol-0.12.0.tgz#542eb6396a645f85f8cfc2e7ef1d9b90c7b1980b"
+  integrity sha512-vbov+XfbmSeMYb46vm6dJvK3q7YKUvg0q7JnM6H7Ca5qY8TaZCEZ5Vc8zHKFZGWchcwnQYKqLTzwDItsMikD0A==
+
+sprotty@~0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.12.0.tgz#693432346d9321bb19f368c6806641539962db99"
+  integrity sha512-0RjRn3iR9McDt+LZ+cyySfdBdWyzR4kPbg4xESumvoSPziHphs6TdM7CvJ9ywTMmG131nKUF6GgbzhQZ+L6cGg==
   dependencies:
     "@vscode/codicons" "^0.0.25"
     autocompleter "^5.1.0"
     file-saver "^2.0.2"
-    inversify "^5.0.1"
+    inversify "^5.1.1"
     snabbdom "^3.0.3"
-    sprotty-protocol "~0.11.0"
+    sprotty-protocol "~0.12.0"
     tinyqueue "^2.0.3"
 
 sshpk@^1.7.0:
@@ -6229,10 +6234,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@3.8.3, typescript@~3.8.3:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+typescript@~4.6.2:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
+  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
 
 uglify-js@^3.1.4:
   version "3.13.5"
