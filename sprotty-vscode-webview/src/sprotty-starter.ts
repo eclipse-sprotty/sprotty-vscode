@@ -18,21 +18,25 @@ import { Container } from 'inversify';
 import { DiagramServerProxy, KeyTool, TYPES } from 'sprotty';
 import { isDiagramIdentifier, SprottyDiagramIdentifier, WebviewReadyMessage } from 'sprotty-vscode-protocol';
 import { DisabledKeyTool } from './disabled-keytool';
-import { vscodeApi } from './vscode-api';
+import { SprottyStarterServices, VsCodeApi } from './services';
 import { VscodeDiagramServer } from './vscode-diagram-server';
 import { VscodeDiagramWidget, VscodeDiagramWidgetFactory } from './vscode-diagram-widget';
+
+declare function acquireVsCodeApi(): VsCodeApi;
 
 export abstract class SprottyStarter {
 
     protected container?: Container;
+    protected vscodeApi: VsCodeApi;
 
-    constructor() {
+    constructor(services: SprottyStarterServices = {}) {
+        this.vscodeApi = services.vscodeApi ?? acquireVsCodeApi();
         this.sendReadyMessage();
         this.acceptDiagramIdentifier();
     }
 
     protected sendReadyMessage(): void {
-        vscodeApi.postMessage({ readyMessage: 'Sprotty Webview ready' } as WebviewReadyMessage);
+        this.vscodeApi.postMessage({ readyMessage: 'Sprotty Webview ready' } as WebviewReadyMessage);
     }
 
     protected acceptDiagramIdentifier(): void {
@@ -61,6 +65,7 @@ export abstract class SprottyStarter {
     protected abstract createContainer(diagramIdentifier: SprottyDiagramIdentifier): Container;
 
     protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier): void {
+        container.bind(VsCodeApi).toConstantValue(this.vscodeApi);
         container.bind(VscodeDiagramWidget).toSelf().inSingletonScope();
         container.bind(VscodeDiagramWidgetFactory).toFactory(context => {
             return () => context.container.get<VscodeDiagramWidget>(VscodeDiagramWidget);

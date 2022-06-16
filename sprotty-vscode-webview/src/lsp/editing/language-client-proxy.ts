@@ -13,14 +13,16 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { NotificationType, NotificationType0, RequestType, RequestType0 } from 'vscode-jsonrpc';
 import { isResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
 import { CancellationToken, NotificationMessage, RequestMessage, MessageSignature } from 'vscode-languageserver-protocol';
-import { vscodeApi } from '../../vscode-api';
+import { VsCodeApi } from '../../services';
 
 @injectable()
 export class LanguageClientProxy {
+
+    @inject(VsCodeApi) vscodeApi: VsCodeApi;
 
     private currentNumber = 0;
     private openRequestsResolves = new Map<number, (value: any) => void>();
@@ -28,7 +30,7 @@ export class LanguageClientProxy {
 
     constructor() {
         window.addEventListener('message', message => {
-            if ('data' in message && isResponseMessage(message.data)) {
+            if ('data' in message && isResponseMessage(message.data)) {
                 const id = message.data.id;
                 if (typeof id === 'number') {
                     if (message.data.error) {
@@ -50,9 +52,10 @@ export class LanguageClientProxy {
     async sendRequest<R, E>(type: RequestType0<R, E>, token?: CancellationToken): Promise<R>;
     async sendRequest<P, R, E>(type: RequestType<P, R, E>, params: P, token?: CancellationToken): Promise<R>;
     async sendRequest<R>(signature: MessageSignature, ...params: any[]): Promise<R> {
-        if (CancellationToken.is(params[params.length - 1]))
+        if (CancellationToken.is(params[params.length - 1])) {
             params.pop();
-        vscodeApi.postMessage(<RequestMessage> {
+        }
+        this.vscodeApi.postMessage(<RequestMessage> {
             method: signature.method,
             id: this.currentNumber,
             jsonrpc: 'request',
@@ -69,11 +72,10 @@ export class LanguageClientProxy {
     sendNotification(type: NotificationType0): void;
     sendNotification<P>(type: NotificationType<P>, params?: P): void;
     sendNotification<P>(signature: MessageSignature, params?: P): void {
-        vscodeApi.postMessage(<NotificationMessage> {
+        this.vscodeApi.postMessage(<NotificationMessage> {
             method: signature.method,
             jsonrpc: 'notify',
             params
         });
     }
 }
-

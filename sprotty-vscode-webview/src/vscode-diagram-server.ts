@@ -22,11 +22,12 @@ import {
 } from 'sprotty-protocol';
 
 import { VscodeDiagramWidgetFactory } from './vscode-diagram-widget';
-import { vscodeApi } from './vscode-api';
 import { IRootPopupModelProvider } from './root-popup-model-provider';
+import { VsCodeApi } from './services';
 
 export class VscodeDiagramServer extends DiagramServerProxy {
 
+    @inject(VsCodeApi) vscodeApi: VsCodeApi;
     @inject(VscodeDiagramWidgetFactory) diagramWidgetFactory: VscodeDiagramWidgetFactory;
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
@@ -41,7 +42,7 @@ export class VscodeDiagramServer extends DiagramServerProxy {
     }
 
     protected sendMessage(message: ActionMessage): void {
-        vscodeApi.postMessage(message);
+        this.vscodeApi.postMessage(message);
     }
 
     handleLocally(action: Action): boolean {
