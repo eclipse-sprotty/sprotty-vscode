@@ -3,6 +3,8 @@
   "scripts": {
     "prepare": "lerna run prepare",
     "clean": "lerna run clean",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
     "publish:next": "lerna publish --canary --npm-tag next"
   },
   "devDependencies": {

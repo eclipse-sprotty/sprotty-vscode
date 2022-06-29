@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { SModelElement, SModelExtension, MouseListener, findParent } from 'sprotty';
-import { Action, OpenAction, SModelElement as  SModelElementSchema } from 'sprotty-protocol';
+import { Action, OpenAction, SModelElement as SModelElementSchema } from 'sprotty-protocol';
 import { Range } from 'vscode-languageserver-protocol';
 import { URI } from 'vscode-uri';
 

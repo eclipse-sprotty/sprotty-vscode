@@ -51,7 +51,7 @@ module.exports = {
             "warn",
             "smart"
         ],
-        "guard-for-in": "warn",
+        "guard-for-in": "off",
         "id-blacklist": "off",
         "id-match": "off",
         "keyword-spacing": ["warn", { "before": true }],
