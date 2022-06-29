@@ -1,6 +1,6 @@
 {
   "name": "sprotty-vscode",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "displayName": "Sprotty VSCode Integration",
   "description": "Glue code to integrate Sprotty diagrams in VSCode extensions (extension part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",

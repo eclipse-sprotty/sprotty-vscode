@@ -2,6 +2,10 @@
 
 This change log covers only the VS Code extension-to-webview protocol of Sprotty. See also the change log of [sprotty](https://github.com/eclipse/sprotty/blob/master/packages/sprotty/CHANGELOG.md).
 
+### v0.3.0 (Jun. 2022)
+
+ * Updated `sprotty-protocol` to v0.12.0
+
 ### v0.2.0 (Dec. 2021)
 
 This version is mainly about dependency updates:
