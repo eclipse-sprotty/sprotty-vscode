@@ -38,8 +38,8 @@ The repo is structured as follows
 
 ## Development
 
-Compile the library code and the example
+Compile the library code and the examples
 ```
-example/states/language-server/gradlew -p example/states/language-server/ build &&
-yarn
+examples/states-xtext/language-server/gradlew -p examples/states-xtext/language-server/ build && yarn
 ```
+
