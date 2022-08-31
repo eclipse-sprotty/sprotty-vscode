@@ -33,6 +33,28 @@
             "scopeName": "source.states",
             "path": "./syntaxes/states.tmLanguage.json"
         }],
+        "customEditors": [{
+            "viewType": "states",
+            "displayName": "States Editor",
+            "selector": [{
+                "filenamePattern": "*.sm"
+            }],
+            "priority": "option"
+        }],
+        "viewsContainers": {
+            "activitybar": [{
+                "id": "states-container",
+                "title": "States",
+                "icon": "$(symbol-structure)"
+            }]
+        },
+        "views": {
+            "states-container": [{
+                "id": "states",
+                "type": "webview",
+                "name": "State Machine"
+            }]
+        },
         "commands": [
             {
                 "command": "states.diagram.open",
@@ -135,6 +157,9 @@
     },
     "activationEvents": [
         "onLanguage:states",
+        "onWebviewPanel:states",
+        "onCustomEditor:states",
+        "onView:states",
         "onCommand:states.diagram.open"
     ],
     "files": [

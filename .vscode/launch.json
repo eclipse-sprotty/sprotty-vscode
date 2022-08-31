@@ -6,10 +6,49 @@
 	"version": "0.2.0",
     "configurations": [
         {
-            "name": "States Example (Langium)",
+            "name": "States Example with Panel Manager (Langium)",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
+            "env": {
+                "DIAGRAM_MODE": "panel"
+            },
+            "args": [
+                "${workspaceFolder}/examples/workspace",
+                "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
+                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "name": "States Example with Editor (Langium)",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "env": {
+                "DIAGRAM_MODE": "editor"
+            },
+            "args": [
+                "${workspaceFolder}/examples/workspace",
+                "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
+                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "name": "States Example with View (Langium)",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "env": {
+                "DIAGRAM_MODE": "view"
+            },
             "args": [
                 "${workspaceFolder}/examples/workspace",
                 "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"

@@ -18,6 +18,9 @@ import * as vscode from 'vscode';
 import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
 import { DeleteWithWorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
+/**
+ * @deprecated Use `LspWebviewPanelManager` and `registerLspEditCommands` instead.
+ */
 export abstract class SprottyLspEditVscodeExtension extends SprottyLspVscodeExtension {
     protected override registerCommands() {
         super.registerCommands();

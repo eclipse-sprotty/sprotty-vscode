@@ -16,17 +16,29 @@
 
 import { Action } from 'sprotty-protocol';
 import { WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
-import { workspace } from 'vscode';
-
+import * as vscode from 'vscode';
 import { ActionHandler } from '../../action-handler';
-import { convertWorkspaceEdit } from './lsp-to-vscode';
+import { convertWorkspaceEdit } from '../lsp-utils';
+import { LspWebviewEndpoint } from '../lsp-webview-endpoint';
 
+export function addWorkspaceEditActionHandler(endpoint: LspWebviewEndpoint): void {
+    const handler = async (action: Action) => {
+        if (WorkspaceEditAction.is(action)) {
+            await vscode.workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
+        }
+    };
+    endpoint.addActionHandler(WorkspaceEditAction.KIND, handler);
+};
+
+/**
+ * @deprecated Use `addWorkspaceEditActionHandler` instead.
+ */
 export class WorkspaceEditActionHandler implements ActionHandler {
     readonly kind = WorkspaceEditAction.KIND;
 
     async handleAction(action: Action): Promise<boolean> {
         if (WorkspaceEditAction.is(action))
-            await workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
+            await vscode.workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
         return false;
     }
 }

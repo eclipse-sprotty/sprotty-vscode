@@ -15,6 +15,5 @@
  ********************************************************************************/
 
 export * from './lsp-label-edit-action-handler';
-export * from './lsp-to-vscode';
 export * from './workspace-edit-action-handler';
 export * from './sprotty-lsp-edit-vscode-extension';

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018-2021 TypeFox and others.
+ * Copyright (c) 2018-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,19 +14,60 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+import * as path from 'path';
+import { registerDefaultCommands, registerLspEditCommands, SprottyDiagramIdentifier } from 'sprotty-vscode';
+import { LspWebviewEndpoint, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
+import { addLspLabelEditActionHandler, addWorkspaceEditActionHandler } from 'sprotty-vscode/lib/lsp/editing';
 import * as vscode from 'vscode';
-import { StatesLspVscodeExtension } from './states-lsp-extension';
-import { SprottyLspVscodeExtension } from 'sprotty-vscode/lib/lsp';
+import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
 
-let extension: SprottyLspVscodeExtension;
+let languageClient: LanguageClient;
 
 export function activate(context: vscode.ExtensionContext) {
-    extension = new StatesLspVscodeExtension(context);
+    languageClient = createLanguageClient(context);
+    const webviewPanelManager = new StatesWebviewPanelManager({
+        extensionUri: context.extensionUri,
+        defaultDiagramType: 'states-diagram',
+        languageClient,
+        supportedFileExtensions: ['.sm']
+    });
+    registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
+    registerLspEditCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
 }
 
-export function deactivate(): Thenable<void> {
-    if (!extension) {
-       return Promise.resolve();
+function createLanguageClient(context: vscode.ExtensionContext): LanguageClient {
+    const executable = process.platform === 'win32' ? 'states-language-server.bat' : 'states-language-server';
+        const languageServerPath =  path.join('server', 'states-language-server', 'bin', executable);
+        const serverLauncher = context.asAbsolutePath(languageServerPath);
+        const serverOptions: ServerOptions = {
+            run: {
+                command: serverLauncher,
+                args: ['-trace']
+            },
+            debug: {
+                command: serverLauncher,
+                args: ['-trace']
+            }
+        };
+        const clientOptions: LanguageClientOptions = {
+            documentSelector: [{ scheme: 'file', language: 'states' }],
+        };
+        const languageClient = new LanguageClient('statesLanguageClient', 'States Language Server', serverOptions, clientOptions);
+        languageClient.start();
+        return languageClient;
+}
+
+class StatesWebviewPanelManager extends LspWebviewPanelManager {
+    protected override createEndpoint(identifier: SprottyDiagramIdentifier): LspWebviewEndpoint {
+        const endpoint = super.createEndpoint(identifier);
+        addWorkspaceEditActionHandler(endpoint);
+        addLspLabelEditActionHandler(endpoint);
+        return endpoint;
     }
-    return extension.deactivateLanguageClient();
+}
+
+export async function deactivate(): Promise<void> {
+    if (languageClient) {
+        await languageClient.stop();
+    }
 }

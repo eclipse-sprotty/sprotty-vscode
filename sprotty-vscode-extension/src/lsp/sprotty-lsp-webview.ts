@@ -23,6 +23,9 @@ import { SprottyLspVscodeExtension } from './sprotty-lsp-vscode-extension';
 import { SprottyWebview, SprottyWebviewOptions } from '../sprotty-webview';
 
 
+/**
+ * @deprecated Use `LspWebviewEndpoint` in conjunction with `LspWebviewPanelManager` instead.
+ */
 export class SprottyLspWebview extends SprottyWebview {
 
     static override viewCount = 0;
@@ -54,7 +57,7 @@ export class SprottyLspWebview extends SprottyWebview {
                     ? await this.languageClient.sendRequest(message.method, message.params)
                     : await this.languageClient.sendRequest(message.method);
                 this.sendToWebview(<ResponseMessage> {
-                    jsonrpc: 'response',
+                    jsonrpc: '2.0',
                     id: message.id,
                     result: result
                 });

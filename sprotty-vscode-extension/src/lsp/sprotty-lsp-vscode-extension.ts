@@ -21,6 +21,9 @@ import { ActionMessage } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyVscodeExtension } from '../sprotty-vscode-extension';
 
+/**
+ * @deprecated Use `LspWebviewPanelManager` instead.
+ */
 export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
     readonly languageClient: LanguageClient;
 

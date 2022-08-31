@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 TypeFox and others.
+ * Copyright (c) 2020-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,6 +16,7 @@
 
 import * as vscode from 'vscode';
 import * as lsp from 'vscode-languageclient';
+import { OpenInTextEditorMessage } from './protocol';
 
 export function convertWorkspaceEdit(workspaceEdit: lsp.WorkspaceEdit): vscode.WorkspaceEdit {
     const result = new vscode.WorkspaceEdit();
@@ -56,4 +57,20 @@ export function convertPosition(position: lsp.Position): vscode.Position {
 
 export function convertUri(uri: string): vscode.Uri {
     return vscode.Uri.parse(uri);
+}
+
+export function openInTextEditor(message: OpenInTextEditorMessage): void {
+    const editor = vscode.window.visibleTextEditors.find(ed => ed.document.uri.toString() === message.location.uri);
+    if (editor) {
+        const start = convertPosition(message.location.range.start);
+        const end = convertPosition(message.location.range.end);
+        editor.selection = new vscode.Selection(start, end);
+        editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenter);
+    } else if (message.forceOpen) {
+        vscode.window.showTextDocument(vscode.Uri.parse(message.location.uri), {
+            selection: new vscode.Range(convertPosition(message.location.range.start),
+                                        convertPosition(message.location.range.end)),
+            viewColumn: vscode.ViewColumn.One
+        });
+    }
 }
