@@ -1,0 +1,19 @@
+statemachine TrafficLight
+
+event switchCapacity
+event next
+
+state PowerOff
+    switchCapacity => RedLight
+
+state RedLight
+    switchCapacity => PowerOff
+    next => GreenLight
+
+state YellowLight
+    switchCapacity => PowerOff
+    next => RedLight
+
+state GreenLight
+    switchCapacity => PowerOff
+    next => YellowLight

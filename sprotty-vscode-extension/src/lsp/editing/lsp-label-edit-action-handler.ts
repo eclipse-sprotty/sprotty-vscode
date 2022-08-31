@@ -16,7 +16,7 @@
 
 import { Action } from 'sprotty-protocol';
 import { LspLabelEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
-import { QuickPickItem, window, workspace, WorkspaceEdit, TextEdit } from 'vscode';
+import * as vscode from 'vscode';
 import {
     CompletionItem, CompletionItemKind, CompletionList, CompletionRequest, LanguageClient,
     PrepareRenameRequest, RenameParams, RenameRequest, TextDocumentPositionParams
@@ -24,8 +24,79 @@ import {
 import { ActionHandler } from '../../action-handler';
 import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
 import { SprottyWebview } from '../../sprotty-webview';
-import { convertPosition, convertUri, convertWorkspaceEdit, convertRange } from './lsp-to-vscode';
+import { convertPosition, convertUri, convertWorkspaceEdit, convertRange } from '../lsp-utils';
+import { LspWebviewEndpoint } from '../lsp-webview-endpoint';
 
+export function addLspLabelEditActionHandler(endpoint: LspWebviewEndpoint): void {
+    const handler = async (action: Action) => {
+        if (LspLabelEditAction.is(action)) {
+            switch (action.editKind) {
+                case 'xref': return chooseCrossReference(action, endpoint);
+                case 'name': return renameElement(action, endpoint);
+            }
+        }
+    };
+    endpoint.addActionHandler(LspLabelEditAction.KIND, handler);
+};
+
+async function chooseCrossReference(action: LspLabelEditAction, endpoint: LspWebviewEndpoint): Promise<void> {
+    const completions = await endpoint.languageClient.sendRequest(CompletionRequest.type, {
+        textDocument: { uri: action.location.uri },
+        position: convertPosition(action.location.range.start)
+    });
+    if (!completions) {
+        return;
+    }
+    const completionItems = Array.isArray(completions) ? completions : completions.items;
+    type QuickPickItem = vscode.QuickPickItem & { value: CompletionItem };
+    const quickPickItems = filterCompletionItems(completionItems)
+        .map(completionItem => <QuickPickItem> {
+            label: completionItem.textEdit!.newText,
+            value: completionItem
+        });
+    const pick = await vscode.window.showQuickPick(quickPickItems);
+    if (pick && pick.value.textEdit) {
+        const workspaceEdit = new vscode.WorkspaceEdit();
+        const textEdit = vscode.TextEdit.replace(convertRange(action.location.range), pick.value.textEdit.newText);
+        workspaceEdit.set(convertUri(action.location.uri), [ textEdit ]);
+        await vscode.workspace.applyEdit(workspaceEdit);
+    }
+}
+
+function filterCompletionItems(items: CompletionItem[]): CompletionItem[] {
+    return items.filter(item => item.kind === CompletionItemKind.Reference);
+}
+
+async function renameElement(action: LspLabelEditAction, endpoint: LspWebviewEndpoint): Promise<void> {
+    const canRename = await endpoint.languageClient.sendRequest(PrepareRenameRequest.type, <TextDocumentPositionParams> {
+        textDocument: { uri: action.location.uri },
+        position: action.location.range.start
+    });
+    if (!canRename) {
+        return;
+    }
+    const newName = await vscode.window.showInputBox({
+        prompt: 'Enter new name',
+        placeHolder: 'new name',
+        value: action.initialText
+    });
+    if (newName) {
+        const workspaceEdit = await endpoint.languageClient.sendRequest(RenameRequest.type, <RenameParams> {
+            textDocument: {
+                uri: action.location.uri
+            },
+            position: action.location.range.start,
+            newName
+        });
+        if (workspaceEdit) {
+            await vscode.workspace.applyEdit(convertWorkspaceEdit(workspaceEdit));
+        }
+    }
+}
+
+/**
+ * @deprecated Use `addLspLabelEditActionHandler` instead.
+ */
 export class LspLabelEditActionHandler implements ActionHandler {
 
     readonly kind = LspLabelEditAction.KIND;
@@ -61,19 +132,19 @@ export class LspLabelEditActionHandler implements ActionHandler {
 
             const quickPickItems = this.filterCompletionItems(completionItems)
                 .map(completionItem => {
-                    return <QuickPickItem> {
+                    return <vscode.QuickPickItem> {
                         label: completionItem.textEdit!.newText,
                         value: completionItem
                     };
                 });
-            const pick = await window.showQuickPick(quickPickItems);
+            const pick = await vscode.window.showQuickPick(quickPickItems);
             if (pick) {
                 const pickedCompletionItem = (pick as any).value as CompletionItem;
                 if (pickedCompletionItem.textEdit) {
-                    const workspaceEdit = new WorkspaceEdit();
-                    const textEdit = TextEdit.replace(convertRange(action.location.range), pickedCompletionItem.textEdit.newText);
+                    const workspaceEdit = new vscode.WorkspaceEdit();
+                    const textEdit = vscode.TextEdit.replace(convertRange(action.location.range), pickedCompletionItem.textEdit.newText);
                     workspaceEdit.set(convertUri(action.location.uri), [ textEdit ]);
-                    return workspace.applyEdit(workspaceEdit);
+                    return vscode.workspace.applyEdit(workspaceEdit);
                 }
             }
         }
@@ -92,7 +163,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
             position: action.location.range.start
         });
         if (canRename) {
-            const newName = await window.showInputBox({
+            const newName = await vscode.window.showInputBox({
                 prompt: 'Enter new name',
                 placeHolder: 'new name',
                 value: action.initialText
@@ -106,7 +177,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
                     newName
                 });
                 if (workspaceEdit)
-                    return workspace.applyEdit(convertWorkspaceEdit(workspaceEdit));
+                    return vscode.workspace.applyEdit(convertWorkspaceEdit(workspaceEdit));
             }
         }
         return false;

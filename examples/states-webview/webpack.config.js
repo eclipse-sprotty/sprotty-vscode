@@ -44,7 +44,8 @@ const config = {
                 }
             },
         ]
-    }
+    },
+    ignoreWarnings: [/Failed to parse source map/]
 };
 
 module.exports = config;

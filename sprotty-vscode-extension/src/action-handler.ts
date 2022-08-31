@@ -18,6 +18,7 @@ import { Action } from 'sprotty-protocol';
 
 /**
  * Used to locally intercept and handle actions in the VS Code extension.
+ * @deprecated
  */
 export interface ActionHandler {
     readonly kind: string;

@@ -19,8 +19,9 @@ import { isDiagramIdentifier, isWebviewReadyMessage, SprottyDiagramIdentifier } 
 import * as vscode from 'vscode';
 
 import { ActionHandler } from './action-handler';
-import { SprottyVscodeExtension, serializeUri } from './sprotty-vscode-extension';
+import { SprottyVscodeExtension } from './sprotty-vscode-extension';
 import { Message, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { serializeUri } from './webview-utils';
 
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension
@@ -30,6 +31,9 @@ export interface SprottyWebviewOptions {
     singleton?: boolean
 }
 
+/**
+ * @deprecated Use `WebviewEndpoint` in conjunction with `WebviewPanelManager` instead.
+ */
 export class SprottyWebview {
 
     static viewCount = 0;

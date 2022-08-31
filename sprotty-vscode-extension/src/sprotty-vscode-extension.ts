@@ -19,7 +19,11 @@ import * as vscode from 'vscode';
 import { Action } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyWebview } from './sprotty-webview';
+import { serializeUri } from './webview-utils';
 
+/**
+ * @deprecated Use `WebviewPanelManager` instead.
+ */
 export abstract class SprottyVscodeExtension {
 
     protected readonly webviewMap = new Map<string, SprottyWebview>();
@@ -141,13 +145,4 @@ export abstract class SprottyVscodeExtension {
         return vscode.Uri
             .file(path.join(this.context.extensionPath, ...segments));
     }
-}
-
-export function serializeUri(uri: vscode.Uri): string {
-    let uriString = uri.toString();
-    const match = uriString.match(/file:\/\/\/([a-z])%3A/i);
-    if (match) {
-        uriString = 'file:///' + match[1] + ':' + uriString.substring(match[0].length);
-    }
-    return uriString;
 }

@@ -14,7 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+export * from './lsp-sprotty-editor-provider';
+export * from './lsp-sprotty-view-provider';
+export * from './lsp-utils';
+export * from './lsp-webview-endpoint';
+export * from './lsp-webview-panel-manager';
 export * from './protocol';
 export * from './sprotty-lsp-webview';
 export * from './sprotty-lsp-vscode-extension';
-export * from 'sprotty-vscode-protocol';

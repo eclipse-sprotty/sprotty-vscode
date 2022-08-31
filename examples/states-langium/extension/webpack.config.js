@@ -5,10 +5,10 @@ const path = require('path');
 
 /**@type {import('webpack').Configuration}*/
 const config = {
-    target: 'node', 
+    target: 'node',
 
     entry: path.resolve(__dirname, 'src/states-extension.ts'),
-    output: { 
+    output: {
         path: path.resolve(__dirname, 'pack'),
         filename: 'states-extension.js',
         libraryTarget: "commonjs2",
@@ -35,6 +35,7 @@ const config = {
             }
         ]
     },
+    ignoreWarnings: [/Failed to parse source map/]
 }
 
 module.exports = config;
