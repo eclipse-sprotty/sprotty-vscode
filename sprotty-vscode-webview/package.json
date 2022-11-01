@@ -1,6 +1,6 @@
 {
   "name": "sprotty-vscode-webview",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Integration of Sprotty in a VS Code extensions (WebView part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
@@ -29,7 +29,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/eclipse/sprotty-vscode.git"
+    "url": "https://github.com/eclipse/sprotty-vscode.git",
+    "directory": "sprotty-vscode-webview"
   },
   "files": [
     "lib",
@@ -40,8 +41,8 @@
   "types": "lib/index",
   "dependencies": {
     "sprotty": "~0.12.0",
-    "sprotty-vscode-protocol": "~0.3.0",
-    "vscode-uri": "^3.0.2"
+    "sprotty-vscode-protocol": "~0.4.0",
+    "vscode-uri": "^3.0.6"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.0",

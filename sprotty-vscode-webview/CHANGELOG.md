@@ -2,6 +2,10 @@
 
 This change log covers only the VS Code webview integration of Sprotty. See also the change log of [sprotty](https://github.com/eclipse/sprotty/blob/master/packages/sprotty/CHANGELOG.md).
 
+### v0.4.0 (Nov. 2022)
+
+ * Updated `vscode-languageclient` to v8.0.2
+
 ### v0.3.0 (Jun. 2022)
 
  * Updated `sprotty` to v0.12.0
