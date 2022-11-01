@@ -15,6 +15,7 @@
  ********************************************************************************/
 
 import { startLanguageServer } from 'langium';
+import { NodeFileSystem } from 'langium/node';
 import { addDiagramHandler } from 'langium-sprotty';
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 import { createStatesServices } from './states-module';
@@ -23,7 +24,7 @@ import { createStatesServices } from './states-module';
 const connection = createConnection(ProposedFeatures.all);
 
 // Inject the language services
-const { shared } = createStatesServices({ connection });
+const { shared } = createStatesServices({ connection, ...NodeFileSystem });
 
 // Start the language server with the language-specific services
 startLanguageServer(shared);

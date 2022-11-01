@@ -18,9 +18,9 @@ import { Action } from 'sprotty-protocol';
 import { LspLabelEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { QuickPickItem, window, workspace, WorkspaceEdit, TextEdit } from 'vscode';
 import {
-    CompletionItem, CompletionItemKind, CompletionList, CompletionRequest, CommonLanguageClient,
+    CompletionItem, CompletionItemKind, CompletionList, CompletionRequest, LanguageClient,
     PrepareRenameRequest, RenameParams, RenameRequest, TextDocumentPositionParams
-} from 'vscode-languageclient';
+} from 'vscode-languageclient/node';
 import { ActionHandler } from '../../action-handler';
 import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
 import { SprottyWebview } from '../../sprotty-webview';
@@ -45,7 +45,7 @@ export class LspLabelEditActionHandler implements ActionHandler {
         return false;
     }
 
-    protected get languageClient(): CommonLanguageClient {
+    protected get languageClient(): LanguageClient {
         return (this.webview.extension as SprottyLspVscodeExtension).languageClient;
     }
 

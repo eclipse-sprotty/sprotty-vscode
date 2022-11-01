@@ -67,7 +67,7 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
             documentSelector: [{ scheme: 'file', language: 'states' }],
         };
         const languageClient = new LanguageClient('statesLanguageClient', 'States Language Server', serverOptions, clientOptions);
-        context.subscriptions.push(languageClient.start());
+        languageClient.start();
         return languageClient;
     }
 }

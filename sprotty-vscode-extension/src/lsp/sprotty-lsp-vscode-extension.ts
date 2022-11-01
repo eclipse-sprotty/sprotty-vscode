@@ -15,24 +15,22 @@
  ********************************************************************************/
 
 import * as vscode from 'vscode';
-import { Emitter, CommonLanguageClient } from 'vscode-languageclient';
+import { Emitter, LanguageClient } from 'vscode-languageclient/node';
 import { acceptMessageType, didCloseMessageType, OpenInTextEditorMessage, openInTextEditorMessageType } from './protocol';
 import { ActionMessage } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyVscodeExtension } from '../sprotty-vscode-extension';
 
 export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
-    readonly languageClient: CommonLanguageClient;
+    readonly languageClient: LanguageClient;
 
     protected acceptFromLanguageServerEmitter = new Emitter<ActionMessage>();
 
     constructor(extensionPrefix: string, context: vscode.ExtensionContext) {
         super(extensionPrefix, context);
         this.languageClient = this.activateLanguageClient(context);
-        this.languageClient.onReady().then(() => {
-            this.languageClient.onNotification(acceptMessageType, (message: ActionMessage) => this.acceptFromLanguageServerEmitter.fire(message));
-            this.languageClient.onNotification(openInTextEditorMessageType, (message: OpenInTextEditorMessage) => this.openInTextEditor(message));
-        });
+        this.languageClient.onNotification(acceptMessageType, (message: ActionMessage) => this.acceptFromLanguageServerEmitter.fire(message));
+        this.languageClient.onNotification(openInTextEditorMessageType, (message: OpenInTextEditorMessage) => this.openInTextEditor(message));
     }
 
     onAcceptFromLanguageServer(listener: (message: ActionMessage) => void): vscode.Disposable {
@@ -48,11 +46,12 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
         }
     }
 
-    protected abstract activateLanguageClient(context: vscode.ExtensionContext): CommonLanguageClient;
+    protected abstract activateLanguageClient(context: vscode.ExtensionContext): LanguageClient;
 
     deactivateLanguageClient(): Thenable<void> {
-        if (!this.languageClient)
+        if (!this.languageClient) {
             return Promise.resolve(undefined);
+        }
         return this.languageClient.stop();
     }
 
