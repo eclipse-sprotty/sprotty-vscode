@@ -85,7 +85,7 @@ export class StatesLspVscodeExtension extends SprottyLspEditVscodeExtension {
         );
 
         // Start the client. This will also launch the server
-        context.subscriptions.push(languageClient.start());
+        languageClient.start();
         return languageClient;
     }
 }

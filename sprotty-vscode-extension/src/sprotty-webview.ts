@@ -20,7 +20,7 @@ import * as vscode from 'vscode';
 
 import { ActionHandler } from './action-handler';
 import { SprottyVscodeExtension, serializeUri } from './sprotty-vscode-extension';
-import { isResponseMessage, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { Message, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
 
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension
@@ -172,7 +172,7 @@ export class SprottyWebview {
     }
 
     protected sendToWebview(message: any) {
-        if (isActionMessage(message) || isDiagramIdentifier(message) || isResponseMessage(message)) {
+        if (isActionMessage(message) || isDiagramIdentifier(message) || Message.isResponse(message)) {
             if (this.diagramPanel.visible) {
                 if (isActionMessage(message)) {
                     const actionHandler = this.actionHandlers.get(message.action.kind);

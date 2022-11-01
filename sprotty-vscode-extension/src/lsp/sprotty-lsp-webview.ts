@@ -15,8 +15,8 @@
  ********************************************************************************/
 
 import { isActionMessage } from 'sprotty-protocol';
-import { isNotificationMessage, isRequestMessage, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
-import { CommonLanguageClient } from 'vscode-languageclient';
+import { Message, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { LanguageClient } from 'vscode-languageclient/node';
 
 import { acceptMessageType } from './protocol';
 import { SprottyLspVscodeExtension } from './sprotty-lsp-vscode-extension';
@@ -35,19 +35,13 @@ export class SprottyLspWebview extends SprottyWebview {
             throw new Error('SprottyLspWebview must be initialized with a SprottyLspVscodeExtension');
     }
 
-    protected ready(): Promise<void> {
-        return Promise.all([super.ready(), this.languageClient.onReady()]) as any;
-    }
-
-    protected get languageClient(): CommonLanguageClient {
+    protected get languageClient(): LanguageClient {
         return this.extension.languageClient;
     }
 
     protected async connect() {
         super.connect();
-        this.languageClient.onReady().then(() => {
-            this.disposables.push(this.extension.onAcceptFromLanguageServer(message => this.sendToWebview(message)));
-        });
+        this.disposables.push(this.extension.onAcceptFromLanguageServer(message => this.sendToWebview(message)));
     }
 
     protected async receiveFromWebview(message: any): Promise<boolean> {
@@ -55,7 +49,7 @@ export class SprottyLspWebview extends SprottyWebview {
         if (shouldPropagate) {
             if (isActionMessage(message)) {
                 this.languageClient.sendNotification(acceptMessageType, message);
-            } else if (isRequestMessage(message)) {
+            } else if (Message.isRequest(message)) {
                 const result = (message.params)
                     ? await this.languageClient.sendRequest(message.method, message.params)
                     : await this.languageClient.sendRequest(message.method);
@@ -64,7 +58,7 @@ export class SprottyLspWebview extends SprottyWebview {
                     id: message.id,
                     result: result
                 });
-            } else if (isNotificationMessage(message)) {
+            } else if (Message.isNotification(message)) {
                 this.languageClient.sendNotification(message.method, message.params);
             }
         }

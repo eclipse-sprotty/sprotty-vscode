@@ -15,7 +15,7 @@
  ********************************************************************************/
 import { injectable, inject } from 'inversify';
 import { NotificationType, NotificationType0, RequestType, RequestType0 } from 'vscode-jsonrpc';
-import { isResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { Message } from 'vscode-jsonrpc/lib/common/messages';
 import { CancellationToken, NotificationMessage, RequestMessage, MessageSignature } from 'vscode-languageserver-protocol';
 import { VsCodeApi } from '../../services';
 
@@ -30,7 +30,7 @@ export class LanguageClientProxy {
 
     constructor() {
         window.addEventListener('message', message => {
-            if ('data' in message && isResponseMessage(message.data)) {
+            if ('data' in message && Message.isResponse(message.data)) {
                 const id = message.data.id;
                 if (typeof id === 'number') {
                     if (message.data.error) {

@@ -44,7 +44,7 @@
   "dependencies": {
     "path": "^0.12.7",
     "sprotty-vscode-protocol": "~0.3.0",
-    "vscode-languageclient": "^7.0.0"
+    "vscode-languageclient": "^8.0.2"
   },
   "devDependencies": {
     "@types/node": "^12.12.6",

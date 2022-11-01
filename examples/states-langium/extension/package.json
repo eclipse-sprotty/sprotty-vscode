@@ -155,7 +155,7 @@
         "states-sprotty-webview": "^0.0.8",
         "ts-loader": "^9.2.6",
         "typescript": "~4.6.2",
-        "vscode-languageclient": "^7.0.0",
+        "vscode-languageclient": "^8.0.2",
         "webpack": "^5.64.2",
         "webpack-cli": "^4.9.1"
     },
