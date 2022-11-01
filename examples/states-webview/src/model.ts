@@ -21,19 +21,19 @@ import {
 import { Action, SEdge as SEdgeSchema } from 'sprotty-protocol';
 
 export class StatesEdge extends SEdge {
-    routerKind = ManhattanEdgeRouter.KIND;
-    targetAnchorCorrection = Math.sqrt(5);
+    override routerKind = ManhattanEdgeRouter.KIND;
+    override targetAnchorCorrection = Math.sqrt(5);
 }
 
 export class StatesEdgeLabel extends SLabel {
-    edgePlacement = <EdgePlacement> {
+    override edgePlacement = <EdgePlacement> {
         rotate: true,
         position: 0.6
     };
 }
 
 export class StatesNode extends RectangularNode {
-    canConnect(routable: SRoutableElement, role: string) {
+    override canConnect(routable: SRoutableElement, role: string) {
         return true;
     }
 }

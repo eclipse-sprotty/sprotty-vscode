@@ -28,7 +28,7 @@ import { VscodeLspEditDiagramServer } from './vscode-lsp-edit-diagram-server';
 import { DeleteWithWorkspaceEditCommand } from './delete-with-workspace-edit';
 
 export abstract class SprottyLspEditStarter extends SprottyStarter {
-    protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier) {
+    protected override addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier) {
         super.addVscodeBindings(container, diagramIdentifier);
         container.rebind(VscodeDiagramServer).to(VscodeLspEditDiagramServer);
         container.bind(EditDiagramLocker).toSelf().inSingletonScope();

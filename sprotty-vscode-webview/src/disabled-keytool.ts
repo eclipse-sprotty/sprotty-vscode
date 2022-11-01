@@ -21,7 +21,7 @@ import { VNode } from "snabbdom";
  * Key mappings should be provided via the vscode extensions's `package.json`.
  */
 export class DisabledKeyTool extends KeyTool {
-    decorate(vnode: VNode, element: SModelElement): VNode {
+    override decorate(vnode: VNode, element: SModelElement): VNode {
         return vnode;
     }
 }

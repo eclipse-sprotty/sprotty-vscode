@@ -31,7 +31,7 @@ export class VscodeDiagramServer extends DiagramServerProxy {
     @inject(VscodeDiagramWidgetFactory) diagramWidgetFactory: VscodeDiagramWidgetFactory;
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
-    initialize(registry: ActionHandlerRegistry) {
+    override initialize(registry: ActionHandlerRegistry) {
         super.initialize(registry);
         registry.register(SelectCommand.KIND, this);
         window.addEventListener('message', message => {
@@ -45,7 +45,7 @@ export class VscodeDiagramServer extends DiagramServerProxy {
         this.vscodeApi.postMessage(message);
     }
 
-    handleLocally(action: Action): boolean {
+    override handleLocally(action: Action): boolean {
         if (action.kind === RequestPopupModelAction.KIND) {
             return this.handleRequestPopupModel(action as RequestPopupModelAction);
         } else {
@@ -53,7 +53,7 @@ export class VscodeDiagramServer extends DiagramServerProxy {
         }
     }
 
-    protected handleServerStateAction(status: ServerStatusAction): boolean {
+    protected override handleServerStateAction(status: ServerStatusAction): boolean {
         this.diagramWidgetFactory().setStatus(status);
         return false;
     }

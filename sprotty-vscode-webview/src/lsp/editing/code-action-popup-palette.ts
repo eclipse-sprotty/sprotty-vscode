@@ -83,7 +83,7 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
 
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
 
-    mouseDown(target: SModelElement, event: MouseEvent): (Action | Promise<Action>)[] {
+    override mouseDown(target: SModelElement, event: MouseEvent): (Action | Promise<Action>)[] {
         if (target instanceof PaletteButton) {
             return [this.getWorkspaceEditAction(target)];
         }

@@ -30,7 +30,7 @@ export class StatesSprottyStarter extends SprottyLspEditStarter {
         return createStateDiagramContainer(diagramIdentifier.clientId);
     }
 
-    protected addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier): void {
+    protected override addVscodeBindings(container: Container, diagramIdentifier: SprottyDiagramIdentifier): void {
         super.addVscodeBindings(container, diagramIdentifier);
         configureModelElement(container, 'button:create', PaletteButton, PaletteButtonView);
     }

@@ -25,11 +25,11 @@ import { SprottyWebview, SprottyWebviewOptions } from '../sprotty-webview';
 
 export class SprottyLspWebview extends SprottyWebview {
 
-    static viewCount = 0;
+    static override viewCount = 0;
 
-    readonly extension: SprottyLspVscodeExtension;
+    override readonly extension: SprottyLspVscodeExtension;
 
-    constructor(protected options: SprottyWebviewOptions) {
+    constructor(protected override options: SprottyWebviewOptions) {
         super(options);
         if (!(options.extension instanceof SprottyLspVscodeExtension))
             throw new Error('SprottyLspWebview must be initialized with a SprottyLspVscodeExtension');
@@ -39,12 +39,12 @@ export class SprottyLspWebview extends SprottyWebview {
         return this.extension.languageClient;
     }
 
-    protected async connect() {
+    protected override async connect() {
         super.connect();
         this.disposables.push(this.extension.onAcceptFromLanguageServer(message => this.sendToWebview(message)));
     }
 
-    protected async receiveFromWebview(message: any): Promise<boolean> {
+    protected override async receiveFromWebview(message: any): Promise<boolean> {
         const shouldPropagate = await super.receiveFromWebview(message);
         if (shouldPropagate) {
             if (isActionMessage(message)) {

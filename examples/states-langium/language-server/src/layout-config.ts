@@ -20,7 +20,7 @@ import { SGraph, SModelIndex, SNode, SPort } from 'sprotty-protocol';
 
 export class StatesLayoutConfigurator extends DefaultLayoutConfigurator {
 
-    protected graphOptions(sgraph: SGraph, index: SModelIndex): LayoutOptions {
+    protected override graphOptions(sgraph: SGraph, index: SModelIndex): LayoutOptions {
         return {
             'org.eclipse.elk.direction': 'DOWN',
             'org.eclipse.elk.spacing.nodeNode': '30.0',
@@ -28,14 +28,14 @@ export class StatesLayoutConfigurator extends DefaultLayoutConfigurator {
         };
     }
 
-    protected nodeOptions(snode: SNode, index: SModelIndex): LayoutOptions {
+    protected override nodeOptions(snode: SNode, index: SModelIndex): LayoutOptions {
         return {
             'org.eclipse.elk.portAlignment.default': 'CENTER',
             'org.eclipse.elk.portConstraints': 'FIXED_SIDE'
         };
     }
 
-    protected portOptions(sport: SPort, index: SModelIndex): LayoutOptions {
+    protected override portOptions(sport: SPort, index: SModelIndex): LayoutOptions {
         return {
             'org.eclipse.elk.port.side': 'EAST',
             'org.eclipse.elk.port.borderOffset': '3.0'
