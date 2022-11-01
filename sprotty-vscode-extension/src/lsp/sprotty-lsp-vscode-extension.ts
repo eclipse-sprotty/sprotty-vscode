@@ -37,7 +37,7 @@ export abstract class SprottyLspVscodeExtension extends SprottyVscodeExtension {
         return this.acceptFromLanguageServerEmitter.event(listener);
     }
 
-    didCloseWebview(identifier: SprottyDiagramIdentifier): void {
+    override didCloseWebview(identifier: SprottyDiagramIdentifier): void {
         super.didCloseWebview(identifier);
         try {
             this.languageClient.sendNotification(didCloseMessageType, identifier.clientId);

@@ -25,14 +25,14 @@ import { getRange, getURI, isTraceable } from './traceable';
 
 export class VscodeLspEditDiagramServer extends VscodeDiagramServer {
 
-    initialize(registry: ActionHandlerRegistry) {
+    override initialize(registry: ActionHandlerRegistry) {
         super.initialize(registry);
         registry.register(EditLabelAction.KIND, this);
         registry.register(WorkspaceEditAction.KIND, this);
         registry.register("reconnect", this);
     }
 
-    handleLocally(action: Action): boolean {
+    override handleLocally(action: Action): boolean {
         if (action.kind === EditLabelAction.KIND) {
             const label = this.getElement((action as EditLabelAction).labelId);
             if (label && getBasicType(label) === 'label' && isTraceable(label)) {

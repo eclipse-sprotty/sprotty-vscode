@@ -60,7 +60,7 @@ export function getURI(traceable: Traceable): URI {
 }
 
 export class TraceableMouseListener extends MouseListener {
-    doubleClick(target: SModelElement, event: WheelEvent): (Action | Promise<Action>)[] {
+    override doubleClick(target: SModelElement, event: WheelEvent): (Action | Promise<Action>)[] {
         const traceable = findParent(target, (element) => isTraceable(element));
         if (traceable)
             return [ OpenAction.create(traceable.id) ];

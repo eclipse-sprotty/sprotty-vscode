@@ -19,7 +19,7 @@ import { SprottyLspVscodeExtension } from '../sprotty-lsp-vscode-extension';
 import { DeleteWithWorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
 export abstract class SprottyLspEditVscodeExtension extends SprottyLspVscodeExtension {
-    protected registerCommands() {
+    protected override registerCommands() {
         super.registerCommands();
         this.context.subscriptions.push(
             vscode.commands.registerCommand(this.extensionPrefix + '.diagram.delete', (...commandArgs: any) => {

@@ -12,6 +12,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "noUnusedLocals": true,
+        "noImplicitOverride": true,
         "skipLibCheck": true,
         "strict": true,
         "strictPropertyInitialization": false,

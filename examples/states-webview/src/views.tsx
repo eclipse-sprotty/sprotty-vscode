@@ -22,7 +22,7 @@ import { injectable } from 'inversify';
 @injectable()
 export class PolylineArrowEdgeView extends PolylineEdgeView {
 
-    protected renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
+    protected override renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
         const p1 = segments[segments.length - 2];
         const p2 = segments[segments.length - 1];
         return [
