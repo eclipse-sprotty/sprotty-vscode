@@ -150,7 +150,7 @@
     "main": "./pack/states-extension",
     "devDependencies": {
         "@types/node": "^12.12.6",
-        "@types/vscode": "1.46.0",
+        "@types/vscode": "1.50.0",
         "rimraf": "latest",
         "source-map-loader": "^3.0.0",
         "sprotty-vscode": "^0.4.0",

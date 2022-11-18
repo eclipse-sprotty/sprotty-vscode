@@ -75,12 +75,7 @@ export function createFileUri(...segments: string[]): vscode.Uri {
 
 export function getBasename(uri: vscode.Uri): string {
     const slashIndex = uri.path.lastIndexOf('/');
-    const queryIndex = uri.path.indexOf('?');
-    if (queryIndex > slashIndex) {
-        return uri.path.substring(slashIndex + 1, queryIndex);
-    } else {
-        return uri.path.substring(slashIndex + 1);
-    }
+    return uri.path.substring(slashIndex + 1);
 }
 
 export function getExtname(uri: vscode.Uri): string {

@@ -17,7 +17,7 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { isWebviewPanel, IWebviewEndpointManager, WebviewEndpoint } from './webview-endpoint';
-import { createFileUri, createWebviewPanel, getExtname, serializeUri } from './webview-utils';
+import { createFileUri, createWebviewPanel, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
 
 export interface WebviewPanelManagerOptions {
     extensionUri: vscode.Uri
@@ -35,27 +35,16 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
 
     protected static viewCount = 0;
 
-    protected readonly endpointMap = new Map<string, WebviewEndpoint>();
-    protected singleton?: WebviewEndpoint;
+    readonly endpoints: WebviewEndpoint[] = [];
 
     constructor(readonly options: WebviewPanelManagerOptions) {
-    }
-
-    /**
-     * The singleton webview endpoint. This is only valid if the `singleton` option was enabled for this panel manager.
-     */
-    get singletonInstance(): WebviewEndpoint | undefined {
-        return this.singleton;
     }
 
     /**
      * Find the webview endpoint of a webview panel that is currently active.
      */
     findActiveWebview(): WebviewEndpoint | undefined {
-        if (this.singleton && isWebviewPanel(this.singleton.webviewContainer) && this.singleton.webviewContainer.active) {
-            return this.singleton;
-        }
-        for (const endpoint of this.endpointMap.values()) {
+        for (const endpoint of this.endpoints) {
             if (isWebviewPanel(endpoint.webviewContainer) && endpoint.webviewContainer.active) {
                 return endpoint;
             }
@@ -72,9 +61,13 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
         if (!identifier) {
             return undefined;
         }
-        const key = this.getKey(identifier);
-        let endpoint = this.singleton ?? this.endpointMap.get(key);
+        let endpoint = this.options.singleton ? this.endpoints[0]
+            : this.endpoints.find(ep => ep.diagramIdentifier?.uri === identifier.uri && ep.diagramIdentifier?.diagramType === identifier.diagramType);
         if (endpoint) {
+            if (endpoint.diagramIdentifier) {
+                identifier.clientId = endpoint.diagramIdentifier.clientId;
+            }
+            endpoint.webviewContainer.title = createWebviewTitle(identifier);
             endpoint.reloadContent(identifier);
             if (options.reveal && isWebviewPanel(endpoint.webviewContainer)) {
                 endpoint.webviewContainer.reveal(endpoint.webviewContainer.viewColumn, options.preserveFocus);
@@ -82,11 +75,7 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
         } else {
             endpoint = this.createEndpoint(identifier);
             endpoint.webviewContainer.onDidDispose(() => this.didCloseWebview(endpoint!));
-            if (this.options.singleton) {
-                this.singleton = endpoint;
-            } else {
-                this.endpointMap.set(key, endpoint);
-            }
+            this.endpoints.push(endpoint);
         }
         return endpoint;
     }
@@ -142,18 +131,10 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
         }
     }
 
-    protected getKey(identifier: SprottyDiagramIdentifier) {
-        return `${identifier.diagramType}>>${identifier.uri}`;
-    }
-
     protected didCloseWebview(endpoint: WebviewEndpoint): void {
-        if (this.singleton === endpoint) {
-            this.singleton = undefined;
-        } else {
-            const entry = Array.from(this.endpointMap.entries()).find(([key, value]) => value === endpoint);
-            if (entry) {
-                this.endpointMap.delete(entry[0]);
-            }
+        const index = this.endpoints.indexOf(endpoint);
+        if (index >= 0) {
+            this.endpoints.splice(index, 1);
         }
     }
 

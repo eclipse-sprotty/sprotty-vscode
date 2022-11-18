@@ -137,10 +137,13 @@ export class WebviewEndpoint {
      * Trigger loading of new content in the webview. The content is identified by the URI and diagram type.
      */
     async reloadContent(newIdentifier: SprottyDiagramIdentifier): Promise<void> {
-        if (!this.diagramIdentifier || newIdentifier.diagramType !== this.diagramIdentifier.diagramType || newIdentifier.uri !== this.diagramIdentifier.uri) {
+        if (this.diagramIdentifier) {
+            this.diagramIdentifier.uri = newIdentifier.uri;
+            this.diagramIdentifier.diagramType = newIdentifier.diagramType;
+        } else {
             this.diagramIdentifier = newIdentifier;
-            await this.sendDiagramIdentifier();
         }
+        await this.sendDiagramIdentifier();
     }
 
     protected async sendDiagramIdentifier(): Promise<void> {

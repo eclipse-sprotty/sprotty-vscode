@@ -57,8 +57,8 @@ export class LspSprottyViewProvider extends SprottyViewProvider {
     }
 
     protected acceptFromLanguageServer(message: ActionMessage): void {
-        if (this.singleton) {
-            this.singleton.sendToWebview(message);
+        if (this.endpoint) {
+            this.endpoint.sendToWebview(message);
         }
     }
 
