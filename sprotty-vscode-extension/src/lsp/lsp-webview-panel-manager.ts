@@ -57,13 +57,9 @@ export class LspWebviewPanelManager extends WebviewPanelManager {
     }
 
     protected acceptFromLanguageServer(message: ActionMessage): void {
-        if (this.singleton) {
-            this.singleton.sendToWebview(message);
-        } else {
-            for (const endpoint of this.endpointMap.values()) {
-                if (endpoint.diagramIdentifier && endpoint.diagramIdentifier.clientId === message.clientId) {
-                    endpoint.sendToWebview(message);
-                }
+        for (const endpoint of this.endpoints) {
+            if (endpoint.diagramIdentifier && endpoint.diagramIdentifier.clientId === message.clientId) {
+                endpoint.sendToWebview(message);
             }
         }
     }

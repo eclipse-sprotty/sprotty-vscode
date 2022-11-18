@@ -34,7 +34,7 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
     protected static viewCount = 0;
 
     protected readonly clientId: string;
-    protected singleton?: WebviewEndpoint;
+    protected endpoint?: WebviewEndpoint;
 
     constructor(readonly options: SprottyViewProviderOptions) {
         this.clientId = options.viewType + '_' + SprottyViewProvider.viewCount++;
@@ -44,7 +44,7 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
      * Returns the webview endpoint of the created view if it is already opened.
      */
     findActiveWebview(): WebviewEndpoint | undefined {
-        return this.singleton;
+        return this.endpoint;
     }
 
     /**
@@ -57,20 +57,20 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
         if (!identifier) {
             return undefined;
         }
-        const webview = this.singleton;
-        if (webview) {
-            webview.reloadContent(identifier);
-            if (options.reveal && isWebviewView(webview.webviewContainer)) {
-                webview.webviewContainer.show(options.preserveFocus);
+        const endpoint = this.endpoint;
+        if (endpoint) {
+            endpoint.reloadContent(identifier);
+            if (options.reveal && isWebviewView(endpoint.webviewContainer)) {
+                endpoint.webviewContainer.show(options.preserveFocus);
             }
         } else if (!options.quiet) {
             vscode.window.showErrorMessage(`The ${this.options.viewType} view cannot be opened programmatically. Select 'View' > 'Open View' in the main menu to open it.`);
         }
-        return webview;
+        return endpoint;
     }
 
     async resolveWebviewView(webviewView: vscode.WebviewView, context: vscode.WebviewViewResolveContext<unknown>, cancelToken: vscode.CancellationToken): Promise<void> {
-        if (this.singleton) {
+        if (this.endpoint) {
             console.warn('Warning: Sprotty webview-view is already resolved.');
         }
         let identifier: SprottyDiagramIdentifier | undefined;
@@ -82,7 +82,7 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
         }
         const endpoint = this.createEndpoint(webviewView, identifier);
         this.configureWebview(webviewView, endpoint, cancelToken);
-        this.singleton = endpoint;
+        this.endpoint = endpoint;
         webviewView.onDidDispose(() => this.didCloseWebview(endpoint));
     }
 
@@ -136,8 +136,8 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
     }
 
     protected didCloseWebview(endpoint: WebviewEndpoint): void {
-        if (this.singleton === endpoint) {
-            this.singleton = undefined;
+        if (this.endpoint === endpoint) {
+            this.endpoint = undefined;
         }
     }
 

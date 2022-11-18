@@ -42,7 +42,7 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
         return this.changeEmitter.event;
     }
 
-    protected readonly documents: SprottyDocument[] = [];
+    readonly documents: SprottyDocument[] = [];
 
     constructor(readonly options: SprottyEditorProviderOptions) {
     }
