@@ -16,6 +16,6 @@
         "skipLibCheck": true,
         "strict": true,
         "strictPropertyInitialization": false,
-        "target": "es5"
+        "target": "es2017"
     }
 }
