@@ -16,7 +16,7 @@
 
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
-import { isWebviewPanel, IWebviewEndpointManager, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewPanel, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
 
 export interface WebviewPanelManagerOptions {
@@ -24,6 +24,10 @@ export interface WebviewPanelManagerOptions {
     defaultDiagramType?: string
     supportedFileExtensions?: string[]
     singleton?: boolean
+}
+
+export interface OpenPanelOptions extends OpenDiagramOptions {
+    preserveFocus?: boolean
 }
 
 /**
@@ -56,7 +60,7 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
      * Open a webview panel for the given URI. Depending on the `singleton` option, this either replaces a
      * previously opened diagram or creates a new panel.
      */
-    async openDiagram(uri: vscode.Uri, options: { diagramType?: string, reveal?: boolean, preserveFocus?: boolean } = {}): Promise<WebviewEndpoint | undefined> {
+    async openDiagram(uri: vscode.Uri, options: OpenPanelOptions = {}): Promise<WebviewEndpoint | undefined> {
         const identifier = await this.createDiagramIdentifier(uri, options.diagramType);
         if (!identifier) {
             return undefined;

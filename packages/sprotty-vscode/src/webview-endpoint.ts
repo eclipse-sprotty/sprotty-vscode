@@ -29,8 +29,13 @@ export function isWebviewView(container: WebviewContainer): container is vscode.
     return typeof (container as vscode.WebviewView).onDidChangeVisibility === 'function';
 }
 
+export interface OpenDiagramOptions {
+    diagramType?: string
+    reveal?: boolean
+}
+
 export interface IWebviewEndpointManager {
-    openDiagram(uri: vscode.Uri, options?: { diagramType?: string, reveal?: boolean }): Promise<WebviewEndpoint | undefined>
+    openDiagram(uri: vscode.Uri, options?: OpenDiagramOptions): Promise<WebviewEndpoint | undefined>
     findActiveWebview(): WebviewEndpoint | undefined
 }
 

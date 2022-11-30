@@ -16,7 +16,7 @@
 
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
-import { isWebviewView, IWebviewEndpointManager, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewView, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyViewProviderOptions {
@@ -24,6 +24,11 @@ export interface SprottyViewProviderOptions {
     viewType: string
     supportedFileExtensions?: string[];
     openActiveEditor?: boolean
+}
+
+export interface OpenViewOptions extends OpenDiagramOptions {
+    preserveFocus?: boolean
+    quiet?: boolean
 }
 
 /**
@@ -52,7 +57,7 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
      * programmatically, so this method shows an error message if the view is not opened. The message can
      * be suppressed with the `quiet` option.
      */
-    async openDiagram(uri: vscode.Uri, options: { diagramType?: string | undefined, reveal?: boolean, preserveFocus?: boolean, quiet?: boolean } = {} ): Promise<WebviewEndpoint | undefined> {
+    async openDiagram(uri: vscode.Uri, options: OpenViewOptions = {} ): Promise<WebviewEndpoint | undefined> {
         const identifier = await this.createDiagramIdentifier(uri, options.diagramType);
         if (!identifier) {
             return undefined;

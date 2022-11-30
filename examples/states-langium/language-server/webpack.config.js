@@ -29,7 +29,8 @@ const config = {
                 enforce: 'pre'
             }
         ]
-    }
+    },
+    ignoreWarnings: [/Failed to parse source map/]
 };
 
 module.exports = config;

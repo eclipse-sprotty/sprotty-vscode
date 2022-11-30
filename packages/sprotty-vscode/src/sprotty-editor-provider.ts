@@ -16,7 +16,7 @@
 
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
-import { isWebviewPanel, IWebviewEndpointManager, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyEditorProviderOptions {
@@ -62,7 +62,7 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
     /**
      * Open a custom editor for the given URI.
      */
-    async openDiagram(uri: vscode.Uri, options?: { diagramType?: string, reveal?: boolean }): Promise<WebviewEndpoint | undefined> {
+    async openDiagram(uri: vscode.Uri, options?: OpenDiagramOptions): Promise<WebviewEndpoint | undefined> {
         await vscode.commands.executeCommand('vscode.openWith', uri, this.options.viewType);
         // We can't access the resulting webview endpoint from here.
         return undefined;
