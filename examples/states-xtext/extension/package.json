@@ -2,6 +2,7 @@
     "name": "states-extension",
     "displayName": "States Example (Xtext)",
     "description": "An example Xtext-based DSL with Sprotty diagrams for statemachines",
+    "private": true,
     "publisher": "TypeFox",
     "repository": {
         "type": "git",
@@ -151,7 +152,6 @@
     "devDependencies": {
         "@types/node": "^12.12.6",
         "@types/vscode": "1.50.0",
-        "rimraf": "latest",
         "source-map-loader": "^3.0.0",
         "sprotty-vscode": "^0.4.0",
         "states-sprotty-webview": "^0.0.8",

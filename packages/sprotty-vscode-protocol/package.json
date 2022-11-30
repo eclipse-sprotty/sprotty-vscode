@@ -1,8 +1,8 @@
 {
-  "name": "sprotty-vscode",
+  "name": "sprotty-vscode-protocol",
   "version": "0.4.0",
-  "displayName": "Sprotty VSCode Integration",
-  "description": "Glue code to integrate Sprotty diagrams in VSCode extensions (extension part)",
+  "displayName": "Sprotty VSCode Integration - Protocol between webview and extension",
+  "description": "Glue code to integrate Sprotty diagrams in VSCode extensions (protocol part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
     "vscode",
@@ -31,10 +31,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/eclipse/sprotty-vscode.git",
-    "directory": "sprotty-vscode-extension"
-  },
-  "engines": {
-    "vscode": "^1.46.0"
+    "directory": "packages/sprotty-vscode-protocol"
   },
   "files": [
     "lib",
@@ -44,26 +41,23 @@
   "types": "lib/index",
   "dependencies": {
     "path": "^0.12.7",
-    "sprotty-vscode-protocol": "~0.4.0",
-    "vscode-languageclient": "^8.0.2"
+    "sprotty-protocol": "~0.12.0",
+    "vscode-languageserver-protocol": "^3.17.2"
   },
   "devDependencies": {
-    "@types/node": "^12.12.6",
-    "@types/vscode": "1.50.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-no-null": "^1.0.2",
-    "rimraf": "latest",
     "typescript": "~4.6.2"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",
-    "clean": "rimraf lib",
+    "clean": "shx rm -fr lib",
     "build": "tsc && yarn run lint",
     "watch": "tsc -w",
-    "lint": "eslint -c ../configs/.eslintrc.js \"src/**/!(*.spec.ts*)\""
+    "lint": "eslint -c ../../configs/.eslintrc.js \"src/**/!(*.spec.ts*)\""
   }
 }

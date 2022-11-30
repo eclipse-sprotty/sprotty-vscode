@@ -6,8 +6,9 @@
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "target": "ES2017",
         "lib": [
-            "es6"
+            "ES2017"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
@@ -15,7 +16,6 @@
         "noImplicitOverride": true,
         "skipLibCheck": true,
         "strict": true,
-        "strictPropertyInitialization": false,
-        "target": "es2017"
+        "strictPropertyInitialization": false
     }
 }
