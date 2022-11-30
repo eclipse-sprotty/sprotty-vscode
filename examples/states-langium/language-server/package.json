@@ -3,6 +3,7 @@
     "displayName": "states-langium",
     "description": "Please enter a brief description here",
     "version": "0.0.0",
+    "private": true,
     "dependencies": {
         "langium": "^0.5.0",
         "langium-sprotty": "^0.5.0",
@@ -19,7 +20,7 @@
     },
     "scripts": {
         "prepare": "yarn run clean && yarn run langium:generate && yarn run build",
-        "clean": "rimraf out",
+        "clean": "shx rm -fr out",
         "build": "webpack --mode=development",
         "watch": "webpack --mode=development --watch",
         "langium:generate": "langium generate",

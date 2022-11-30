@@ -8,12 +8,13 @@
     "publish:next": "lerna publish --canary --npm-tag next"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^6.1.0",
+    "shx": "^0.3.4"
   },
   "workspaces": [
-    "sprotty-vscode-protocol",
-    "sprotty-vscode-extension",
-    "sprotty-vscode-webview",
+    "packages/sprotty-vscode",
+    "packages/sprotty-vscode-protocol",
+    "packages/sprotty-vscode-webview",
     "examples/states-langium/extension",
     "examples/states-langium/language-server",
     "examples/states-xtext/extension",
