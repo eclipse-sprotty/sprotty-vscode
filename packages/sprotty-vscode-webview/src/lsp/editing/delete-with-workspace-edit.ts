@@ -43,7 +43,7 @@ export class DeleteWithWorkspaceEditCommand extends Command {
                 const source = index.getById(e.sourceId);
                 const target = index.getById(e.targetId);
                 if (this.shouldDeleteParent(source)
-                    || this.shouldDeleteParent(target))
+                    || this.shouldDeleteParent(target))
                     elements.add(e);
             }
         });
@@ -107,7 +107,7 @@ export class DeleteWithWorkspaceEditCommand extends Command {
     }
 
     protected shouldDeleteParent(source: SModelElement | undefined): boolean {
-        while (source) {
+        while (source) {
             if (this.shouldDelete(source)) {
                 return true;
             }

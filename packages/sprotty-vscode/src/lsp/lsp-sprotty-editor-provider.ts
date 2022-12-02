@@ -44,7 +44,14 @@ export class LspSprottyEditorProvider extends SprottyEditorProvider {
     }
 
     protected override createEndpoint(identifier: SprottyDiagramIdentifier, webviewContainer: vscode.WebviewPanel): WebviewEndpoint {
-        return new LspWebviewEndpoint({ languageClient: this.languageClient, webviewContainer, identifier });
+        const participant = this.messenger.registerWebviewPanel(webviewContainer);
+        return new LspWebviewEndpoint({
+            languageClient: this.languageClient,
+            webviewContainer,
+            messenger: this.messenger,
+            messageParticipant: participant,
+            identifier
+        });
     }
 
     protected override disposeDocument(document: SprottyDocument): void {
@@ -60,7 +67,7 @@ export class LspSprottyEditorProvider extends SprottyEditorProvider {
         for (const document of this.documents) {
             const endpoint = document.endpoint;
             if (endpoint && endpoint.diagramIdentifier && endpoint.diagramIdentifier.clientId === message.clientId) {
-                endpoint.sendToWebview(message);
+                endpoint.sendAction(message);
             }
         }
     }

@@ -42,6 +42,7 @@
   "dependencies": {
     "sprotty": "~0.12.0",
     "sprotty-vscode-protocol": "~0.4.0",
+    "vscode-messenger-webview": "^0.4.3",
     "vscode-uri": "^3.0.6"
   },
   "devDependencies": {

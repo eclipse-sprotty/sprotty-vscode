@@ -2,61 +2,37 @@
 
 This library contains glue code for [Sprotty](https://www.npmjs.com/package/sprotty) diagrams in VS Code. The diagrams can optionally be backed by a [language server](https://microsoft.github.io/language-server-protocol/).
 
-A complete example with an [Xtext](http://xtext.org) language server is available [here](https://github.com/eclipse/sprotty-vscode/tree/master/example).
+A complete example with a [Langium](https://langium.org) language server is available [here](https://github.com/eclipse/sprotty-vscode/tree/master/examples/states-langium).
 
 ## Getting Started
 
-As first step, you need to implement a [webview](https://code.visualstudio.com/api/extension-guides/webview) that renders your diagrams using [sprotty-vscode-webview](https://www.npmjs.com/package/sprotty-vscode-webview). The webview package should bundle its code into a single JavaScript file (e.g. with [webpack](https://webpack.js.org)) and put it into your VS Code extension package. Our examples use a subfolder `pack` for this purpose.
+As first step, you need to implement a [webview](https://code.visualstudio.com/api/extension-guides/webview) that renders your diagrams using [sprotty-vscode-webview](https://www.npmjs.com/package/sprotty-vscode-webview). The webview package should bundle its code into a single JavaScript file (e.g. with [Webpack](https://webpack.js.org)) and put it into your VS Code extension package. The default implementation assumes that the webview code is available at the path `pack/webview.js` relative to the extension folder.
 
-Then you can create a subclass of `SprottyVscodeExtension` and instantiate it in your extension entry point:
+Then you can instantiate a `WebviewPanelManager` in the `activate` hook of your extension:
 
 ```typescript
 export function activate(context: vscode.ExtensionContext) {
-    new MySprottyVscodeExtension(context);
+    const webviewPanelManager = new WebviewPanelManager({
+        extensionUri: context.extensionUri,
+        defaultDiagramType: 'mydiagram',
+        supportedFileExtensions: ['.mydiagram']
+    });
 }
 ```
 
-In case you are backing your diagrams with a language server, you should use `SprottyLspVscodeExtension` as superclass. If you want to support editing operations between diagram and language server, use `SprottyLspEditVscodeExtension` (see [states example](https://github.com/eclipse/sprotty-vscode/tree/master/example/states/extension/src)).
+This service manages webviews created as _webview panels_ in the main editor area of VS Code. Alternatively, you can use `SprottyEditorProvider` to get a _custom editor provider_ that can be directly associated with a file type, or `SprottyViewProvider` to get a _webview view provider_ that can render diagrams in the view areas of VS Code, i.e. the bottom or side panels.
 
-Your subclass should implement at least the following methods:
-
-```typescript
-export class MySprottyVscodeExtension extends SprottyVscodeExtension {
-
-    constructor(context: vscode.ExtensionContext) {
-        // Provide a prefix for registered commands (see further below)
-        super('example', context);
-    }
-
-    protected getDiagramType(args: any[]): string | undefined {
-        if (args.length === 0
-            // Check the file extension if the view is created for a source file
-            || args[0] instanceof vscode.Uri && args[0].path.endsWith('.example')) {
-            // Return a Sprotty diagram type (this info is passed to the Sprotty model source)
-            return 'example-diagram';
-        }
-    }
-
-    createWebView(identifier: SprottyDiagramIdentifier): SprottyWebview {
-        return new SprottyWebview({
-            extension: this,
-            identifier,
-            // Root paths from which the webview can load local resources using URIs
-            localResourceRoots: [
-                this.getExtensionFileUri('pack')
-            ],
-            // Path to the bundled webview implementation
-            scriptUri: this.getExtensionFileUri('pack', 'webview.js'),
-            // Change this to `true` to enable a singleton view
-            singleton: false
-        });
-    }
-}
-```
+In case you are backing your diagrams with a language server, you should use `LspWebviewPanelManager` as superclass, or respectively `LspSprottyEditorProvider` or `LspSprottyViewProvider`. In this case you need to provide a _language client_ configured to communicate with your language server.
 
 ## Adding Commands
 
-This library registers a few default commands that you can either [execute programmatically](https://code.visualstudio.com/api/references/vscode-api#commands.executeCommand) or expose in the user interface with package.json entries as shown below. The first segment of each command id corresponds to what you have passed in the constructor of your `SprottyVscodeExtension` subclass. The `when` clauses ending with `-focused` start with the Sprotty diagram type returned in `getDiagramType`.
+This library registers a few default commands that you can either [execute programmatically](https://code.visualstudio.com/api/references/vscode-api#commands.executeCommand) or expose in the user interface with package.json entries as shown below. The registration happens by calling this function:
+
+```typescript
+registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'example' });
+```
+
+The first segment of each command id corresponds to the `extensionPrefix` option. The `when` clauses ending with `-focused` start with the Sprotty diagram type, which is usually determined by the `defaultDiagramType` option for `WebviewPanelManager` or the `viewType` option for `SprottyEditorProvider` and `SprottyViewProvider`.
 
 ```json
 {

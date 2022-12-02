@@ -14,8 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { isActionMessage } from 'sprotty-protocol';
-import { Message, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { ActionMessage } from 'sprotty-protocol';
+import { LspNotification, LspRequest } from 'sprotty-vscode-protocol/lib/lsp';
+import { ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { WebviewEndpoint, WebviewEndpointOptions } from '../webview-endpoint';
 import { acceptMessageType } from './protocol';
@@ -37,22 +38,33 @@ export class LspWebviewEndpoint extends WebviewEndpoint {
         this.languageClient = options.languageClient;
     }
 
-    protected override async receiveFromWebview(message: any): Promise<void> {
-        await super.receiveFromWebview(message);
-        if (isActionMessage(message)) {
-            this.languageClient.sendNotification(acceptMessageType, message);
-        } else if (Message.isRequest(message)) {
-            const result = message.params === undefined
-                ? await this.languageClient.sendRequest(message.method)
-                : await this.languageClient.sendRequest(message.method, message.params);
-            this.sendToWebview(<ResponseMessage> {
-                jsonrpc: '2.0',
-                id: message.id,
-                result
-            });
-        } else if (Message.isNotification(message)) {
-            this.languageClient.sendNotification(message.method, message.params);
-        }
+    protected override connect(): void {
+        super.connect();
+        this.messenger.onRequest(LspRequest,
+            async request => {
+                const result: any = request.params === undefined
+                    ? await this.languageClient.sendRequest(request.method)
+                    : await this.languageClient.sendRequest(request.method, request.params);
+                const response: ResponseMessage = {
+                    jsonrpc: '2.0',
+                    id: request.id,
+                    result
+                };
+                return response;
+            },
+            { sender: this.messageParticipant }
+        );
+        this.messenger.onNotification(LspNotification,
+            notification => {
+                this.languageClient.sendNotification(notification.method, notification.params);
+            },
+            { sender: this.messageParticipant }
+        );
+    }
+
+    override async receiveAction(message: ActionMessage): Promise<void> {
+        await super.receiveAction(message);
+        await this.languageClient.sendNotification(acceptMessageType, message);
     }
 
 }

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 TypeFox and others.
+ * Copyright (c) 2020-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -13,41 +13,23 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+
 import { injectable, inject } from 'inversify';
 import { NotificationType, NotificationType0, RequestType, RequestType0 } from 'vscode-jsonrpc';
-import { Message } from 'vscode-jsonrpc/lib/common/messages';
 import { CancellationToken, NotificationMessage, RequestMessage, MessageSignature } from 'vscode-languageserver-protocol';
-import { VsCodeApi } from '../../services';
+import { HOST_EXTENSION } from 'vscode-messenger-common';
+import { Messenger } from 'vscode-messenger-webview';
+import { LspNotification, LspRequest } from 'sprotty-vscode-protocol/lib/lsp';
+import { VsCodeMessenger } from '../../services';
+import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 
 @injectable()
 export class LanguageClientProxy {
 
-    @inject(VsCodeApi) vscodeApi: VsCodeApi;
+    @inject(VsCodeMessenger) messenger: Messenger;
+    @inject(SprottyDiagramIdentifier) diagramIdentifier: SprottyDiagramIdentifier;
 
-    private currentNumber = 0;
-    private openRequestsResolves = new Map<number, (value: any) => void>();
-    private openRequestsRejects = new Map<number, (reason: any) => void>();
-
-    constructor() {
-        window.addEventListener('message', message => {
-            if ('data' in message && Message.isResponse(message.data)) {
-                const id = message.data.id;
-                if (typeof id === 'number') {
-                    if (message.data.error) {
-                        const reject = this.openRequestsRejects.get(id);
-                        if (reject)
-                            reject(message.data.error);
-                    } else {
-                        const resolve = this.openRequestsResolves.get(id);
-                        if (resolve)
-                            resolve(message.data.result);
-                    }
-                    this.openRequestsResolves.delete(id);
-                    this.openRequestsRejects.delete(id);
-                }
-            }
-        });
-    }
+    private nextRequestNumber = 0;
 
     async sendRequest<R, E>(type: RequestType0<R, E>, token?: CancellationToken): Promise<R>;
     async sendRequest<P, R, E>(type: RequestType<P, R, E>, params: P, token?: CancellationToken): Promise<R>;
@@ -55,27 +37,28 @@ export class LanguageClientProxy {
         if (CancellationToken.is(params[params.length - 1])) {
             params.pop();
         }
-        this.vscodeApi.postMessage(<RequestMessage> {
+        const message: RequestMessage = {
+            jsonrpc: '2.0',
             method: signature.method,
-            id: this.currentNumber,
-            jsonrpc: 'request',
+            id: `${this.diagramIdentifier.clientId}-${this.nextRequestNumber++}`,
             params: params[0]
-        });
-        const promise = new Promise<R>((resolve, reject) => {
-            this.openRequestsResolves.set(this.currentNumber, resolve);
-            this.openRequestsRejects.set(this.currentNumber, reject);
-        });
-        ++this.currentNumber;
-        return promise;
+        };
+        const response = await this.messenger.sendRequest(LspRequest, HOST_EXTENSION, message);
+        if (response.error) {
+            throw new Error(String(response.error));
+        }
+        return response.result as unknown as R;
     }
 
     sendNotification(type: NotificationType0): void;
     sendNotification<P>(type: NotificationType<P>, params?: P): void;
     sendNotification<P>(signature: MessageSignature, params?: P): void {
-        this.vscodeApi.postMessage(<NotificationMessage> {
+        const message: NotificationMessage = {
+            jsonrpc: '2.0',
             method: signature.method,
-            jsonrpc: 'notify',
-            params
-        });
+            params: params as any
+        };
+        this.messenger.sendNotification(LspNotification, HOST_EXTENSION, message);
     }
+
 }

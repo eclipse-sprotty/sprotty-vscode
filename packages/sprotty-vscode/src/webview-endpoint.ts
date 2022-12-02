@@ -15,9 +15,10 @@
  ********************************************************************************/
 
 import { Action, ActionMessage, isActionMessage } from 'sprotty-protocol';
-import { isWebviewReadyMessage, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
+import { ActionNotification, DiagramIdentifierNotification, SprottyDiagramIdentifier, WebviewReadyNotification } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
-import type { Message } from 'vscode-jsonrpc/lib/common/messages';
+import { Messenger } from 'vscode-messenger';
+import { MessageParticipant } from 'vscode-messenger-common';
 
 export type WebviewContainer = vscode.WebviewPanel | vscode.WebviewView;
 
@@ -41,6 +42,8 @@ export interface IWebviewEndpointManager {
 
 export interface WebviewEndpointOptions {
     webviewContainer: WebviewContainer
+    messenger: Messenger
+    messageParticipant: MessageParticipant
     diagramServer?: ActionAcceptor
     diagramServerFactory?: DiagramServerFactory
     identifier?: SprottyDiagramIdentifier
@@ -59,15 +62,18 @@ export type DiagramServerFactory = (dispatch: <A extends Action>(action: A) => P
 export class WebviewEndpoint {
 
     readonly webviewContainer: WebviewContainer;
+    readonly messenger: Messenger;
+    readonly messageParticipant: MessageParticipant;
     readonly diagramServer?: ActionAcceptor;
     diagramIdentifier?: SprottyDiagramIdentifier;
 
     protected readonly actionHandlers: Map<string, ActionHandler[]> = new Map();
     protected readonly disposables: vscode.Disposable[] = [];
-    protected messageQueue: (ActionMessage | SprottyDiagramIdentifier | Message)[] = [];
 
     constructor(options: WebviewEndpointOptions) {
         this.webviewContainer = options.webviewContainer;
+        this.messenger = options.messenger;
+        this.messageParticipant = options.messageParticipant;
         this.diagramIdentifier = options.identifier;
         if (options.diagramServer) {
             this.diagramServer = options.diagramServer;
@@ -91,42 +97,24 @@ export class WebviewEndpoint {
                 this.disposables.forEach(disposable => disposable.dispose());
             })
         );
-        this.disposables.push(
-            this.webviewContainer.webview.onDidReceiveMessage(message => this.receiveFromWebview(message))
-        );
         if (isWebviewPanel(this.webviewContainer)) {
             this.disposables.push(
                 this.webviewContainer.onDidChangeViewState(event => {
-                    if (this.webviewContainer.visible) {
-                        this.messageQueue.forEach(message => this.sendToWebview(message));
-                        this.messageQueue = [];
-                    }
                     this.setWebviewActiveContext(event.webviewPanel.active);
                 })
             );
-        } else if (isWebviewView(this.webviewContainer)) {
-            this.disposables.push(
-                this.webviewContainer.onDidChangeVisibility(() => {
-                    if (this.webviewContainer.visible) {
-                        this.messageQueue.forEach(message => this.sendToWebview(message));
-                        this.messageQueue = [];
-                    }
-                })
-            );
         }
-    }
-
-    /**
-     * Process a raw message received from the webview.
-     */
-    protected receiveFromWebview(message: any): Promise<void> {
-        if (isActionMessage(message)) {
-            return this.receiveAction(message.action);
-        } else if (isWebviewReadyMessage(message)) {
-            this.resolveWebviewReady();
-            this.sendDiagramIdentifier();
-        }
-        return Promise.resolve();
+        this.messenger.onNotification(ActionNotification,
+            message => this.receiveAction(message),
+            { sender: this.messageParticipant }
+        );
+        this.messenger.onNotification(WebviewReadyNotification,
+            message => {
+                this.resolveWebviewReady();
+                this.sendDiagramIdentifier();
+            },
+            { sender: this.messageParticipant }
+        );
     }
 
     /**
@@ -154,40 +142,30 @@ export class WebviewEndpoint {
     protected async sendDiagramIdentifier(): Promise<void> {
         await this.ready;
         if (this.diagramIdentifier) {
-            await this.sendToWebview(this.diagramIdentifier);
+            this.messenger.sendNotification(DiagramIdentifierNotification, this.messageParticipant, this.diagramIdentifier);
         }
     }
 
     /**
      * Send an action to the webview to be processed by the Sprotty frontend.
      */
-    async sendAction<A extends Action>(action: A): Promise<void> {
-        if (this.diagramIdentifier) {
-            await this.sendToWebview({
-                clientId: this.diagramIdentifier.clientId,
-                action
-            });
+    async sendAction<A extends Action>(action: A | ActionMessage): Promise<void> {
+        const message = isActionMessage(action) ? action : {
+            clientId: this.diagramIdentifier?.clientId,
+            action
+        };
+        const handlers = this.actionHandlers.get(message.action.kind);
+        if (handlers && handlers.length > 0) {
+            return Promise.all(handlers.map(handler => handler(message.action))) as any;
         }
-    }
-
-    async sendToWebview(message: ActionMessage | SprottyDiagramIdentifier | Message): Promise<void> {
-        if (isActionMessage(message)) {
-            const handlers = this.actionHandlers.get(message.action.kind);
-            if (handlers && handlers.length > 0) {
-                return Promise.all(handlers.map(handler => handler(message.action))) as any;
-            }
-        }
-        if (this.webviewContainer.visible) {
-            await this.webviewContainer.webview.postMessage(message);
-        } else {
-            this.messageQueue.push(message);
-        }
+        this.messenger.sendNotification(ActionNotification, this.messageParticipant, message);
     }
 
     /**
      * Process an action received from the webview.
      */
-    receiveAction(action: Action): Promise<void> {
+    receiveAction(message: ActionMessage): Promise<void> {
+        const action = message.action;
         const handlers = this.actionHandlers.get(action.kind);
         if (handlers && handlers.length > 0) {
             return Promise.all(handlers.map(handler => handler(action))) as any;

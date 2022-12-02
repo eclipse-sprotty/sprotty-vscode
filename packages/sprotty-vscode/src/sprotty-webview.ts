@@ -14,17 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action, ActionMessage, isActionMessage } from 'sprotty-protocol';
-import { isDiagramIdentifier, isWebviewReadyMessage, SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
+import { Action, hasOwnProperty, isActionMessage } from 'sprotty-protocol';
+import { ActionNotification, DiagramIdentifierNotification, SprottyDiagramIdentifier, WebviewReadyMessage, WebviewReadyNotification } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
-
+import { Messenger } from 'vscode-messenger';
+import { MessageParticipant } from 'vscode-messenger-common';
 import { ActionHandler } from './action-handler';
 import { SprottyVscodeExtension } from './sprotty-vscode-extension';
-import { Message, ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
 import { serializeUri } from './webview-utils';
 
 export interface SprottyWebviewOptions {
     extension: SprottyVscodeExtension
+    messenger: Messenger
+    messageParticipant: MessageParticipant
     identifier: SprottyDiagramIdentifier
     localResourceRoots: vscode.Uri[]
     scriptUri: vscode.Uri
@@ -39,13 +41,14 @@ export class SprottyWebview {
     static viewCount = 0;
 
     readonly extension: SprottyVscodeExtension;
+    readonly messenger: Messenger;
+    readonly messageParticipant: MessageParticipant;
     readonly diagramIdentifier: SprottyDiagramIdentifier;
     readonly localResourceRoots: vscode.Uri[];
     readonly scriptUri: vscode.Uri;
     readonly diagramPanel: vscode.WebviewPanel;
     readonly actionHandlers = new Map<string, ActionHandler>();
 
-    protected messageQueue: (ActionMessage | SprottyDiagramIdentifier | ResponseMessage)[] = [];
     protected disposables: vscode.Disposable[] = [];
 
     private resolveWebviewReady: () => void;
@@ -53,6 +56,8 @@ export class SprottyWebview {
 
     constructor(protected options: SprottyWebviewOptions) {
         this.extension = options.extension;
+        this.messenger = options.messenger;
+        this.messageParticipant = options.messageParticipant;
         this.diagramIdentifier = options.identifier;
         this.localResourceRoots = options.localResourceRoots;
         this.scriptUri = options.scriptUri;
@@ -114,17 +119,12 @@ export class SprottyWebview {
 
     protected async connect() {
         this.disposables.push(this.diagramPanel.onDidChangeViewState(event => {
-            if (event.webviewPanel.visible) {
-                this.messageQueue.forEach(message => this.sendToWebview(message));
-                this.messageQueue = [];
-            }
             this.setWebviewActiveContext(event.webviewPanel.active);
         }));
         this.disposables.push(this.diagramPanel.onDidDispose(() => {
             this.extension.didCloseWebview(this.diagramIdentifier);
             this.disposables.forEach(disposable => disposable.dispose());
         }));
-        this.disposables.push(this.diagramPanel.webview.onDidReceiveMessage(message => this.receiveFromWebview(message)));
         if (this.singleton) {
             this.disposables.push(vscode.window.onDidChangeActiveTextEditor(async editor => {
                 if (editor) {
@@ -140,6 +140,18 @@ export class SprottyWebview {
                 }
             }));
         }
+        this.messenger.onNotification(ActionNotification,
+            async message => {
+                this.receiveFromWebview(message);
+            },
+            { sender: this.messageParticipant }
+        );
+        this.messenger.onNotification(WebviewReadyNotification,
+            async message => {
+                this.receiveFromWebview(message);
+            },
+            { sender: this.messageParticipant }
+        );
         await this.ready();
     }
 
@@ -176,17 +188,15 @@ export class SprottyWebview {
     }
 
     protected sendToWebview(message: any) {
-        if (isActionMessage(message) || isDiagramIdentifier(message) || Message.isResponse(message)) {
-            if (this.diagramPanel.visible) {
-                if (isActionMessage(message)) {
-                    const actionHandler = this.actionHandlers.get(message.action.kind);
-                    if (actionHandler && !actionHandler.handleAction(message.action))
-                        return;
-                }
-                this.diagramPanel.webview.postMessage(message);
-            } else {
-                this.messageQueue.push(message);
-            }
+        if (isActionMessage(message)) {
+            const actionHandler = this.actionHandlers.get(message.action.kind);
+            if (actionHandler && !actionHandler.handleAction(message.action))
+                return;
+        }
+        if (isActionMessage(message)) {
+            this.messenger.sendNotification(ActionNotification, this.messageParticipant, message);
+        } else if (isDiagramIdentifier(message)) {
+            this.messenger.sendNotification(DiagramIdentifierNotification, this.messageParticipant, this.diagramIdentifier);
         }
     }
 
@@ -208,4 +218,12 @@ export class SprottyWebview {
         const actionHandler = new actionHandlerConstructor(this);
         this.actionHandlers.set(actionHandler.kind, actionHandler);
     }
+}
+
+export function isWebviewReadyMessage(object: unknown): object is WebviewReadyMessage {
+    return hasOwnProperty(object, 'readyMessage');
+}
+
+export function isDiagramIdentifier(object: unknown): object is SprottyDiagramIdentifier {
+    return hasOwnProperty(object, ['clientId', 'diagramType', 'uri']);
 }

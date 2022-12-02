@@ -20,6 +20,7 @@ import { Action } from 'sprotty-protocol';
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import { SprottyWebview } from './sprotty-webview';
 import { serializeUri } from './webview-utils';
+import { Messenger } from 'vscode-messenger';
 
 /**
  * @deprecated Use `WebviewPanelManager` instead.
@@ -28,9 +29,11 @@ export abstract class SprottyVscodeExtension {
 
     protected readonly webviewMap = new Map<string, SprottyWebview>();
     protected singleton?: SprottyWebview;
+    readonly messenger: Messenger;
 
     constructor(readonly extensionPrefix: string, readonly context: vscode.ExtensionContext) {
         this.registerCommands();
+        this.messenger = new Messenger();
     }
 
     protected registerCommands() {

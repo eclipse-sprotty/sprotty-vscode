@@ -16,12 +16,14 @@
 
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
+import { Messenger } from 'vscode-messenger';
 import { isWebviewView, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyViewProviderOptions {
     extensionUri: vscode.Uri
     viewType: string
+    messenger?: Messenger
     supportedFileExtensions?: string[];
     openActiveEditor?: boolean
 }
@@ -40,9 +42,11 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
 
     protected readonly clientId: string;
     protected endpoint?: WebviewEndpoint;
+    readonly messenger: Messenger;
 
     constructor(readonly options: SprottyViewProviderOptions) {
         this.clientId = options.viewType + '_' + SprottyViewProvider.viewCount++;
+        this.messenger = options.messenger ?? new Messenger();
     }
 
     /**
@@ -92,7 +96,13 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
     }
 
     protected createEndpoint(webviewContainer: vscode.WebviewView, identifier?: SprottyDiagramIdentifier): WebviewEndpoint {
-        return new WebviewEndpoint({ webviewContainer, identifier });
+        const participant = this.messenger.registerWebviewView(webviewContainer);
+        return new WebviewEndpoint({
+            webviewContainer,
+            messenger: this.messenger,
+            messageParticipant: participant,
+            identifier
+        });
     }
 
     /**

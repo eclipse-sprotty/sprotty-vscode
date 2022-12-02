@@ -14,18 +14,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Messenger } from "vscode-messenger-webview";
+import { NotificationMessage, RequestMessage, ResponseMessage } from 'vscode-jsonrpc';
+import { NotificationType, RequestType } from 'vscode-messenger-common';
 
-export interface VsCodeApi {
-    postMessage: (message: any) => void
-    getState(): unknown
-    setState(newState: any): void
-}
+/**
+ * Notification sent via vscode-messenger to the language server.
+ */
+export const LspNotification: NotificationType<NotificationMessage> = { method: 'LspNotification' };
 
-export const VsCodeApi = Symbol('VsCodeApi');
-export const VsCodeMessenger = Symbol('VsCodeMessenger');
-
-export interface SprottyStarterServices {
-    vscodeApi?: VsCodeApi
-    messenger?: Messenger
-}
+/**
+ * Request sent via vscode-messenger to the language server.
+ */
+export const LspRequest: RequestType<RequestMessage, ResponseMessage> = { method: 'LspRequest' };
