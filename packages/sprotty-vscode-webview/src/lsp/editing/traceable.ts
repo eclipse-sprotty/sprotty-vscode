@@ -23,14 +23,14 @@ export interface Traceable extends SModelExtension {
     trace: string
 }
 
-export function isTraceable<T extends SModelElement | SModelElementSchema>(element: T): element is Traceable & T {
+export function isTraceable<T extends SModelElement | SModelElementSchema>(element: T): element is Traceable & T {
    return !!(element as any).trace && !!getRange((element as any).trace);
 }
 
 export function getRange(traceable: Traceable): Range;
 export function getRange(trace: string): Range | undefined;
 export function getRange(trace: object): Range | undefined;
-export function getRange(thing: string | Traceable | object): Range | undefined {
+export function getRange(thing: string | Traceable | object): Range | undefined {
     const trace = typeof thing === 'string'
         ? thing
         : (thing as any).trace;
@@ -38,7 +38,7 @@ export function getRange(thing: string | Traceable | object): Range | undefine
         return undefined;
     const query = URI.parse(trace).query;
     const numbers = query.split(/[:-]/).map(s => parseInt(s, 10));
-    if (numbers.length !== 4 || numbers.find(isNaN) !== undefined)
+    if (numbers.length !== 4 || numbers.find(isNaN) !== undefined)
         return undefined;
     return <Range> {
         start: {

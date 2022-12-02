@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018 TypeFox and others.
+ * Copyright (c) 2018-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,32 +17,28 @@ import { inject, optional } from 'inversify';
 import {
     ActionHandlerRegistry, DiagramServerProxy, SelectCommand, ServerStatusAction
 } from 'sprotty';
-import {
-    ActionMessage, isActionMessage, RequestPopupModelAction, SetPopupModelAction, Action
-} from 'sprotty-protocol';
-
+import { ActionMessage, RequestPopupModelAction, SetPopupModelAction, Action } from 'sprotty-protocol';
+import { ActionNotification } from 'sprotty-vscode-protocol';
+import { HOST_EXTENSION } from 'vscode-messenger-common';
+import { Messenger } from 'vscode-messenger-webview';
 import { VscodeDiagramWidgetFactory } from './vscode-diagram-widget';
 import { IRootPopupModelProvider } from './root-popup-model-provider';
-import { VsCodeApi } from './services';
+import { VsCodeMessenger } from './services';
 
 export class VscodeDiagramServer extends DiagramServerProxy {
 
-    @inject(VsCodeApi) vscodeApi: VsCodeApi;
+    @inject(VsCodeMessenger) messenger: Messenger;
     @inject(VscodeDiagramWidgetFactory) diagramWidgetFactory: VscodeDiagramWidgetFactory;
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
     override initialize(registry: ActionHandlerRegistry) {
         super.initialize(registry);
         registry.register(SelectCommand.KIND, this);
-        window.addEventListener('message', message => {
-            if ('data' in message && isActionMessage(message.data)) {
-                this.messageReceived(message.data);
-            }
-        });
+        this.messenger.onNotification(ActionNotification, message => this.messageReceived(message));
     }
 
     protected sendMessage(message: ActionMessage): void {
-        this.vscodeApi.postMessage(message);
+        this.messenger.sendNotification(ActionNotification, HOST_EXTENSION, message);
     }
 
     override handleLocally(action: Action): boolean {

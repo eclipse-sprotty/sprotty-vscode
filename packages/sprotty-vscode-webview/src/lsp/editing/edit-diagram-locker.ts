@@ -40,7 +40,7 @@ export class EditDiagramLocker implements IDiagramLocker {
 
     allowEdit = true;
 
-    isAllowed(action: Action): boolean {
-        return this.allowEdit || this.nonEditActions.indexOf(action.kind) >= 0;
+    isAllowed(action: Action): boolean {
+        return this.allowEdit || this.nonEditActions.indexOf(action.kind) >= 0;
     }
 }

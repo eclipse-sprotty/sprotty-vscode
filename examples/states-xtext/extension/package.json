@@ -153,7 +153,7 @@
         "@types/node": "^12.12.6",
         "@types/vscode": "1.50.0",
         "source-map-loader": "^3.0.0",
-        "sprotty-vscode": "^0.4.0",
+        "sprotty-vscode": "0.4.0",
         "states-sprotty-webview": "^0.0.8",
         "ts-loader": "^9.2.6",
         "typescript": "~4.6.2",

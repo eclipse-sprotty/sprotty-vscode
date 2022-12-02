@@ -52,7 +52,7 @@ export class VscodeLspEditDiagramServer extends VscodeDiagramServer {
         return super.handleLocally(action);
     }
 
-    protected getElement(elementId: string): SModelElementSchema | undefined {
+    protected getElement(elementId: string): SModelElementSchema | undefined {
         const index = new SModelIndex();
         index.add(this.currentRoot);
         return index.getById(elementId);

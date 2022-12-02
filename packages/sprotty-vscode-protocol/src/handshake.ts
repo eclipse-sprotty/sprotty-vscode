@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 TypeFox and others.
+ * Copyright (c) 2020-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,7 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { hasOwnProperty } from 'sprotty-protocol';
+import { ActionMessage } from 'sprotty-protocol';
+import { NotificationType } from 'vscode-messenger-common';
 
 // ----------------------------------
 // Initial Handshake
@@ -23,9 +24,7 @@ export interface WebviewReadyMessage {
     readyMessage: string
 }
 
-export function isWebviewReadyMessage(object: unknown): object is WebviewReadyMessage {
-    return hasOwnProperty(object, 'readyMessage');
-}
+export const WebviewReadyNotification: NotificationType<WebviewReadyMessage> = { method: 'WebviewReadyMessage' };
 
 export const SprottyDiagramIdentifier = Symbol('SprottyDiagramIdentifier');
 
@@ -35,6 +34,6 @@ export interface SprottyDiagramIdentifier {
     uri: string
 }
 
-export function isDiagramIdentifier(object: unknown): object is SprottyDiagramIdentifier {
-    return hasOwnProperty(object, ['clientId', 'diagramType', 'uri']);
-}
+export const DiagramIdentifierNotification: NotificationType<SprottyDiagramIdentifier> = { method: 'SprottyDiagramIdentifier' };
+
+export const ActionNotification: NotificationType<ActionMessage> = { method: 'ActionMessage' };

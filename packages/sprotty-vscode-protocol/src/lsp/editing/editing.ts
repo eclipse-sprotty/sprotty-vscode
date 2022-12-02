@@ -20,7 +20,7 @@ import { Location, WorkspaceEdit } from 'vscode-languageserver-protocol';
 export interface LspLabelEditAction extends Action {
     kind: typeof LspLabelEditAction.KIND
     location: Location
-    editKind: 'xref' | 'name'
+    editKind: 'xref' | 'name'
     initialText: string
 }
 export namespace LspLabelEditAction {

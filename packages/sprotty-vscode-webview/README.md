@@ -4,7 +4,7 @@ This library helps you to implement a [VS Code webview](https://code.visualstudi
 
 # Getting Started
 
-The diagram itself is implemented with the Sprotty API. See the [Sprotty Wiki](https://github.com/eclipse/sprotty/wiki), the [states example](https://github.com/eclipse/sprotty-vscode/tree/master/example/states/webview) and the [Sprotty examples](https://github.com/eclipse/sprotty/tree/master/examples) for reference.
+The diagram itself is implemented with the Sprotty API. See the [Sprotty Wiki](https://github.com/eclipse/sprotty/wiki), the [states example](https://github.com/eclipse/sprotty-vscode/tree/master/examples/states-webview) and the [Sprotty examples](https://github.com/eclipse/sprotty/tree/master/examples) for reference.
 
 The next step is to implement a subclass of `SprottyStarter` and instantiate it in your entry module as shown below.
 
@@ -15,9 +15,11 @@ export class ExampleSprottyStarter extends SprottyStarter {
     }
 }
 
-new ExampleSprottyStarter();
+new ExampleSprottyStarter().start();
 ```
+
+Don't forget to call the `start` method, which initiates the communication to the host extension.
 
 The function `createExampleDiagramContainer` should create an [InversifyJS](https://www.npmjs.com/package/inversify) container with all necessary [Sprotty configuration](https://github.com/eclipse/sprotty/wiki/Dependency-Injection). The passed `clientId` should be used in the `baseDiv` and `hiddenDiv` ids in Sprotty's ViewerOptions.
 
-In case you are connecting your diagram with a [language server](https://microsoft.github.io/language-server-protocol/), e.g. using [Xtext](http://xtext.org), you should use `SprottyLspEditStarter` as superclass.
+In case you are connecting your diagram with a [language server](https://microsoft.github.io/language-server-protocol/), e.g. using [Langium](https://langium.org), you should use `SprottyLspEditStarter` as superclass.
