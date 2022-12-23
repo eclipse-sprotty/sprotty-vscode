@@ -5,7 +5,9 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "lint": "lerna run lint",
-    "publish:next": "lerna publish --canary --npm-tag next"
+    "publish:prepare": "lerna version --ignore-scripts --yes --no-push",
+    "publish:latest": "lerna publish from-git --no-verify-access --yes --no-push",
+    "publish:next": "SHA=$(git rev-parse --short HEAD) && lerna publish preminor --exact --canary --preid next.${SHA} --dist-tag next --no-git-reset --no-git-tag-version --no-push --ignore-scripts --yes --no-verify-access"
   },
   "devDependencies": {
     "lerna": "^6.1.0",

@@ -46,7 +46,7 @@
     "path": "^0.12.7",
     "sprotty-vscode-protocol": "~0.4.0",
     "vscode-languageclient": "^8.0.2",
-    "vscode-messenger": "^0.4.3"
+    "vscode-messenger": "^0.4.4"
   },
   "devDependencies": {
     "@types/node": "^12.12.6",

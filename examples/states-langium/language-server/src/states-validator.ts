@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 TypeFox and others.
+ * Copyright (c) 2021-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,28 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { AstNode, DiagnosticInfo, MultiMap, ValidationAcceptor, ValidationCheck, ValidationRegistry } from 'langium';
+import { AstNode, DiagnosticInfo, MultiMap, ValidationAcceptor, ValidationChecks } from 'langium';
 import { StatesAstType, State, Transition, StateMachine } from './generated/ast';
 import { StatesServices } from './states-module';
 
-/**
- * Map AST node types to validation checks.
- */
-type StatesChecks = { [type in StatesAstType]?: ValidationCheck | ValidationCheck[] }
-
-/**
- * Registry for validation checks.
- */
-export class StatesValidationRegistry extends ValidationRegistry {
-    constructor(services: StatesServices) {
-        super(services);
-        const validator = services.validation.StatesValidator;
-        const checks: StatesChecks = {
-            State: validator.checkState,
-            StateMachine: validator.checkUniqueNames
-        };
-        this.register(checks, validator);
-    }
+export function registerValidationChecks(services: StatesServices) {
+    const registry = services.validation.ValidationRegistry;
+    const validator = services.validation.StatesValidator;
+    const checks: ValidationChecks<StatesAstType> = {
+        State: validator.checkState,
+        StateMachine: validator.checkUniqueNames,
+        Transition: validator.checkTransition
+    };
+    registry.register(checks, validator);
 }
 
 /**
@@ -78,6 +69,20 @@ export class StatesValidator {
                 for (const node of nodesWithCommonName) {
                     accept('error', `Multiple ${what} named '${name}'`, <DiagnosticInfo<T>>{ node: node, property: 'name' })
                 }
+            }
+        }
+    }
+
+    checkTransition(transition: Transition, accept: ValidationAcceptor): void {
+        if (transition.state.ref) {
+            const sourceSM = transition.$container.$container;
+            const targetSM = transition.state.ref.$container;
+            if (sourceSM !== targetSM) {
+                accept(
+                    'error',
+                    `Invalid transition target: state ${transition.state.ref.name} is in a different state machine ${targetSM.name}.`,
+                    { node: transition, property: 'state' }
+                );
             }
         }
     }

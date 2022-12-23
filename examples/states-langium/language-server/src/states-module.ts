@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 TypeFox and others.
+ * Copyright (c) 2021-2022 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,7 +21,7 @@ import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILay
 import { StatesDiagramGenerator } from './diagram-generator';
 import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module';
 import { StatesLayoutConfigurator } from './layout-config';
-import { StatesValidationRegistry, StatesValidator } from './states-validator';
+import { registerValidationChecks, StatesValidator } from './states-validator';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -54,7 +54,6 @@ export const StatesModule: Module<StatesServices, PartialLangiumServices & Sprot
         ModelLayoutEngine: services => new ElkLayoutEngine(services.layout.ElkFactory, services.layout.ElementFilter, services.layout.LayoutConfigurator) as any
     },
     validation: {
-        ValidationRegistry: services => new StatesValidationRegistry(services),
         StatesValidator: () => new StatesValidator()
     },
     layout: {
@@ -90,6 +89,7 @@ export function createStatesServices(context: DefaultSharedModuleContext): { sha
         StatesGeneratedModule,
         StatesModule
     );
+    registerValidationChecks(states);
     shared.ServiceRegistry.register(states);
     return { shared, states };
 }

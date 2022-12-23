@@ -15,9 +15,10 @@
  ********************************************************************************/
 
 /** @jsx svg */
-import { VNode } from "snabbdom";
-import { Point, PolylineEdgeView, RenderingContext, SEdge, svg, toDegrees, IView, SPort } from "sprotty";
 import { injectable } from 'inversify';
+import { VNode } from 'snabbdom';
+import { PolylineEdgeView, RenderingContext, SEdge, svg, IView, SPort } from 'sprotty';
+import { Point, toDegrees } from 'sprotty-protocol';
 
 @injectable()
 export class PolylineArrowEdgeView extends PolylineEdgeView {
@@ -26,7 +27,7 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
         const p1 = segments[segments.length - 2];
         const p2 = segments[segments.length - 1];
         return [
-            <path class-sprotty-edge-arrow={true} d="M 6,-3 L 0,0 L 6,3 Z"
+            <path class-sprotty-edge-arrow={true} d='M 6,-3 L 0,0 L 6,3 Z'
                   transform={`rotate(${this.angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`}/>
         ];
     }
@@ -39,7 +40,7 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
 @injectable()
 export class TriangleButtonView implements IView {
     render(model: SPort, context: RenderingContext): VNode {
-        return <path class-sprotty-button={true} d="M 0,0 L 8,4 L 0,8 Z" />;
+        return <path class-sprotty-button={true} d='M 0,0 L 8,4 L 0,8 Z' />;
     }
 }
 

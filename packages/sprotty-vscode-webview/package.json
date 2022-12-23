@@ -40,7 +40,7 @@
   "main": "lib/index",
   "types": "lib/index",
   "dependencies": {
-    "sprotty": "~0.12.0",
+    "sprotty": "~0.13.0",
     "sprotty-vscode-protocol": "~0.4.0",
     "vscode-messenger-webview": "^0.4.3",
     "vscode-uri": "^3.0.6"

@@ -13,7 +13,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from "sprotty";
+import { ManhattanEdgeRouter, SRoutableElement, ManhattanRouterOptions, edgeInProgressID } from 'sprotty';
 
 export class CustomRouter extends ManhattanEdgeRouter {
     override getOptions(edge: SRoutableElement): ManhattanRouterOptions {

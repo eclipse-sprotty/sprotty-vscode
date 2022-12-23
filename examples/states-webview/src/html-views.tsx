@@ -15,9 +15,9 @@
  ********************************************************************************/
 
 /** @jsx html */
-import { html, RenderingContext, IView, SButton } from "sprotty";
-import { VNode } from "snabbdom";
 import { injectable } from 'inversify';
+import { VNode } from 'snabbdom';
+import { html, RenderingContext, IView, SButton } from 'sprotty';
 
 @injectable()
 export class PaletteButtonView implements IView {
