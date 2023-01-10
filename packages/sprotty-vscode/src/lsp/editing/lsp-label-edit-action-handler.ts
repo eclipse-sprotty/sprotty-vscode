@@ -28,12 +28,10 @@ import { convertPosition, convertUri, convertWorkspaceEdit, convertRange } from 
 import { LspWebviewEndpoint } from '../lsp-webview-endpoint';
 
 export function addLspLabelEditActionHandler(endpoint: LspWebviewEndpoint): void {
-    const handler = async (action: Action) => {
-        if (LspLabelEditAction.is(action)) {
-            switch (action.editKind) {
-                case 'xref': return chooseCrossReference(action, endpoint);
-                case 'name': return renameElement(action, endpoint);
-            }
+    const handler = async (action: LspLabelEditAction) => {
+        switch (action.editKind) {
+            case 'xref': return chooseCrossReference(action, endpoint);
+            case 'name': return renameElement(action, endpoint);
         }
     };
     endpoint.addActionHandler(LspLabelEditAction.KIND, handler);

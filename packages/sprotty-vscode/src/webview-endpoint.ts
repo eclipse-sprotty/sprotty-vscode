@@ -67,7 +67,7 @@ export class WebviewEndpoint {
     readonly diagramServer?: ActionAcceptor;
     diagramIdentifier?: SprottyDiagramIdentifier;
 
-    protected readonly actionHandlers: Map<string, ActionHandler[]> = new Map();
+    protected readonly actionHandlers: Map<string, ActionHandler<any>[]> = new Map();
     protected readonly disposables: vscode.Disposable[] = [];
 
     constructor(options: WebviewEndpointOptions) {
@@ -180,7 +180,7 @@ export class WebviewEndpoint {
      * Add an action handler for actions that are sent or received. If one or more handlers are registered for an
      * action kind, the corresponding actions are sent to those handlers and are not propagated further.
      */
-    addActionHandler(kind: string, handler: ActionHandler): void {
+    addActionHandler<A extends Action>(kind: string, handler: ActionHandler<A>): void {
         const handlers = this.actionHandlers.get(kind);
         if (handlers) {
             handlers.push(handler);
@@ -192,7 +192,7 @@ export class WebviewEndpoint {
     /**
      * Remove a previously registered action handler.
      */
-    removeActionHandler(kind: string, handler: ActionHandler): void {
+    removeActionHandler<A extends Action>(kind: string, handler: ActionHandler<A>): void {
         const handlers = this.actionHandlers.get(kind);
         if (handlers) {
             const index = handlers.indexOf(handler);
@@ -204,4 +204,4 @@ export class WebviewEndpoint {
 
 }
 
-type ActionHandler = (action: Action) => void | Promise<void>;
+export type ActionHandler<A extends Action = Action> = (action: A) => void | Promise<void>;
