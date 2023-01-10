@@ -22,10 +22,8 @@ import { convertWorkspaceEdit } from '../lsp-utils';
 import { LspWebviewEndpoint } from '../lsp-webview-endpoint';
 
 export function addWorkspaceEditActionHandler(endpoint: LspWebviewEndpoint): void {
-    const handler = async (action: Action) => {
-        if (WorkspaceEditAction.is(action)) {
-            await vscode.workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
-        }
+    const handler = async (action: WorkspaceEditAction) => {
+        await vscode.workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
     };
     endpoint.addActionHandler(WorkspaceEditAction.KIND, handler);
 };
