@@ -104,16 +104,20 @@ export class WebviewEndpoint {
                 })
             );
         }
-        this.messenger.onNotification(ActionNotification,
-            message => this.receiveAction(message),
-            { sender: this.messageParticipant }
+        this.disposables.push(
+            this.messenger.onNotification(ActionNotification,
+                message => this.receiveAction(message),
+                { sender: this.messageParticipant }
+            )
         );
-        this.messenger.onNotification(WebviewReadyNotification,
-            message => {
-                this.resolveWebviewReady();
-                this.sendDiagramIdentifier();
-            },
-            { sender: this.messageParticipant }
+        this.disposables.push(
+            this.messenger.onNotification(WebviewReadyNotification,
+                message => {
+                    this.resolveWebviewReady();
+                    this.sendDiagramIdentifier();
+                },
+                { sender: this.messageParticipant }
+            )
         );
     }
 

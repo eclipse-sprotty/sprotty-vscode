@@ -40,25 +40,29 @@ export class LspWebviewEndpoint extends WebviewEndpoint {
 
     protected override connect(): void {
         super.connect();
-        this.messenger.onRequest(LspRequest,
-            async request => {
-                const result: any = request.params === undefined
-                    ? await this.languageClient.sendRequest(request.method)
-                    : await this.languageClient.sendRequest(request.method, request.params);
-                const response: ResponseMessage = {
-                    jsonrpc: '2.0',
-                    id: request.id,
-                    result
-                };
-                return response;
-            },
-            { sender: this.messageParticipant }
+        this.disposables.push(
+            this.messenger.onRequest(LspRequest,
+                async request => {
+                    const result: any = request.params === undefined
+                        ? await this.languageClient.sendRequest(request.method)
+                        : await this.languageClient.sendRequest(request.method, request.params);
+                    const response: ResponseMessage = {
+                        jsonrpc: '2.0',
+                        id: request.id,
+                        result
+                    };
+                    return response;
+                },
+                { sender: this.messageParticipant }
+            )
         );
-        this.messenger.onNotification(LspNotification,
-            notification => {
-                this.languageClient.sendNotification(notification.method, notification.params);
-            },
-            { sender: this.messageParticipant }
+        this.disposables.push(
+            this.messenger.onNotification(LspNotification,
+                notification => {
+                    this.languageClient.sendNotification(notification.method, notification.params);
+                },
+                { sender: this.messageParticipant }
+            )
         );
     }
 
