@@ -16,17 +16,11 @@ Also contains an example extension for a domain-specific language for statemachi
 
 ## Architecture
 
-In VS Code, extensions can contribute new UI components using a webview. Webviews communicate 
-with the extension using the `postMessage` API. The `SprottyVscodeExtension` use this to send and 
-receive Sprotty Actions to and from a `SprottyWebview`. The latter runs a webpacked `bundle.js`
-that contains the Sprotty diagram code.
+In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`postMessage`](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-an-extension-to-a-webview) API. The [`SprottyVscodeExtension`](./packages/sprotty-vscode/src/sprotty-vscode-extension.ts) uses this to send and receive Sprotty Actions to and from a [`SprottyWebview`](./packages/sprotty-vscode/src/sprotty-webview.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
 
 ![Architecture Diagram](images/architecture.png)
 
-If your extension provides a language, you can include a [Sprotty-enhanced language server](https://github.com/eclipse/sprotty-server) to get fully synchronized diagrams for your language
-artifacts. The `SprottyVscodeLanguageExtension` acts as a relay between the language server and a 
-`SprottyLanguageWebview`, and intercepts actions/LSP messages that 
-require to interact with the VS Code workbench.
+If your extension provides a language, you can include a [Sprotty-enhanced language server](https://github.com/eclipse/sprotty-server) to get fully synchronized diagrams for your language artifacts. The [`SprottyLspVscodeExtension`](./packages/sprotty-vscode/src/lsp/sprotty-lsp-vscode-extension.ts) acts as a relay between the language server and a [`SprottyLanguageWebview`](./packages/sprotty-vscode/src/lsp/sprotty-lsp-webview.ts), and intercepts actions/LSP messages that require to interact with the VS Code workbench.
 
 ## Contents
 
