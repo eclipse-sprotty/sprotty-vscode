@@ -16,7 +16,7 @@ Also contains an example extension for a domain-specific language for statemachi
 
 ## Architecture
 
-In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`postMessage`](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-an-extension-to-a-webview) API. The [` WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) uses this to send and receive Sprotty Actions to and from a [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
+In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`postMessage`](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-an-extension-to-a-webview) API. The [`WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) uses this to send and receive Sprotty Actions to and from a [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
 
 ![Architecture Diagram](images/architecture.png)
 
