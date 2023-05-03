@@ -166,7 +166,7 @@
         "clean": "rimraf lib pack",
         "build": "webpack --mode=production",
         "watch": "webpack --mode=development --watch",
-        "copy-webview": "cp ../../states-webview/out/* pack/",
+        "copy-webview": "shx cp ../../states-webview/out/* pack/",
         "publish": "vsce publish"
     }
 }

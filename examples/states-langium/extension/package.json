@@ -201,7 +201,7 @@
         "clean": "shx rm -fr pack",
         "build": "webpack --mode=development",
         "watch": "webpack --mode=development --watch",
-        "copy-language-server": "cp ../language-server/out/* pack/",
-        "copy-webview": "cp ../../states-webview/out/* pack/"
+        "copy-language-server": "shx cp ../language-server/out/* pack/",
+        "copy-webview": "shx cp ../../states-webview/out/* pack/"
     }
 }
