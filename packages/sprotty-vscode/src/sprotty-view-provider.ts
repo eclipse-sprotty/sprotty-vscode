@@ -72,8 +72,8 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
             if (options.reveal && isWebviewView(endpoint.webviewContainer)) {
                 endpoint.webviewContainer.show(options.preserveFocus);
             }
-        } else if (!options.quiet) {
-            vscode.window.showErrorMessage(`The ${this.options.viewType} view cannot be opened programmatically. Select 'View' > 'Open View' in the main menu to open it.`);
+        } else {
+            vscode.commands.executeCommand(`${identifier.diagramType}.focus`);
         }
         return endpoint;
     }

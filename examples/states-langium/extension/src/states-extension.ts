@@ -19,6 +19,7 @@ import { registerDefaultCommands, registerTextEditorSync } from 'sprotty-vscode'
 import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
+import { Messenger } from 'vscode-messenger';
 
 let languageClient: LanguageClient;
 
@@ -64,7 +65,8 @@ export function activate(context: vscode.ExtensionContext) {
             viewType: 'states',
             languageClient,
             supportedFileExtensions: ['.sm'],
-            openActiveEditor: true
+            openActiveEditor: true,
+            messenger: new Messenger({ignoreHiddenViews: false})
         });
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider('states', webviewViewProvider, {
