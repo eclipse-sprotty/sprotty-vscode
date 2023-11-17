@@ -20,5 +20,3 @@ export * from './lsp-utils';
 export * from './lsp-webview-endpoint';
 export * from './lsp-webview-panel-manager';
 export * from './protocol';
-export * from './sprotty-lsp-webview';
-export * from './sprotty-lsp-vscode-extension';
