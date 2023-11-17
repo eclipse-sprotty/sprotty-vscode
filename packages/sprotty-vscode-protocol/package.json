@@ -42,7 +42,7 @@
   "dependencies": {
     "sprotty-protocol": "~0.13.0",
     "vscode-languageserver-protocol": "^3.17.2",
-    "vscode-messenger-common": "^0.4.3"
+    "vscode-messenger-common": "^0.4.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.0",
