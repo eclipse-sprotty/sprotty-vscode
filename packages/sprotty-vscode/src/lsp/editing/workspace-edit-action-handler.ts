@@ -14,10 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action } from 'sprotty-protocol';
 import { WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import * as vscode from 'vscode';
-import { ActionHandler } from '../../action-handler';
 import { convertWorkspaceEdit } from '../lsp-utils';
 import { LspWebviewEndpoint } from '../lsp-webview-endpoint';
 
@@ -27,16 +25,3 @@ export function addWorkspaceEditActionHandler(endpoint: LspWebviewEndpoint): voi
     };
     endpoint.addActionHandler(WorkspaceEditAction.KIND, handler);
 };
-
-/**
- * @deprecated Use `addWorkspaceEditActionHandler` instead.
- */
-export class WorkspaceEditActionHandler implements ActionHandler {
-    readonly kind = WorkspaceEditAction.KIND;
-
-    async handleAction(action: Action): Promise<boolean> {
-        if (WorkspaceEditAction.is(action))
-            await vscode.workspace.applyEdit(convertWorkspaceEdit(action.workspaceEdit));
-        return false;
-    }
-}

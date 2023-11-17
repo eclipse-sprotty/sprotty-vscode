@@ -1,4 +1,4 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse/sprotty-vscode) 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse/sprotty-vscode)
 
 # sprotty-vscode
 
@@ -16,7 +16,7 @@ Also contains an example extension for a domain-specific language for statemachi
 
 ## Architecture
 
-In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`postMessage`](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-an-extension-to-a-webview) API. The [`WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) uses this to send and receive Sprotty Actions to and from a [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
+In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`vscode-messenger`](https://github.com/TypeFox/vscode-messenger) library. The [`WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) uses this to send and receive Sprotty Actions to and from a [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
 
 ![Architecture Diagram](images/architecture.png)
 
@@ -25,15 +25,19 @@ If your extension provides a language, you can include a [Sprotty-enhanced langu
 ## Contents
 
 The repo is structured as follows
-- `example/`: an example using an Xtext-based Language Server and with Sprotty visualization.
-- `sprotty-vscode-extension/`: library code for the VSCode extension.
-- `sprotty-vscode-protocol/`: common protocol classes for the communication between the extension and the webview.
-- `sprotty-vscode-webview/`: library code for the script that is run in the webview.
+- `examples`: an example Sprotty visualization using a [Langium](https://langium.org/)-based Language Server.
+- `packages/sprotty-vscode`: library code for the VSCode extension.
+- `packages/sprotty-vscode-protocol`: common protocol classes for the communication between the extension and the webview.
+- `packages/sprotty-vscode-webview`: library code for the script that is run in the webview.
 
 ## Development
 
-Compile the library code and the examples
+Compile the library code and the examples:
 ```
-examples/states-xtext/language-server/gradlew -p examples/states-xtext/language-server/ build && yarn
+yarn
 ```
 
+If you also want to use the older Xtext-based example, you need to run this command before `yarn`:
+```
+./examples/states-xtext/language-server/gradlew -p examples/states-xtext/language-server/ build
+```

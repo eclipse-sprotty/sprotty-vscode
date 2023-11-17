@@ -28,7 +28,8 @@ export function serializeUri(uri: vscode.Uri): string {
     return uriString;
 }
 
-export function createWebviewPanel(identifier: SprottyDiagramIdentifier, options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri }): vscode.WebviewPanel {
+export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
+    options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri, cssUri?: vscode.Uri }): vscode.WebviewPanel {
     const title = createWebviewTitle(identifier);
     const diagramPanel = vscode.window.createWebviewPanel(
         identifier.diagramType || 'diagram',
@@ -39,7 +40,11 @@ export function createWebviewPanel(identifier: SprottyDiagramIdentifier, options
             enableScripts: true,
             retainContextWhenHidden: true
         });
-    diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, { scriptUri: options.scriptUri, title });
+    diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
+        scriptUri: options.scriptUri,
+        cssUri: options.cssUri,
+        title
+    });
     return diagramPanel;
 }
 
@@ -54,17 +59,20 @@ export function createWebviewTitle(identifier: SprottyDiagramIdentifier): string
     }
 }
 
-export function createWebviewHtml(identifier: SprottyDiagramIdentifier, container: WebviewContainer, options: { scriptUri: vscode.Uri, title?: string }): string {
+export function createWebviewHtml(identifier: SprottyDiagramIdentifier, container: WebviewContainer,
+    options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }): string {
+    const transformUri = (uri: vscode.Uri) => container.webview.asWebviewUri(uri).toString();
     return `<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, height=device-height">
-        <title>${options.title}</title>
+        ${options.title ? `<title>${options.title}</title>` : ''}
+        ${options.cssUri ? `<link rel="stylesheet" type="text/css" href="${transformUri(options.cssUri)}" />` : ''}
     </head>
     <body>
         <div id="${identifier.clientId}_container" style="height: 100%;"></div>
-        <script src="${container.webview.asWebviewUri(options.scriptUri).toString()}"></script>
+        <script src="${transformUri(options.scriptUri)}"></script>
     </body>
 </html>`;
 }

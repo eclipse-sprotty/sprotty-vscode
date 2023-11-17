@@ -16,4 +16,3 @@
 
 export * from './lsp-label-edit-action-handler';
 export * from './workspace-edit-action-handler';
-export * from './sprotty-lsp-edit-vscode-extension';
