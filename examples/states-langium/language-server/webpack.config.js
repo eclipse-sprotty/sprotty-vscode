@@ -1,6 +1,8 @@
 // @ts-check
-const path = require('path');
+import * as path from 'node:path';
+import * as url from 'node:url';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const outputPath = path.resolve(__dirname, 'out');
 
 /**@type {import('webpack').Configuration}*/
@@ -15,7 +17,11 @@ const config = {
     devtool: 'nosources-source-map',
 
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js'],
+        extensionAlias: {
+            '.js': ['.ts', '.js'],
+            '.mjs': ['.mts', '.mjs']
+        }
     },
     module: {
         rules: [
@@ -33,4 +39,4 @@ const config = {
     ignoreWarnings: [/Failed to parse source map/]
 };
 
-module.exports = config;
+export default config;

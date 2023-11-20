@@ -14,14 +14,14 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import ElkConstructor from 'elkjs/lib/elk.bundled';
+const ElkConstructor = require('elkjs/lib/elk.bundled.js').default;
 import { createDefaultModule, createDefaultSharedModule, inject, Module, PartialLangiumServices, DefaultSharedModuleContext } from 'langium';
 import { LangiumSprottyServices, LangiumSprottySharedServices, SprottyDiagramServices, SprottySharedModule } from 'langium-sprotty';
-import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILayoutConfigurator } from 'sprotty-elk/lib/elk-layout';
-import { StatesDiagramGenerator } from './diagram-generator';
-import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module';
-import { StatesLayoutConfigurator } from './layout-config';
-import { registerValidationChecks, StatesValidator } from './states-validator';
+import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILayoutConfigurator } from 'sprotty-elk/lib/elk-layout.js';
+import { StatesDiagramGenerator } from './diagram-generator.js';
+import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module.js';
+import { StatesLayoutConfigurator } from './layout-config.js';
+import { registerValidationChecks, StatesValidator } from './states-validator.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -35,13 +35,13 @@ export type StatesAddedServices = {
         ElementFilter: IElementFilter,
         LayoutConfigurator: ILayoutConfigurator
     }
-}
+};
 
 /**
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type StatesServices = LangiumSprottyServices & StatesAddedServices
+export type StatesServices = LangiumSprottyServices & StatesAddedServices;
 
 /**
  * Dependency injection module that overrides Langium default services and contributes the

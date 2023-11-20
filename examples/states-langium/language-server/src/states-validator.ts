@@ -15,8 +15,8 @@
  ********************************************************************************/
 
 import { AstNode, DiagnosticInfo, MultiMap, ValidationAcceptor, ValidationChecks } from 'langium';
-import { StatesAstType, State, Transition, StateMachine } from './generated/ast';
-import { StatesServices } from './states-module';
+import { StatesAstType, State, Transition, StateMachine } from './generated/ast.js';
+import { StatesServices } from './states-module.js';
 
 export function registerValidationChecks(services: StatesServices) {
     const registry = services.validation.ValidationRegistry;
@@ -45,7 +45,7 @@ export class StatesValidator {
             const transitionsWithCommonName = event2transition.get(name);
             if (transitionsWithCommonName.length > 1) {
                 for (const transition of transitionsWithCommonName) {
-                    accept('error', `Multiple transitions on event ${name}`, { node: transition, property: 'event' })
+                    accept('error', `Multiple transitions on event ${name}`, { node: transition, property: 'event' });
                 }
             }
         }
@@ -67,7 +67,7 @@ export class StatesValidator {
             const nodesWithCommonName = name2node.get(name);
             if (nodesWithCommonName.length > 1) {
                 for (const node of nodesWithCommonName) {
-                    accept('error', `Multiple ${what} named '${name}'`, <DiagnosticInfo<T>>{ node: node, property: 'name' })
+                    accept('error', `Multiple ${what} named '${name}'`, <DiagnosticInfo<T>>{ node: node, property: 'name' });
                 }
             }
         }

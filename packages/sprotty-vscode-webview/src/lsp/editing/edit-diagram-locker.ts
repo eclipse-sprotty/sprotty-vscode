@@ -14,10 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import { injectable } from 'inversify';
-import { HoverFeedbackAction, IDiagramLocker, ServerStatusAction } from 'sprotty';
+import { IDiagramLocker, ServerStatusAction } from 'sprotty';
 import {
-    Action, CenterAction, FitToScreenAction, RequestPopupModelAction, SelectAction, SelectAllAction,
-    SetModelAction, SetPopupModelAction, SetViewportAction, UpdateModelAction
+    Action, CenterAction, FitToScreenAction, HoverFeedbackAction, RequestPopupModelAction, SelectAction,
+    SelectAllAction, SetModelAction, SetPopupModelAction, SetViewportAction, UpdateModelAction
 } from 'sprotty-protocol';
 
 

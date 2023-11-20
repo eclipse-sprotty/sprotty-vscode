@@ -6,7 +6,8 @@
     "publisher": "TypeFox",
     "repository": {
         "type": "git",
-        "url": "https://github.com/TypeFox/sprotty-vscode"
+        "url": "https://github.com/TypeFox/sprotty-vscode",
+        "directory": "examples/states-xtext/extension"
     },
     "version": "0.5.0",
     "engines": {
@@ -150,16 +151,15 @@
     ],
     "main": "./pack/states-extension",
     "devDependencies": {
-        "@types/node": "^12.12.6",
+        "@types/node": "^14.17.3",
         "@types/vscode": "1.50.0",
-        "source-map-loader": "^3.0.0",
+        "source-map-loader": "^4.0.1",
         "sprotty-vscode": "^0.5.0",
         "states-sprotty-webview": "^0.5.0",
-        "ts-loader": "^9.2.6",
-        "typescript": "~4.6.2",
-        "vscode-languageclient": "^8.0.2",
-        "webpack": "^5.64.2",
-        "webpack-cli": "^4.9.1"
+        "ts-loader": "^9.5.1",
+        "vscode-languageclient": "^9.0.1",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
     },
     "scripts": {
         "prepare": "yarn run clean && yarn run build && yarn run copy-webview",

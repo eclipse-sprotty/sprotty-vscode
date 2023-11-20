@@ -16,12 +16,12 @@
 
 import { inject, injectable } from 'inversify';
 import {
-    CommandExecutionContext, isSelectable, SChildElement, SEdge, Selectable, SModelElement, TYPES, Command,
-    CommandReturn, IActionDispatcher
+    CommandExecutionContext, isSelectable, SChildElementImpl, SEdgeImpl, Selectable, SModelElementImpl,
+    TYPES, Command, CommandReturn, IActionDispatcher
 } from 'sprotty';
 import { DeleteWithWorkspaceEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { Range, TextEdit, WorkspaceEdit } from 'vscode-languageserver-protocol';
-import { getRange, getURI, isTraceable, Traceable } from "./traceable";
+import { getRange, getURI, isTraceable, Traceable } from './traceable';
 
 @injectable()
 export class DeleteWithWorkspaceEditCommand extends Command {
@@ -34,12 +34,12 @@ export class DeleteWithWorkspaceEditCommand extends Command {
     }
 
     createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit {
-        const elements = new Set<SModelElement & Traceable>();
+        const elements = new Set<SModelElementImpl & Traceable>();
         const index = context.root.index;
         index.all().forEach(e => {
             if (e && this.shouldDelete(e))
                 elements.add(e);
-            else if (e instanceof SEdge && isTraceable(e)) {
+            else if (e instanceof SEdgeImpl && isTraceable(e)) {
                 const source = index.getById(e.sourceId);
                 const target = index.getById(e.targetId);
                 if (this.shouldDeleteParent(source)
@@ -102,16 +102,16 @@ export class DeleteWithWorkspaceEditCommand extends Command {
         return true;
     }
 
-    protected shouldDelete<T extends SModelElement>(e: T): e is (Traceable & Selectable & T) {
+    protected shouldDelete<T extends SModelElementImpl>(e: T): e is (Traceable & Selectable & T) {
         return isSelectable(e) && e.selected && isTraceable(e);
     }
 
-    protected shouldDeleteParent(source: SModelElement | undefined): boolean {
+    protected shouldDeleteParent(source: SModelElementImpl | undefined): boolean {
         while (source) {
             if (this.shouldDelete(source)) {
                 return true;
             }
-            source = (source instanceof SChildElement) ? source.parent : undefined;
+            source = (source instanceof SChildElementImpl) ? source.parent : undefined;
         }
         return false;
     }

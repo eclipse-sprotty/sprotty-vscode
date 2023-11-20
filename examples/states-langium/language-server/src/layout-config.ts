@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { LayoutOptions } from 'elkjs';
-import { DefaultLayoutConfigurator } from 'sprotty-elk/lib/elk-layout';
+import { DefaultLayoutConfigurator } from 'sprotty-elk/lib/elk-layout.js';
 import { SGraph, SModelIndex, SNode, SPort } from 'sprotty-protocol';
 
 export class StatesLayoutConfigurator extends DefaultLayoutConfigurator {
