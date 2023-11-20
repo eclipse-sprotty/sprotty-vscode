@@ -15,13 +15,13 @@
  ********************************************************************************/
 
 import { VNode } from 'snabbdom';
-import { KeyTool, SModelElement } from 'sprotty';
+import { KeyTool, SModelElementImpl } from 'sprotty';
 
 /**
  * Key mappings should be provided via the vscode extensions's `package.json`.
  */
 export class DisabledKeyTool extends KeyTool {
-    override decorate(vnode: VNode, element: SModelElement): VNode {
+    override decorate(vnode: VNode, element: SModelElementImpl): VNode {
         return vnode;
     }
 }

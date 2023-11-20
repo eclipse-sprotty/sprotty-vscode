@@ -15,17 +15,17 @@
  ********************************************************************************/
 
 import {
-    CreateElementAction, CreatingOnDrag, EdgePlacement, ManhattanEdgeRouter, RectangularNode,
-    RectangularPort, SEdge, SLabel, SRoutableElement
+    CreatingOnDrag, EdgePlacement, ManhattanEdgeRouter, RectangularNode, RectangularPort,
+    SEdgeImpl, SLabelImpl, SRoutableElementImpl
 } from 'sprotty';
-import { Action, SEdge as SEdgeSchema } from 'sprotty-protocol';
+import { Action, CreateElementAction, SEdge } from 'sprotty-protocol';
 
-export class StatesEdge extends SEdge {
+export class StatesEdge extends SEdgeImpl {
     override routerKind = ManhattanEdgeRouter.KIND;
     override targetAnchorCorrection = Math.sqrt(5);
 }
 
-export class StatesEdgeLabel extends SLabel {
+export class StatesEdgeLabel extends SLabelImpl {
     override edgePlacement = <EdgePlacement> {
         rotate: true,
         position: 0.6
@@ -33,14 +33,14 @@ export class StatesEdgeLabel extends SLabel {
 }
 
 export class StatesNode extends RectangularNode {
-    override canConnect(routable: SRoutableElement, role: string) {
+    override canConnect(routable: SRoutableElementImpl, role: string) {
         return true;
     }
 }
 
 export class CreateTransitionPort extends RectangularPort implements CreatingOnDrag {
     createAction(id: string): Action {
-        const edge: SEdgeSchema = {
+        const edge: SEdge = {
             id,
             type: 'edge',
             sourceId: this.parent.id,

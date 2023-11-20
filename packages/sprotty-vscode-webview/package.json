@@ -10,23 +10,11 @@
     "layout",
     "sprotty"
   ],
-  "homepage": "https://github.com/eclipse/sprotty-vscode",
+  "homepage": "https://sprotty.org/",
   "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
   "author": {
     "name": "Eclipse Sprotty"
   },
-  "contributors": [
-    {
-      "name": "Jan Köhnlein",
-      "email": "jan.koehnlein@typefox.io",
-      "url": "http://typefox.io"
-    },
-    {
-      "name": "Miro Spönemann",
-      "email": "miro.spoenemann@typefox.io",
-      "url": "http://typefox.io"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/eclipse/sprotty-vscode.git",
@@ -40,19 +28,12 @@
   "main": "lib/index",
   "types": "lib/index",
   "dependencies": {
-    "sprotty": "~0.13.0",
+    "sprotty": "^1.0.0",
     "sprotty-vscode-protocol": "^0.5.0",
     "vscode-messenger-webview": "^0.4.5",
-    "vscode-uri": "^3.0.6"
+    "vscode-uri": "^3.0.8"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "eslint": "^8.18.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-no-null": "^1.0.2",
-    "typescript": "~4.6.2"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",

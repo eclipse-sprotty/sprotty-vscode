@@ -16,7 +16,7 @@
 
 import { GeneratorContext, LangiumDiagramGenerator } from 'langium-sprotty';
 import { SEdge, SLabel, SModelRoot, SNode, SPort } from 'sprotty-protocol';
-import { State, StateMachine, Transition } from './generated/ast';
+import { State, StateMachine, Transition } from './generated/ast.js';
 
 export class StatesDiagramGenerator extends LangiumDiagramGenerator {
 

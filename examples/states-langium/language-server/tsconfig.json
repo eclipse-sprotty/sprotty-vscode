@@ -1,7 +1,9 @@
 {
 	"extends": "../../../configs/base.tsconfig.json",
 	"compilerOptions": {
-    "target": "es2017",
+    "target": "ES2017",
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "rootDir": "src",
     "outDir": "out",
     "lib": [

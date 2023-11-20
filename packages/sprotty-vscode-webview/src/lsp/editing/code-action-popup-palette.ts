@@ -15,12 +15,11 @@
  ********************************************************************************/
 import { inject, injectable } from 'inversify';
 import {
-    IContextMenuItemProvider, MenuItem, PopupHoverMouseListener, SButton, SButtonSchema,
-    SModelElement, SModelRoot, EMPTY_ROOT
+    IContextMenuItemProvider, MenuItem, PopupHoverMouseListener, SButtonImpl, SButtonSchema,
+    SModelElementImpl, SModelRootImpl, EMPTY_ROOT
 } from 'sprotty';
 import {
-    Action, HtmlRoot as HtmlRootSchema, Point, RequestPopupModelAction, SModelElement as SModelElementSchema,
-    SModelRoot as SModelRootSchema, SetPopupModelAction
+    Action, HtmlRoot, Point, RequestPopupModelAction, SModelElement, SModelRoot, SetPopupModelAction
 } from 'sprotty-protocol';
 import { WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 import { CodeAction, Range } from 'vscode-languageserver-protocol';
@@ -39,7 +38,7 @@ export class CodeActionPopupPaletteProvider implements IRootPopupModelProvider {
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
     @inject(EditDiagramLocker) editDiagramLocker: EditDiagramLocker;
 
-    async getPopupModel(action: RequestPopupModelAction, rootElement: SModelRootSchema): Promise<SModelElementSchema | undefined> {
+    async getPopupModel(action: RequestPopupModelAction, rootElement: SModelRoot): Promise<SModelElement | undefined> {
         const range = getRange(rootElement);
         if (this.editDiagramLocker.allowEdit && range !== undefined) {
             const codeActions = await this.codeActionProvider.getCodeActions(range, 'sprotty.create');
@@ -55,7 +54,7 @@ export class CodeActionPopupPaletteProvider implements IRootPopupModelProvider {
                         });
                     }
                 });
-                return <HtmlRootSchema>{
+                return <HtmlRoot>{
                     id: "palette",
                     type: "palette",
                     classes: ['sprotty-palette'],
@@ -73,7 +72,7 @@ export interface PaletteButtonSchema extends SButtonSchema {
     range: Range;
 }
 
-export class PaletteButton extends SButton {
+export class PaletteButton extends SButtonImpl {
     codeActionKind: string;
     range: Range;
 }
@@ -83,7 +82,7 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
 
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
 
-    override mouseDown(target: SModelElement, event: MouseEvent): (Action | Promise<Action>)[] {
+    override mouseDown(target: SModelElementImpl, event: MouseEvent): (Action | Promise<Action>)[] {
         if (target instanceof PaletteButton) {
             return [this.getWorkspaceEditAction(target)];
         }
@@ -114,7 +113,7 @@ export class CodeActionContextMenuProvider implements IContextMenuItemProvider {
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
     @inject(EditDiagramLocker) editDiagramLocker: EditDiagramLocker;
 
-    async getItems(root: Readonly<SModelRoot>, lastMousePosition?: Point | undefined): Promise<MenuItem[]> {
+    async getItems(root: Readonly<SModelRootImpl>, lastMousePosition?: Point | undefined): Promise<MenuItem[]> {
         const items: MenuItem[] = [];
         const range = getRange(root);
         if (this.editDiagramLocker.allowEdit && range !== undefined) {

@@ -17,8 +17,8 @@
 import { startLanguageServer } from 'langium';
 import { NodeFileSystem } from 'langium/node';
 import { addDiagramHandler } from 'langium-sprotty';
-import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
-import { createStatesServices } from './states-module';
+import { createConnection, ProposedFeatures } from 'vscode-languageserver/node.js';
+import { createStatesServices } from './states-module.js';
 
 // Create a connection to the client
 const connection = createConnection(ProposedFeatures.all);

@@ -17,13 +17,13 @@
 /** @jsx svg */
 import { injectable } from 'inversify';
 import { VNode } from 'snabbdom';
-import { PolylineEdgeView, RenderingContext, SEdge, svg, IView, SPort } from 'sprotty';
+import { PolylineEdgeView, RenderingContext, SEdgeImpl, svg, IView, SPortImpl } from 'sprotty';
 import { Point, toDegrees } from 'sprotty-protocol';
 
 @injectable()
 export class PolylineArrowEdgeView extends PolylineEdgeView {
 
-    protected override renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
+    protected override renderAdditionals(edge: SEdgeImpl, segments: Point[], context: RenderingContext): VNode[] {
         const p1 = segments[segments.length - 2];
         const p2 = segments[segments.length - 1];
         return [
@@ -39,7 +39,7 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
 
 @injectable()
 export class TriangleButtonView implements IView {
-    render(model: SPort, context: RenderingContext): VNode {
+    render(model: SPortImpl, context: RenderingContext): VNode {
         return <path class-sprotty-button={true} d='M 0,0 L 8,4 L 0,8 Z' />;
     }
 }
