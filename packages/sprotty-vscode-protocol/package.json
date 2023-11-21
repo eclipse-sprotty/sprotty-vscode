@@ -1,6 +1,6 @@
 {
   "name": "sprotty-vscode-protocol",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "displayName": "Sprotty VSCode Integration - Protocol between webview and extension",
   "description": "Glue code to integrate Sprotty diagrams in VSCode extensions (protocol part)",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
@@ -31,8 +31,6 @@
     "sprotty-protocol": "^1.0.0",
     "vscode-languageserver-protocol": "^3.17.5",
     "vscode-messenger-common": "^0.4.5"
-  },
-  "devDependencies": {
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",

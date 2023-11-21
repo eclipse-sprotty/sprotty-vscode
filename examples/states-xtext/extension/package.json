@@ -9,7 +9,7 @@
         "url": "https://github.com/TypeFox/sprotty-vscode",
         "directory": "examples/states-xtext/extension"
     },
-    "version": "0.5.0",
+    "version": "0.6.0",
     "engines": {
         "vscode": "^1.46.0"
     },
@@ -154,8 +154,8 @@
         "@types/node": "^14.17.3",
         "@types/vscode": "1.50.0",
         "source-map-loader": "^4.0.1",
-        "sprotty-vscode": "^0.5.0",
-        "states-sprotty-webview": "^0.5.0",
+        "sprotty-vscode": "^1.0.0",
+        "states-sprotty-webview": "^0.6.0",
         "ts-loader": "^9.5.1",
         "vscode-languageclient": "^9.0.1",
         "webpack": "^5.89.0",
