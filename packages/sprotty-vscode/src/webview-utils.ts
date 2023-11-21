@@ -19,6 +19,14 @@ import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import type { WebviewContainer } from './webview-endpoint';
 
+interface WebviewPanelOptions {
+    localResourceRoots: vscode.Uri[]
+    scriptUri: vscode.Uri
+    cssUri?: vscode.Uri
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
+        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
+}
+
 export function serializeUri(uri: vscode.Uri): string {
     let uriString = uri.toString();
     const matchDrive = uriString.match(/^file:\/\/\/([a-z])%3A/i);
@@ -29,7 +37,7 @@ export function serializeUri(uri: vscode.Uri): string {
 }
 
 export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
-    options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri, cssUri?: vscode.Uri }): vscode.WebviewPanel {
+    options: WebviewPanelOptions): vscode.WebviewPanel {
     const title = createWebviewTitle(identifier);
     const diagramPanel = vscode.window.createWebviewPanel(
         identifier.diagramType || 'diagram',
@@ -40,11 +48,20 @@ export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
             enableScripts: true,
             retainContextWhenHidden: true
         });
-    diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
-        scriptUri: options.scriptUri,
-        cssUri: options.cssUri,
-        title
-    });
+
+    if (options.createWebviewHtml) {
+        diagramPanel.webview.html = options.createWebviewHtml(identifier, diagramPanel, {
+            scriptUri: options.scriptUri,
+            cssUri: options.cssUri,
+            title
+            });
+    } else {
+        diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
+            scriptUri: options.scriptUri,
+            cssUri: options.cssUri,
+            title,
+        });
+    }
     return diagramPanel;
 }
 
@@ -69,6 +86,7 @@ export function createWebviewHtml(identifier: SprottyDiagramIdentifier, containe
         <meta name="viewport" content="width=device-width, height=device-height">
         ${options.title ? `<title>${options.title}</title>` : ''}
         ${options.cssUri ? `<link rel="stylesheet" type="text/css" href="${transformUri(options.cssUri)}" />` : ''}
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src ${container.webview.cspSource}; style-src 'unsafe-inline' ${container.webview.cspSource};">
     </head>
     <body>
         <div id="${identifier.clientId}_container" style="height: 100%;"></div>

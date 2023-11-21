@@ -17,7 +17,7 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { Messenger } from 'vscode-messenger';
-import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewContainer, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewPanel, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
 
 export interface WebviewPanelManagerOptions {
@@ -26,6 +26,8 @@ export interface WebviewPanelManagerOptions {
     defaultDiagramType?: string
     supportedFileExtensions?: string[]
     singleton?: boolean
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
+        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
 }
 
 export interface OpenPanelOptions extends OpenDiagramOptions {

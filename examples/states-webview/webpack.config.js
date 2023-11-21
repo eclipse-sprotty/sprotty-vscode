@@ -12,7 +12,7 @@ const config = {
 		filename: 'webview.js',
         path: outputPath
     },
-    devtool: 'eval-source-map',
+    devtool: 'source-map',
 
     resolve: {
         extensions: ['.ts', '.tsx', '.js']

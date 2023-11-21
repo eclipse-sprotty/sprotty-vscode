@@ -17,7 +17,7 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { Messenger } from 'vscode-messenger';
-import { isWebviewView, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewView, IWebviewEndpointManager, OpenDiagramOptions, WebviewContainer, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyViewProviderOptions {
@@ -26,6 +26,8 @@ export interface SprottyViewProviderOptions {
     messenger?: Messenger
     supportedFileExtensions?: string[];
     openActiveEditor?: boolean
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
+        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
 }
 
 export interface OpenViewOptions extends OpenDiagramOptions {
@@ -122,7 +124,11 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
             identifier = { clientId: this.clientId, diagramType: this.options.viewType, uri: '' };
         }
         const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
-        webviewView.webview.html = createWebviewHtml(identifier, webviewView, { scriptUri });
+        if (this.options.createWebviewHtml) {
+            webviewView.webview.html = this.options.createWebviewHtml(identifier, webviewView, { scriptUri });
+        } else {
+            webviewView.webview.html = createWebviewHtml(identifier, webviewView, { scriptUri });
+        }
     }
 
     protected async createDiagramIdentifier(uri: vscode.Uri, diagramType?: string): Promise<SprottyDiagramIdentifier | undefined> {

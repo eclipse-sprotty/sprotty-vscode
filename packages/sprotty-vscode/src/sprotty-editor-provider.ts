@@ -17,7 +17,7 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { Messenger } from 'vscode-messenger';
-import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewContainer, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyEditorProviderOptions {
@@ -25,6 +25,8 @@ export interface SprottyEditorProviderOptions {
     viewType: string
     messenger?: Messenger
     supportedFileExtensions?: string[];
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
+        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
 }
 
 export type CustomDocumentChangeEvent = vscode.CustomDocumentEditEvent<vscode.CustomDocument> | vscode.CustomDocumentContentChangeEvent<vscode.CustomDocument>;
@@ -122,7 +124,11 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
         const identifier = document.endpoint?.diagramIdentifier;
         if (identifier) {
             const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
-            webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
+            if (this.options.createWebviewHtml) {
+                this.options.createWebviewHtml(identifier, webviewPanel, { scriptUri });
+            } else {
+                webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
+            }
         }
     }
 
