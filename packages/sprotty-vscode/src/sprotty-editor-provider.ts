@@ -124,7 +124,7 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
         const identifier = document.endpoint?.diagramIdentifier;
         if (identifier) {
             if (this.options.createWebviewHtml) {
-                this.options.createWebviewHtml(identifier, webviewPanel);
+                webviewPanel.webview.html = this.options.createWebviewHtml(identifier, webviewPanel);
             } else {
                 const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
                 webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
