@@ -36,6 +36,7 @@ export function serializeUri(uri: vscode.Uri): string {
     return uriString;
 }
 
+/** @deprecated */
 export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
     options: WebviewPanelOptions): vscode.WebviewPanel {
     const title = createWebviewTitle(identifier);

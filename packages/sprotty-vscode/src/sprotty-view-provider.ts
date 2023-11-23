@@ -24,10 +24,10 @@ export interface SprottyViewProviderOptions {
     extensionUri: vscode.Uri
     viewType: string
     messenger?: Messenger
-    supportedFileExtensions?: string[];
+    supportedFileExtensions?: string[]
     openActiveEditor?: boolean
-    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
-        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string
+    localResourceRoots?: vscode.Uri[]
 }
 
 export interface OpenViewOptions extends OpenDiagramOptions {
@@ -115,7 +115,7 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
     protected configureWebview(webviewView: vscode.WebviewView, endpoint: WebviewEndpoint, cancelToken: vscode.CancellationToken): Promise<void> | void {
         const extensionPath = this.options.extensionUri.fsPath;
         webviewView.webview.options = {
-            localResourceRoots: [ createFileUri(extensionPath, 'pack') ],
+            localResourceRoots: this.options.localResourceRoots ?? [ createFileUri(extensionPath, 'pack') ],
             enableScripts: true
         };
         let identifier = endpoint.diagramIdentifier;
@@ -123,10 +123,10 @@ export class SprottyViewProvider implements vscode.WebviewViewProvider, IWebview
             // Create a preliminary diagram identifier to fill the webview's HTML content
             identifier = { clientId: this.clientId, diagramType: this.options.viewType, uri: '' };
         }
-        const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
         if (this.options.createWebviewHtml) {
-            webviewView.webview.html = this.options.createWebviewHtml(identifier, webviewView, { scriptUri });
+            webviewView.webview.html = this.options.createWebviewHtml(identifier, webviewView);
         } else {
+            const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
             webviewView.webview.html = createWebviewHtml(identifier, webviewView, { scriptUri });
         }
     }

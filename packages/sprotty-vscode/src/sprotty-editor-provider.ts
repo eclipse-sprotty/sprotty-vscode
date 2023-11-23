@@ -24,9 +24,9 @@ export interface SprottyEditorProviderOptions {
     extensionUri: vscode.Uri
     viewType: string
     messenger?: Messenger
-    supportedFileExtensions?: string[];
-    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
-        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
+    supportedFileExtensions?: string[]
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string
+    localResourceRoots?: vscode.Uri[]
 }
 
 export type CustomDocumentChangeEvent = vscode.CustomDocumentEditEvent<vscode.CustomDocument> | vscode.CustomDocumentContentChangeEvent<vscode.CustomDocument>;
@@ -118,15 +118,15 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
     protected configureWebview(document: SprottyDocument, webviewPanel: vscode.WebviewPanel, cancelToken: vscode.CancellationToken): Promise<void> | void {
         const extensionPath = this.options.extensionUri.fsPath;
         webviewPanel.webview.options = {
-            localResourceRoots: [ createFileUri(extensionPath, 'pack') ],
+            localResourceRoots: this.options.localResourceRoots ?? [ createFileUri(extensionPath, 'pack') ],
             enableScripts: true
         };
         const identifier = document.endpoint?.diagramIdentifier;
         if (identifier) {
-            const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
             if (this.options.createWebviewHtml) {
-                this.options.createWebviewHtml(identifier, webviewPanel, { scriptUri });
+                this.options.createWebviewHtml(identifier, webviewPanel);
             } else {
+                const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
                 webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
             }
         }
