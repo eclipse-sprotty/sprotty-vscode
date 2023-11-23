@@ -19,14 +19,6 @@ import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import type { WebviewContainer } from './webview-endpoint';
 
-interface WebviewPanelOptions {
-    localResourceRoots: vscode.Uri[]
-    scriptUri: vscode.Uri
-    cssUri?: vscode.Uri
-    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer,
-        options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }) => string
-}
-
 export function serializeUri(uri: vscode.Uri): string {
     let uriString = uri.toString();
     const matchDrive = uriString.match(/^file:\/\/\/([a-z])%3A/i);
@@ -38,7 +30,7 @@ export function serializeUri(uri: vscode.Uri): string {
 
 /** @deprecated */
 export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
-    options: WebviewPanelOptions): vscode.WebviewPanel {
+    options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri, cssUri?: vscode.Uri; }): vscode.WebviewPanel {
     const title = createWebviewTitle(identifier);
     const diagramPanel = vscode.window.createWebviewPanel(
         identifier.diagramType || 'diagram',
@@ -49,20 +41,11 @@ export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
             enableScripts: true,
             retainContextWhenHidden: true
         });
-
-    if (options.createWebviewHtml) {
-        diagramPanel.webview.html = options.createWebviewHtml(identifier, diagramPanel, {
-            scriptUri: options.scriptUri,
-            cssUri: options.cssUri,
-            title
-            });
-    } else {
-        diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
-            scriptUri: options.scriptUri,
-            cssUri: options.cssUri,
-            title,
-        });
-    }
+    diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
+        scriptUri: options.scriptUri,
+        cssUri: options.cssUri,
+        title,
+    });
     return diagramPanel;
 }
 
@@ -78,7 +61,7 @@ export function createWebviewTitle(identifier: SprottyDiagramIdentifier): string
 }
 
 export function createWebviewHtml(identifier: SprottyDiagramIdentifier, container: WebviewContainer,
-    options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }): string {
+    options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string; }): string {
     const transformUri = (uri: vscode.Uri) => container.webview.asWebviewUri(uri).toString();
     return `<!DOCTYPE html>
 <html lang="en">
