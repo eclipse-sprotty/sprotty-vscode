@@ -17,19 +17,21 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { Messenger } from 'vscode-messenger';
-import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
-import { createFileUri, createWebviewPanel, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewContainer, WebviewEndpoint } from './webview-endpoint';
+import { createFileUri, createWebviewHtml, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
 
 export interface WebviewPanelManagerOptions {
-    extensionUri: vscode.Uri
-    messenger?: Messenger
-    defaultDiagramType?: string
-    supportedFileExtensions?: string[]
-    singleton?: boolean
+    extensionUri: vscode.Uri;
+    messenger?: Messenger;
+    defaultDiagramType?: string;
+    supportedFileExtensions?: string[];
+    singleton?: boolean;
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string;
+    localResourceRoots?: vscode.Uri[];
 }
 
 export interface OpenPanelOptions extends OpenDiagramOptions {
-    preserveFocus?: boolean
+    preserveFocus?: boolean;
 }
 
 /**
@@ -106,10 +108,27 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
      */
     protected createWebview(identifier: SprottyDiagramIdentifier): vscode.WebviewPanel {
         const extensionPath = this.options.extensionUri.fsPath;
-        return createWebviewPanel(identifier, {
-            localResourceRoots: [ createFileUri(extensionPath, 'pack') ],
-            scriptUri: createFileUri(extensionPath, 'pack', 'webview.js')
-        });
+
+        const title = createWebviewTitle(identifier);
+        const diagramPanel = vscode.window.createWebviewPanel(
+            identifier.diagramType || 'diagram',
+            title,
+            vscode.ViewColumn.Beside,
+            {
+                localResourceRoots: this.options.localResourceRoots ?? [createFileUri(extensionPath, 'pack')],
+                enableScripts: true,
+                retainContextWhenHidden: true
+            }
+        );
+
+        if (this.options.createWebviewHtml) {
+            diagramPanel.webview.html = this.options.createWebviewHtml(identifier, diagramPanel);
+        } else {
+            const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
+            diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, { scriptUri });
+        }
+
+        return diagramPanel;
     }
 
     protected async createDiagramIdentifier(uri: vscode.Uri, diagramType?: string): Promise<SprottyDiagramIdentifier | undefined> {

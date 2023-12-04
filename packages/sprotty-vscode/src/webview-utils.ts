@@ -28,8 +28,9 @@ export function serializeUri(uri: vscode.Uri): string {
     return uriString;
 }
 
+/** @deprecated */
 export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
-    options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri, cssUri?: vscode.Uri }): vscode.WebviewPanel {
+    options: { localResourceRoots: vscode.Uri[], scriptUri: vscode.Uri, cssUri?: vscode.Uri; }): vscode.WebviewPanel {
     const title = createWebviewTitle(identifier);
     const diagramPanel = vscode.window.createWebviewPanel(
         identifier.diagramType || 'diagram',
@@ -43,7 +44,7 @@ export function createWebviewPanel(identifier: SprottyDiagramIdentifier,
     diagramPanel.webview.html = createWebviewHtml(identifier, diagramPanel, {
         scriptUri: options.scriptUri,
         cssUri: options.cssUri,
-        title
+        title,
     });
     return diagramPanel;
 }
@@ -60,7 +61,7 @@ export function createWebviewTitle(identifier: SprottyDiagramIdentifier): string
 }
 
 export function createWebviewHtml(identifier: SprottyDiagramIdentifier, container: WebviewContainer,
-    options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string }): string {
+    options: { scriptUri: vscode.Uri, cssUri?: vscode.Uri, title?: string; }): string {
     const transformUri = (uri: vscode.Uri) => container.webview.asWebviewUri(uri).toString();
     return `<!DOCTYPE html>
 <html lang="en">
@@ -69,6 +70,7 @@ export function createWebviewHtml(identifier: SprottyDiagramIdentifier, containe
         <meta name="viewport" content="width=device-width, height=device-height">
         ${options.title ? `<title>${options.title}</title>` : ''}
         ${options.cssUri ? `<link rel="stylesheet" type="text/css" href="${transformUri(options.cssUri)}" />` : ''}
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src ${container.webview.cspSource}; style-src 'unsafe-inline' ${container.webview.cspSource};">
     </head>
     <body>
         <div id="${identifier.clientId}_container" style="height: 100%;"></div>

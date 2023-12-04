@@ -17,14 +17,16 @@
 import { SprottyDiagramIdentifier } from 'sprotty-vscode-protocol';
 import * as vscode from 'vscode';
 import { Messenger } from 'vscode-messenger';
-import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewEndpoint } from './webview-endpoint';
+import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewContainer, WebviewEndpoint } from './webview-endpoint';
 import { createFileUri, createWebviewHtml, getExtname, serializeUri } from './webview-utils';
 
 export interface SprottyEditorProviderOptions {
     extensionUri: vscode.Uri
     viewType: string
     messenger?: Messenger
-    supportedFileExtensions?: string[];
+    supportedFileExtensions?: string[]
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string
+    localResourceRoots?: vscode.Uri[]
 }
 
 export type CustomDocumentChangeEvent = vscode.CustomDocumentEditEvent<vscode.CustomDocument> | vscode.CustomDocumentContentChangeEvent<vscode.CustomDocument>;
@@ -116,13 +118,17 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
     protected configureWebview(document: SprottyDocument, webviewPanel: vscode.WebviewPanel, cancelToken: vscode.CancellationToken): Promise<void> | void {
         const extensionPath = this.options.extensionUri.fsPath;
         webviewPanel.webview.options = {
-            localResourceRoots: [ createFileUri(extensionPath, 'pack') ],
+            localResourceRoots: this.options.localResourceRoots ?? [ createFileUri(extensionPath, 'pack') ],
             enableScripts: true
         };
         const identifier = document.endpoint?.diagramIdentifier;
         if (identifier) {
-            const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
-            webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
+            if (this.options.createWebviewHtml) {
+                webviewPanel.webview.html = this.options.createWebviewHtml(identifier, webviewPanel);
+            } else {
+                const scriptUri = createFileUri(extensionPath, 'pack', 'webview.js');
+                webviewPanel.webview.html = createWebviewHtml(identifier, webviewPanel, { scriptUri });
+            }
         }
     }
 
