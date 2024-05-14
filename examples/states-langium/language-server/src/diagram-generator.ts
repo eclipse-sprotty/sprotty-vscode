@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { GeneratorContext, LangiumDiagramGenerator } from 'langium-sprotty';
-import { SEdge, SLabel, SModelRoot, SNode, SPort } from 'sprotty-protocol';
+import { SEdge, SLabel, SModelRoot, SNode, SPort, EdgeLayoutable } from 'sprotty-protocol';
 import { State, StateMachine, Transition } from './generated/ast.js';
 
 export class StatesDiagramGenerator extends LangiumDiagramGenerator {
@@ -23,7 +23,7 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
     protected generateRoot(args: GeneratorContext<StateMachine>): SModelRoot {
         const { document } = args;
         const sm = document.parseResult.value;
-        return {
+        const graph = {
             type: 'graph',
             id: sm.name ?? 'root',
             children: [
@@ -31,11 +31,14 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
                 ...sm.states.flatMap(s => s.transitions).map(t => this.generateEdge(t, args))
             ]
         };
+        this.traceProvider.trace(graph, sm);
+        return graph;
     }
 
-    protected generateNode(state: State, { idCache }: GeneratorContext<StateMachine>): SNode {
+    protected generateNode(state: State, ctx: GeneratorContext<StateMachine>): SNode {
+        const { idCache } = ctx;
         const nodeId = idCache.uniqueId(state.name, state);
-        return {
+        const node = {
             type: 'node',
             id: nodeId,
             children: [
@@ -57,25 +60,38 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
                 paddingRight: 10.0
             }
         };
+        this.traceProvider.trace(node, state);
+        this.markerProvider.addDiagnosticMarker(node, state, ctx);
+        return node;
     }
 
-    protected generateEdge(transition: Transition, { idCache }: GeneratorContext<StateMachine>): SEdge {
+    protected generateEdge(transition: Transition, ctx: GeneratorContext<StateMachine>): SEdge {
+        const { idCache } = ctx;
         const sourceId = idCache.getId(transition.$container);
         const targetId = idCache.getId(transition.state?.ref);
         const edgeId = idCache.uniqueId(`${sourceId}:${transition.event?.ref?.name}:${targetId}`, transition);
-        return {
+        const edge = {
             type: 'edge',
             id: edgeId,
             sourceId: sourceId!,
             targetId: targetId!,
             children: [
-                <SLabel>{
+                <SLabel & EdgeLayoutable>{
                     type: 'label:xref',
                     id: idCache.uniqueId(edgeId + '.label'),
-                    text: transition.event?.ref?.name
+                    text: transition.event?.ref?.name,
+                    edgePlacement:  {
+                        position: 0.5,
+                        offset: 4,
+                        side: 'left',
+                        rotate: true
+                    }
                 }
             ]
         };
+        this.traceProvider.trace(edge, transition);
+        this.markerProvider.addDiagnosticMarker(edge, transition, ctx);
+        return edge;
     }
 
 }

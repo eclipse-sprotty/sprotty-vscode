@@ -27,8 +27,8 @@
     "css"
   ],
   "dependencies": {
-    "reflect-metadata": "^0.1.13",
-    "sprotty": "^1.0.0",
+    "reflect-metadata": "^0.2.2",
+    "sprotty": "^1.2.0",
     "sprotty-vscode-webview": "^1.0.0"
   },
   "devDependencies": {

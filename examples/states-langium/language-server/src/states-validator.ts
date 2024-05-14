@@ -74,13 +74,14 @@ export class StatesValidator {
     }
 
     checkTransition(transition: Transition, accept: ValidationAcceptor): void {
-        if (transition.state.ref) {
+        const target = transition.state.ref;
+        if (target) {
             const sourceSM = transition.$container.$container;
-            const targetSM = transition.state.ref.$container;
+            const targetSM = target.$container;
             if (sourceSM !== targetSM) {
                 accept(
                     'error',
-                    `Invalid transition target: state ${transition.state.ref.name} is in a different state machine ${targetSM.name}.`,
+                    `Invalid transition target: state ${target.name} is in a different state machine ${targetSM.name}.`,
                     { node: transition, property: 'state' }
                 );
             }

@@ -16,23 +16,20 @@
     },
     "type": "module",
     "dependencies": {
-        "langium": "^2.1.2",
-        "langium-sprotty": "^2.1.0",
-        "sprotty-elk": "^1.0.0",
+        "langium": "^3.0.0",
+        "langium-sprotty": "^3.0.0",
+        "sprotty-elk": "^1.2.0",
         "vscode-languageserver": "^9.0.1"
     },
     "devDependencies": {
         "@types/node": "^14.17.3",
-        "langium-cli": "^2.1.0",
-        "ts-loader": "^9.5.1",
-        "webpack": "^5.89.0",
-        "webpack-cli": "^5.1.4"
+        "langium-cli": "^3.0.3"
     },
     "scripts": {
         "prepare": "yarn run clean && yarn run langium:generate && yarn run build",
         "clean": "shx rm -fr out",
-        "build": "webpack --mode=development",
-        "watch": "webpack --mode=development --watch",
+        "build": "tsc --noEmit",
+        "watch": "tsc --noEmit --watch",
         "langium:generate": "langium generate",
         "langium:watch": "langium generate --watch"
     }

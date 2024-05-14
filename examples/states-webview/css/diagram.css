@@ -4,7 +4,7 @@
 
 .sprotty-node.selected {
     stroke-width: 2;
-    stroke: var(--vscode-button-hover-background);
+    stroke: var(--vscode-button-secondaryForeground);
 }
 
 .sprotty-label {

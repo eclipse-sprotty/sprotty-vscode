@@ -18,8 +18,8 @@
                 "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
             ],
             "outFiles": [
-                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
-                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+                "${workspaceFolder}/examples/states-langium/extension/pack/extension/src/*.cjs",
+                "${workspaceFolder}/packages/sprotty-vscode/lib/**/*.js"
             ],
             "sourceMaps": true
         },
@@ -36,8 +36,8 @@
                 "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
             ],
             "outFiles": [
-                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
-                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+                "${workspaceFolder}/examples/states-langium/extension/pack/extension/src/*.cjs",
+                "${workspaceFolder}/packages/sprotty-vscode/lib/**/*.js"
             ],
             "sourceMaps": true
         },
@@ -54,8 +54,8 @@
                 "--extensionDevelopmentPath=${workspaceFolder}/examples/states-langium/extension"
             ],
             "outFiles": [
-                "${workspaceFolder}/examples/states-langium/extension/pack/*.js",
-                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+                "${workspaceFolder}/examples/states-langium/extension/pack/extension/src/*.cjs",
+                "${workspaceFolder}/packages/sprotty-vscode/lib/**/*.js"
             ],
             "sourceMaps": true
         },
@@ -70,9 +70,22 @@
             ],
             "outFiles": [
                 "${workspaceFolder}/examples/states-xtext/extension/pack/*.js",
-                "${workspaceFolder}/sprotty-vscode-extension/lib/**/*.js"
+                "${workspaceFolder}/packages/sprotty-vscode/lib/**/*.js"
             ],
             "sourceMaps": true
-        }
+        },
+        {
+            "name": "Attach to Language Server",
+            "type": "node",
+            "port": 6009,
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceFolder}/examples/states-langium/extension/pack/language-server/src/*.cjs"
+            ]
+        },
     ]
 }
