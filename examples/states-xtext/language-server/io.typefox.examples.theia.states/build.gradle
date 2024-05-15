@@ -1,13 +1,13 @@
 dependencies {
-	testCompile 'org.junit.jupiter:junit-jupiter-api'
-	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
-	testCompile "org.eclipse.xtext:org.eclipse.xtext.testing:${xtextVersion}"
-	compile "org.eclipse.xtext:org.eclipse.xtext:${xtextVersion}"
-	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"
+	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	testImplementation "org.eclipse.xtext:org.eclipse.xtext.testing:${xtextVersion}"
+	api "org.eclipse.xtext:org.eclipse.xtext:${xtextVersion}"
+	api "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"
 }
 configurations {
 	mwe2 {
-		extendsFrom compile
+		extendsFrom compileClasspath
 	}
 }
 
@@ -32,6 +32,7 @@ task generateXtextLanguage(type: JavaExec) {
 test {
 	useJUnitPlatform()
 }
+processResources.dependsOn(generateXtextLanguage)
 generateXtext.dependsOn(generateXtextLanguage)
 clean.dependsOn(cleanGenerateXtextLanguage)
 eclipse.classpath.plusConfigurations += [configurations.mwe2]
