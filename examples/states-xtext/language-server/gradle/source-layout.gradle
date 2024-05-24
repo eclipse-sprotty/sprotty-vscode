@@ -1,13 +1,13 @@
 sourceSets {
 	main {
-		java.srcDirs = ['src/main/java', 'src/main/xtext-gen']
-		resources.srcDirs = ['src/main/resources', 'src/main/xtext-gen']
-		xtendOutputDir = 'src/main/xtend-gen'
+		java.srcDir 'src/main/xtext-gen'
+		resources.srcDir 'src/main/xtext-gen'
+		xtend.outputDir = 'src/main/xtend-gen'
 	}
 	test {
-		java.srcDirs = ['src/test/java', 'src/test/xtext-gen']
-		resources.srcDirs = ['src/test/resources', 'src/test/xtext-gen']
-		xtendOutputDir = 'src/test/xtend-gen'
+		java.srcDir 'src/test/xtext-gen'
+		resources.srcDir 'src/test/xtext-gen'
+		xtend.outputDir = 'src/test/xtend-gen'
 	}
 }
 
@@ -23,6 +23,9 @@ jar {
 	}
 }
 
+
 plugins.withId('war') {
-	webAppDirName = "src/main/webapp"
+	war {
+		webAppDirectory = file("src/main/webapp")
+	}
 }

@@ -1,18 +1,22 @@
 dependencies {
-	compile project(':io.typefox.examples.theia.states')
-	compile "org.eclipse.xtext:org.eclipse.xtext.ide:${xtextVersion}"
-	compile "org.eclipse.xtext:org.eclipse.xtext.xbase.ide:${xtextVersion}"
+	api project(':io.typefox.examples.theia.states')
+	api "org.eclipse.xtext:org.eclipse.xtext.ide:${xtextVersion}"
+	api "org.eclipse.xtext:org.eclipse.xtext.xbase.ide:${xtextVersion}"
 	
-	compile "org.eclipse.sprotty:org.eclipse.sprotty.server:${sprottyVersion}"
-	compile "org.eclipse.sprotty:org.eclipse.sprotty.xtext:${sprottyVersion}"
+	api "org.eclipse.sprotty:org.eclipse.sprotty.server:${sprottyVersion}"
+	api "org.eclipse.sprotty:org.eclipse.sprotty.xtext:${sprottyVersion}"
 	
-	compile "org.eclipse.sprotty:org.eclipse.sprotty.layout:${sprottyVersion}"
-	compile "org.eclipse.elk:org.eclipse.elk.alg.layered:${elkVersion}"
+	api "org.eclipse.sprotty:org.eclipse.sprotty.layout:${sprottyVersion}"
+	api "org.eclipse.elk:org.eclipse.elk.alg.layered:${elkVersion}"
 }
 
 apply plugin: 'application'
-mainClassName = "io.typefox.examples.theia.states.ide.launch.StatesServerLauncher"
-applicationName = 'states-language-server'
+application {
+	mainClass = "io.typefox.examples.theia.states.ide.launch.StatesServerLauncher"
+	applicationName = 'states-language-server'
+}
+
+
 
 task unzipServer(type: Copy, dependsOn: distZip) {
 	def zipFile = file("${buildDir}/distributions/states-language-server.zip")
