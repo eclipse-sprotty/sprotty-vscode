@@ -79,13 +79,7 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
                 <SLabel & EdgeLayoutable>{
                     type: 'label:xref',
                     id: idCache.uniqueId(edgeId + '.label'),
-                    text: transition.event?.ref?.name,
-                    edgePlacement:  {
-                        position: 0.5,
-                        offset: 4,
-                        side: 'left',
-                        rotate: true
-                    }
+                    text: transition.event?.ref?.name
                 }
             ]
         };

@@ -49,7 +49,7 @@ const statesDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
         enable: [editLabelFeature]
     });
     configureModelElement(context, 'edge', StatesEdge, PolylineArrowEdgeView, {
-        disable: [editFeature]
+        enable: [editFeature]
     });
     configureModelElement(context, 'html', HtmlRootImpl, HtmlRootView);
     configureModelElement(context, 'pre-rendered', PreRenderedElementImpl, PreRenderedView);
