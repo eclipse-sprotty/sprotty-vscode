@@ -15,8 +15,9 @@
  ********************************************************************************/
 
 const ElkConstructor = require('elkjs/lib/elk.bundled.js').default;
-import { createDefaultModule, createDefaultSharedModule, inject, Module, PartialLangiumServices, DefaultSharedModuleContext } from 'langium';
-import { LangiumSprottyServices, LangiumSprottySharedServices, SprottyDiagramServices, SprottySharedModule } from 'langium-sprotty';
+import { inject, Module } from 'langium';
+import { createDefaultModule, createDefaultSharedModule, PartialLangiumServices, DefaultSharedModuleContext } from 'langium/lsp';
+import { LangiumSprottyServices, LangiumSprottySharedServices, SprottyDefaultModule, SprottyDiagramServices, SprottySharedModule } from 'langium-sprotty';
 import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILayoutConfigurator } from 'sprotty-elk/lib/elk-layout.js';
 import { StatesDiagramGenerator } from './diagram-generator.js';
 import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module.js';
@@ -78,7 +79,10 @@ export const StatesModule: Module<StatesServices, PartialLangiumServices & Sprot
  * @param context Optional module context with the LSP connection
  * @returns An object wrapping the shared services and the language-specific services
  */
-export function createStatesServices(context: DefaultSharedModuleContext): { shared: LangiumSprottySharedServices, states: StatesServices } {
+export function createStatesServices(context: DefaultSharedModuleContext): {
+    shared: LangiumSprottySharedServices,
+    states: StatesServices
+} {
     const shared = inject(
         createDefaultSharedModule(context),
         StatesGeneratedSharedModule,
@@ -87,6 +91,7 @@ export function createStatesServices(context: DefaultSharedModuleContext): { sha
     const states = inject(
         createDefaultModule({ shared }),
         StatesGeneratedModule,
+        SprottyDefaultModule,
         StatesModule
     );
     registerValidationChecks(states);

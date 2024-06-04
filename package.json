@@ -20,6 +20,9 @@
     "shx": "^0.3.4",
     "typescript": "~5.2.2"
   },
+  "resolutions": {
+    "**/sprotty": "1.3.0-next.8eb479f.3+8eb479f"
+  },
   "workspaces": [
     "packages/sprotty-vscode",
     "packages/sprotty-vscode-protocol",

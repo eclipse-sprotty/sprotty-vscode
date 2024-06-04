@@ -15,7 +15,10 @@
  ********************************************************************************/
 
 import * as path from 'path';
-import { registerDefaultCommands, registerTextEditorSync } from 'sprotty-vscode';
+import {
+    SprottyDiagramIdentifier, WebviewContainer, createFileUri, createWebviewHtml as doCreateWebviewHtml,
+    registerDefaultCommands, registerTextEditorSync
+} from 'sprotty-vscode';
 import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
@@ -30,6 +33,12 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     languageClient = createLanguageClient(context);
+    const extensionPath = context.extensionUri.fsPath;
+    const localResourceRoots = [createFileUri(extensionPath, 'pack', 'diagram')];
+    const createWebviewHtml = (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => doCreateWebviewHtml(identifier, container, {
+        scriptUri: createFileUri(extensionPath, 'pack', 'diagram', 'main.js'),
+        cssUri: createFileUri(extensionPath, 'pack', 'diagram', 'main.css')
+    });
 
     if (diagramMode === 'panel') {
         // Set up webview panel manager for freestyle webviews
@@ -37,7 +46,9 @@ export function activate(context: vscode.ExtensionContext) {
             extensionUri: context.extensionUri,
             defaultDiagramType: 'states',
             languageClient,
-            supportedFileExtensions: ['.sm']
+            supportedFileExtensions: ['.sm'],
+            localResourceRoots,
+            createWebviewHtml
         });
         registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
     }
@@ -48,7 +59,9 @@ export function activate(context: vscode.ExtensionContext) {
             extensionUri: context.extensionUri,
             viewType: 'states',
             languageClient,
-            supportedFileExtensions: ['.sm']
+            supportedFileExtensions: ['.sm'],
+            localResourceRoots,
+            createWebviewHtml
         });
         context.subscriptions.push(
             vscode.window.registerCustomEditorProvider('states', webviewEditorProvider, {
@@ -66,7 +79,9 @@ export function activate(context: vscode.ExtensionContext) {
             languageClient,
             supportedFileExtensions: ['.sm'],
             openActiveEditor: true,
-            messenger: new Messenger({ignoreHiddenViews: false})
+            messenger: new Messenger({ignoreHiddenViews: false}),
+            localResourceRoots,
+            createWebviewHtml
         });
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider('states', webviewViewProvider, {
@@ -79,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function createLanguageClient(context: vscode.ExtensionContext): LanguageClient {
-    const serverModule = context.asAbsolutePath(path.join('pack', 'language-server'));
+    const serverModule = context.asAbsolutePath(path.join('pack', 'language-server', 'src', 'main.cjs'));
     // The debug options for the server
     // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging.
     // By setting `process.env.DEBUG_BREAK` to a truthy value, the language server will wait until a debugger is attached.

@@ -59,17 +59,17 @@ export function convertUri(uri: string): vscode.Uri {
     return vscode.Uri.parse(uri);
 }
 
-export function openInTextEditor(message: OpenInTextEditorMessage): void {
-    const editor = vscode.window.visibleTextEditors.find(ed => ed.document.uri.toString() === message.location.uri);
+export function openInTextEditor({ location, forceOpen }: OpenInTextEditorMessage): void {
+    const editor = vscode.window.visibleTextEditors.find(ed => ed.document.uri.toString() === location.uri);
     if (editor) {
-        const start = convertPosition(message.location.range.start);
-        const end = convertPosition(message.location.range.end);
+        const start = convertPosition(location.range.start);
+        const end = convertPosition(location.range.end);
         editor.selection = new vscode.Selection(start, end);
         editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenter);
-    } else if (message.forceOpen) {
-        vscode.window.showTextDocument(vscode.Uri.parse(message.location.uri), {
-            selection: new vscode.Range(convertPosition(message.location.range.start),
-                                        convertPosition(message.location.range.end)),
+    } else if (forceOpen) {
+        vscode.window.showTextDocument(vscode.Uri.parse(location.uri), {
+            selection: new vscode.Range(convertPosition(location.range.start),
+                                        convertPosition(location.range.end)),
             viewColumn: vscode.ViewColumn.One
         });
     }
