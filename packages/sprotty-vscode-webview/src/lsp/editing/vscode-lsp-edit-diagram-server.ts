@@ -16,7 +16,7 @@
 
 import { ActionHandlerRegistry, EditLabelAction } from 'sprotty';
 import {
-    Action, getBasicType, getSubType, SModelElement as SModelElementSchema, SModelIndex
+    Action, getBasicType, getSubType, SModelElement as SModelElementSchema, findElement
 } from 'sprotty-protocol';
 import { LspLabelEditAction, WorkspaceEditAction } from 'sprotty-vscode-protocol/lib/lsp/editing';
 
@@ -53,8 +53,6 @@ export class VscodeLspEditDiagramServer extends VscodeDiagramServer {
     }
 
     protected getElement(elementId: string): SModelElementSchema | undefined {
-        const index = new SModelIndex();
-        index.add(this.currentRoot);
-        return index.getById(elementId);
+        return findElement(this.currentRoot, elementId);
     }
 }

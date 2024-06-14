@@ -21,13 +21,14 @@ import { isWebviewPanel, IWebviewEndpointManager, OpenDiagramOptions, WebviewCon
 import { createFileUri, createWebviewHtml, createWebviewTitle, getExtname, serializeUri } from './webview-utils';
 
 export interface WebviewPanelManagerOptions {
-    extensionUri: vscode.Uri;
-    messenger?: Messenger;
-    defaultDiagramType?: string;
-    supportedFileExtensions?: string[];
-    singleton?: boolean;
-    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string;
-    localResourceRoots?: vscode.Uri[];
+    extensionUri: vscode.Uri
+    messenger?: Messenger
+    defaultDiagramType?: string
+    supportedFileExtensions?: string[]
+    singleton?: boolean
+    createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string
+    configureEndpoint?: (endpoint: WebviewEndpoint) => void
+    localResourceRoots?: vscode.Uri[]
 }
 
 export interface OpenPanelOptions extends OpenDiagramOptions {
@@ -93,12 +94,14 @@ export class WebviewPanelManager implements IWebviewEndpointManager {
     protected createEndpoint(identifier: SprottyDiagramIdentifier): WebviewEndpoint {
         const webviewContainer = this.createWebview(identifier);
         const participant = this.messenger.registerWebviewPanel(webviewContainer);
-        return new WebviewEndpoint({
+        const endpoint = new WebviewEndpoint({
             webviewContainer,
             messenger: this.messenger,
             messageParticipant: participant,
             identifier
         });
+        this.options.configureEndpoint?.(endpoint);
+        return endpoint;
     }
 
     /**

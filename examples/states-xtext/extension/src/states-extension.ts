@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import * as path from 'path';
-import { registerDefaultCommands, registerLspEditCommands, SprottyDiagramIdentifier } from 'sprotty-vscode';
+import { registerDefaultCommands, registerLspEditCommands } from 'sprotty-vscode';
 import { LspWebviewEndpoint, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
 import { addLspLabelEditActionHandler, addWorkspaceEditActionHandler } from 'sprotty-vscode/lib/lsp/editing';
 import * as vscode from 'vscode';
@@ -25,11 +25,15 @@ let languageClient: LanguageClient;
 
 export function activate(context: vscode.ExtensionContext) {
     languageClient = createLanguageClient(context);
-    const webviewPanelManager = new StatesWebviewPanelManager({
+    const webviewPanelManager = new LspWebviewPanelManager({
         extensionUri: context.extensionUri,
         defaultDiagramType: 'states-diagram',
         languageClient,
-        supportedFileExtensions: ['.sm']
+        supportedFileExtensions: ['.sm'],
+        configureEndpoint: endpoint => {
+            addWorkspaceEditActionHandler(endpoint as LspWebviewEndpoint);
+            addLspLabelEditActionHandler(endpoint as LspWebviewEndpoint);
+        }
     });
     registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
     registerLspEditCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
@@ -55,15 +59,6 @@ function createLanguageClient(context: vscode.ExtensionContext): LanguageClient 
         const languageClient = new LanguageClient('statesLanguageClient', 'States Language Server', serverOptions, clientOptions);
         languageClient.start();
         return languageClient;
-}
-
-class StatesWebviewPanelManager extends LspWebviewPanelManager {
-    protected override createEndpoint(identifier: SprottyDiagramIdentifier): LspWebviewEndpoint {
-        const endpoint = super.createEndpoint(identifier);
-        addWorkspaceEditActionHandler(endpoint);
-        addLspLabelEditActionHandler(endpoint);
-        return endpoint;
-    }
 }
 
 export async function deactivate(): Promise<void> {

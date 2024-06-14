@@ -45,13 +45,15 @@ export class LspWebviewPanelManager extends WebviewPanelManager {
     protected override createEndpoint(identifier: SprottyDiagramIdentifier): LspWebviewEndpoint {
         const webviewContainer = this.createWebview(identifier);
         const participant = this.messenger.registerWebviewPanel(webviewContainer);
-        return new LspWebviewEndpoint({
+        const endpoint = new LspWebviewEndpoint({
             languageClient: this.languageClient,
             webviewContainer,
             messenger: this.messenger,
             messageParticipant: participant,
             identifier
         });
+        this.options.configureEndpoint?.(endpoint);
+        return endpoint;
     }
 
     protected override didCloseWebview(endpoint: WebviewEndpoint): void {

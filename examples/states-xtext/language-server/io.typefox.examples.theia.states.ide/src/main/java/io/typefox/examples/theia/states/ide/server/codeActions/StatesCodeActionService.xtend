@@ -22,7 +22,7 @@ class StatesCodeActionService implements ICodeActionService2 {
 	
 	
 	override getCodeActions(Options options) {
-		var root = options.resource.contents.head
+		var root = options.resource?.contents?.head
 		if (root instanceof StateMachine)
 			createCodeActions(root, options.codeActionParams, options.document)
 		 else
@@ -34,10 +34,10 @@ class StatesCodeActionService implements ICodeActionService2 {
 		if (CREATE_STATE_KIND.matchesContext(params)) {
 			result.add(Either.forRight(new CodeAction => [
 				kind = CREATE_STATE_KIND
-				title = 'new State' 
+				title = 'new State'
 				edit = createInsertWorkspaceEdit(
-					stateMachine.eResource.URI, 
-					document.getPosition(document.contents.length), 
+					stateMachine.eResource.URI,
+					document.getPosition(document.contents.length),
 					'''«'\n'»state «getNewName('state', stateMachine.states.map[name])»'''
 				)
 			]));
@@ -45,21 +45,21 @@ class StatesCodeActionService implements ICodeActionService2 {
 		if (CREATE_EVENT_KIND.matchesContext(params)) {
 			result.add(Either.forRight(new CodeAction => [
 				kind = CREATE_EVENT_KIND
-				title = 'new Event' 
+				title = 'new Event'
 				edit = createInsertWorkspaceEdit(
-					stateMachine.eResource.URI, 
-					document.getPosition(document.contents.length), 
+					stateMachine.eResource.URI,
+					document.getPosition(document.contents.length),
 					'''«'\n'»event «getNewName('event', stateMachine.events.map[name])»'''
 				)
 			]));
 		}
-		return result			
+		return result
 	}
 	
 	private def matchesContext(String kind, CodeActionParams params) {
 		if (params.context?.only === null)
 			return true
-		else 
+		else
 			return params.context.only.exists[kind.startsWith(it)]
 	}
 	
@@ -72,12 +72,12 @@ class StatesCodeActionService implements ICodeActionService2 {
 	}
 		
 	private def dispatch List<Either<Command, CodeAction>> createCodeActions(EObject element, CodeActionParams params, Document document) {
-		return emptyList 
+		return emptyList
 	}
 	
 	private def createInsertWorkspaceEdit(URI uri, Position position, String text) {
 		new WorkspaceEdit => [
 			changes = #{uri.toString -> #[ new TextEdit(new Range(position, position), text) ]}
 		]
-	}	
+	}
 }

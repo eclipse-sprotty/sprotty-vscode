@@ -16,10 +16,11 @@
 
 import * as path from 'path';
 import {
-    SprottyDiagramIdentifier, WebviewContainer, createFileUri, createWebviewHtml as doCreateWebviewHtml,
-    registerDefaultCommands, registerTextEditorSync
+    SprottyDiagramIdentifier, WebviewContainer, WebviewEndpoint, createFileUri, createWebviewHtml as doCreateWebviewHtml,
+    registerDefaultCommands, registerLspEditCommands, registerTextEditorSync
 } from 'sprotty-vscode';
-import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
+import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewEndpoint, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
+import { addLspLabelEditActionHandler, addWorkspaceEditActionHandler } from 'sprotty-vscode/lib/lsp/editing';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 import { Messenger } from 'vscode-messenger';
@@ -39,6 +40,10 @@ export function activate(context: vscode.ExtensionContext) {
         scriptUri: createFileUri(extensionPath, 'pack', 'diagram', 'main.js'),
         cssUri: createFileUri(extensionPath, 'pack', 'diagram', 'main.css')
     });
+    const configureEndpoint = (endpoint: WebviewEndpoint) => {
+        addWorkspaceEditActionHandler(endpoint as LspWebviewEndpoint);
+        addLspLabelEditActionHandler(endpoint as LspWebviewEndpoint);
+    };
 
     if (diagramMode === 'panel') {
         // Set up webview panel manager for freestyle webviews
@@ -48,9 +53,11 @@ export function activate(context: vscode.ExtensionContext) {
             languageClient,
             supportedFileExtensions: ['.sm'],
             localResourceRoots,
-            createWebviewHtml
+            createWebviewHtml,
+            configureEndpoint
         });
         registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
+        registerLspEditCommands(webviewPanelManager, context, { extensionPrefix: 'states' });
     }
 
     if (diagramMode === 'editor') {
@@ -61,7 +68,8 @@ export function activate(context: vscode.ExtensionContext) {
             languageClient,
             supportedFileExtensions: ['.sm'],
             localResourceRoots,
-            createWebviewHtml
+            createWebviewHtml,
+            configureEndpoint
         });
         context.subscriptions.push(
             vscode.window.registerCustomEditorProvider('states', webviewEditorProvider, {
@@ -69,6 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
             })
         );
         registerDefaultCommands(webviewEditorProvider, context, { extensionPrefix: 'states' });
+        registerLspEditCommands(webviewEditorProvider, context, { extensionPrefix: 'states' });
     }
 
     if (diagramMode === 'view') {

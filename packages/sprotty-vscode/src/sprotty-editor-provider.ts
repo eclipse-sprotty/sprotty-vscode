@@ -26,6 +26,7 @@ export interface SprottyEditorProviderOptions {
     messenger?: Messenger
     supportedFileExtensions?: string[]
     createWebviewHtml?: (identifier: SprottyDiagramIdentifier, container: WebviewContainer) => string
+    configureEndpoint?: (endpoint: WebviewEndpoint) => void
     localResourceRoots?: vscode.Uri[]
 }
 
@@ -102,12 +103,14 @@ export class SprottyEditorProvider implements vscode.CustomEditorProvider, IWebv
 
     protected createEndpoint(identifier: SprottyDiagramIdentifier, webviewContainer: vscode.WebviewPanel): WebviewEndpoint {
         const participant = this.messenger.registerWebviewPanel(webviewContainer);
-        return new WebviewEndpoint({
+        const endpoint = new WebviewEndpoint({
             webviewContainer,
             messenger: this.messenger,
             messageParticipant: participant,
             identifier
         });
+        this.options.configureEndpoint?.(endpoint);
+        return endpoint;
     }
 
     /**

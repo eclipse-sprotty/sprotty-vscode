@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { GeneratorContext, LangiumDiagramGenerator } from 'langium-sprotty';
-import { SEdge, SLabel, SModelRoot, SNode, SPort, EdgeLayoutable } from 'sprotty-protocol';
+import { SEdge, SLabel, SModelRoot, SNode, SPort } from 'sprotty-protocol';
 import { State, StateMachine, Transition } from './generated/ast.js';
 
 export class StatesDiagramGenerator extends LangiumDiagramGenerator {
@@ -38,15 +38,17 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
     protected generateNode(state: State, ctx: GeneratorContext<StateMachine>): SNode {
         const { idCache } = ctx;
         const nodeId = idCache.uniqueId(state.name, state);
+        const label: SLabel = {
+            type: 'label',
+            id: idCache.uniqueId(nodeId + '.label'),
+            text: state.name
+        };
+        this.traceProvider.trace(label, state, 'name');
         const node = {
             type: 'node',
             id: nodeId,
             children: [
-                <SLabel>{
-                    type: 'label',
-                    id: idCache.uniqueId(nodeId + '.label'),
-                    text: state.name
-                },
+                label,
                 <SPort>{
                     type: 'port',
                     id: idCache.uniqueId(nodeId + '.newTransition')
@@ -70,17 +72,19 @@ export class StatesDiagramGenerator extends LangiumDiagramGenerator {
         const sourceId = idCache.getId(transition.$container);
         const targetId = idCache.getId(transition.state?.ref);
         const edgeId = idCache.uniqueId(`${sourceId}:${transition.event?.ref?.name}:${targetId}`, transition);
+        const label: SLabel = {
+            type: 'label:xref',
+            id: idCache.uniqueId(edgeId + '.label'),
+            text: transition.event?.ref?.name ?? ''
+        }
+        this.traceProvider.trace(label, transition, 'event');
         const edge = {
             type: 'edge',
             id: edgeId,
             sourceId: sourceId!,
             targetId: targetId!,
             children: [
-                <SLabel & EdgeLayoutable>{
-                    type: 'label:xref',
-                    id: idCache.uniqueId(edgeId + '.label'),
-                    text: transition.event?.ref?.name
-                }
+                label
             ]
         };
         this.traceProvider.trace(edge, transition);

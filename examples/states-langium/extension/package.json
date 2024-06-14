@@ -106,19 +106,19 @@
                 },
                 {
                     "command": "states.diagram.fit",
-                    "when": "states-diagram-focused"
+                    "when": "states-focused"
                 },
                 {
                     "command": "states.diagram.center",
-                    "when": "states-diagram-focused"
+                    "when": "states-focused"
                 },
                 {
                     "command": "states.diagram.delete",
-                    "when": "states-diagram-focused"
+                    "when": "states-focused"
                 },
                 {
                     "command": "states.diagram.export",
-                    "when": "states-diagram-focused"
+                    "when": "states-focused"
                 }
             ],
             "editor/context": [
@@ -148,25 +148,25 @@
                 "key": "alt+f",
                 "mac": "alt+f",
                 "command": "states.diagram.fit",
-                "when": "states-diagram-focused"
+                "when": "states-focused"
             },
             {
                 "key": "alt+c",
                 "mac": "alt+c",
                 "command": "states.diagram.center",
-                "when": "states-diagram-focused"
+                "when": "states-focused"
             },
             {
                 "key": "alt+e",
                 "mac": "alt+e",
                 "command": "states.diagram.export",
-                "when": "states-diagram-focused"
+                "when": "states-focused"
             },
             {
                 "key": "delete",
                 "mac": "delete",
                 "command": "states.diagram.delete",
-                "when": "states-diagram-focused"
+                "when": "states-focused"
             }
         ]
     },

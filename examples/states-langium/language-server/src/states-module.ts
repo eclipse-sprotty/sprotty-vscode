@@ -23,6 +23,7 @@ import { StatesDiagramGenerator } from './diagram-generator.js';
 import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module.js';
 import { StatesLayoutConfigurator } from './layout-config.js';
 import { registerValidationChecks, StatesValidator } from './states-validator.js';
+import { StatesCodeActionProvider } from './code-actions.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -61,6 +62,9 @@ export const StatesModule: Module<StatesServices, PartialLangiumServices & Sprot
         ElkFactory: () => () => new ElkConstructor({ algorithms: ['layered'] }),
         ElementFilter: () => new DefaultElementFilter,
         LayoutConfigurator: () => new StatesLayoutConfigurator
+    },
+    lsp: {
+        CodeActionProvider: () => new StatesCodeActionProvider()
     }
 };
 
