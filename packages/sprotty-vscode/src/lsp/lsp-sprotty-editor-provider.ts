@@ -45,13 +45,15 @@ export class LspSprottyEditorProvider extends SprottyEditorProvider {
 
     protected override createEndpoint(identifier: SprottyDiagramIdentifier, webviewContainer: vscode.WebviewPanel): WebviewEndpoint {
         const participant = this.messenger.registerWebviewPanel(webviewContainer);
-        return new LspWebviewEndpoint({
+        const endpoint = new LspWebviewEndpoint({
             languageClient: this.languageClient,
             webviewContainer,
             messenger: this.messenger,
             messageParticipant: participant,
             identifier
         });
+        this.options.configureEndpoint?.(endpoint);
+        return endpoint;
     }
 
     protected override disposeDocument(document: SprottyDocument): void {

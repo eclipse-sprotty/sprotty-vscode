@@ -45,13 +45,15 @@ export class LspSprottyViewProvider extends SprottyViewProvider {
 
     protected override createEndpoint(webviewContainer: vscode.WebviewView, identifier?: SprottyDiagramIdentifier): WebviewEndpoint {
         const participant = this.messenger.registerWebviewView(webviewContainer);
-        return new LspWebviewEndpoint({
+        const endpoint = new LspWebviewEndpoint({
             languageClient: this.languageClient,
             webviewContainer,
             messenger: this.messenger,
             messageParticipant: participant,
             identifier
         });
+        this.options.configureEndpoint?.(endpoint);
+        return endpoint;
     }
 
     protected override didCloseWebview(endpoint: WebviewEndpoint): void {

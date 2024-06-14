@@ -1,0 +1,15 @@
+.sprotty-popup {
+    padding: 0;
+    color: var(--vscode-editorHoverWidget-foreground);
+    background: var(--vscode-editorHoverWidget-background);
+    border-color: var(--vscode-editorHoverWidget-border);
+}
+
+.sprotty-palette > div {
+    padding: 0 4px;
+    cursor: pointer;
+}
+
+.sprotty-palette > div:hover {
+    color: var(--vscode-textLink-activeForeground);
+}
