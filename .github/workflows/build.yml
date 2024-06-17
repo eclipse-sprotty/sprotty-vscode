@@ -19,17 +19,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: adopt
-    - name: Build Xtext Example
-      shell: bash
-      run: |
-        cd examples/states-xtext/language-server
-        ./gradlew build
+        node-version: '18'
     - name: Build Packages
       shell: bash
       run: yarn

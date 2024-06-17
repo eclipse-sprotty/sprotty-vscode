@@ -1,7 +1,5 @@
 tasks:
-  - init: |
-      examples/states-xtext/language-server/gradlew -p examples/states-xtext/language-server/ build
-      yarn
+  - init: yarn
 
 vscode:
   extensions:
