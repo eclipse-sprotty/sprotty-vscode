@@ -60,21 +60,6 @@
             "sourceMaps": true
         },
         {
-            "name": "States Example (Xtext)",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "${workspaceFolder}/examples/workspace",
-                "--extensionDevelopmentPath=${workspaceFolder}/examples/states-xtext/extension"
-            ],
-            "outFiles": [
-                "${workspaceFolder}/examples/states-xtext/extension/pack/*.js",
-                "${workspaceFolder}/packages/sprotty-vscode/lib/**/*.js"
-            ],
-            "sourceMaps": true
-        },
-        {
             "name": "Attach to Language Server",
             "type": "node",
             "port": 6009,

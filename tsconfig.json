@@ -2,6 +2,7 @@
     "extends": "./configs/base.tsconfig.json",
     "include": [
         "packages/*/src/**/*.ts",
-        "examples/**/src/**/*.{ts,tsx}"
+        "examples/states-langium/*/src/**/*.ts",
+        "examples/states-langium/*/src/**/*.tsx"
     ]
 }
