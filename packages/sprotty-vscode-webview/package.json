@@ -30,8 +30,8 @@
   "dependencies": {
     "sprotty": "^1.0.0",
     "sprotty-vscode-protocol": "^1.0.0",
-    "vscode-messenger-webview": "^0.4.5",
-    "vscode-uri": "^3.0.8"
+    "vscode-messenger-webview": "^0.5.1",
+    "vscode-uri": "^3.1.0"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",

@@ -182,9 +182,9 @@
     ],
     "main": "./pack/extension/src/states-extension.cjs",
     "devDependencies": {
-        "@types/node": "^14.17.3",
+        "@types/node": "^22.9.0",
         "@types/vscode": "1.50.0",
-        "esbuild": "^0.25.0",
+        "esbuild": "^0.25.6",
         "sprotty-vscode": "^1.0.0",
         "vscode-languageclient": "^9.0.1"
     },

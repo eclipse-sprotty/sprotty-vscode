@@ -30,7 +30,7 @@
   "dependencies": {
     "sprotty-protocol": "^1.0.0",
     "vscode-languageserver-protocol": "^3.17.5",
-    "vscode-messenger-common": "^0.4.5"
+    "vscode-messenger-common": "^0.5.1"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",

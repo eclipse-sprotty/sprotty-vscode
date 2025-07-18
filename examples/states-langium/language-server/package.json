@@ -16,9 +16,9 @@
     },
     "type": "module",
     "dependencies": {
-        "langium": "^3.0.0",
-        "langium-sprotty": "^3.0.0",
-        "sprotty-elk": "^1.2.0",
+        "langium": "^3.5.0",
+        "langium-sprotty": "^3.5.0",
+        "sprotty-elk": "^1.4.0",
         "vscode-languageserver": "^9.0.1"
     },
     "devDependencies": {
