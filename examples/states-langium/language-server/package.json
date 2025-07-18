@@ -2,7 +2,7 @@
     "name": "states-language-server",
     "displayName": "states-langium",
     "description": "Language server for the States example",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "private": true,
     "homepage": "https://sprotty.org/",
     "bugs": "https://github.com/eclipse/sprotty-vscode/issues",

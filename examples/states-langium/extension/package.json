@@ -11,7 +11,7 @@
         "url": "https://github.com/eclipse-sprotty/sprotty-vscode",
         "directory": "examples/states-langium/extension"
     },
-    "version": "0.6.0",
+    "version": "0.7.0",
     "engines": {
         "vscode": "^1.46.0"
     },
@@ -185,7 +185,7 @@
         "@types/node": "^22.9.0",
         "@types/vscode": "1.50.0",
         "esbuild": "^0.25.6",
-        "sprotty-vscode": "^1.0.0",
+        "sprotty-vscode": "^1.1.0",
         "vscode-languageclient": "^9.0.1"
     },
     "scripts": {

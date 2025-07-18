@@ -2,6 +2,18 @@
 
 This change log covers only the VS Code webview integration of Sprotty. See also the change log of [sprotty](https://github.com/eclipse/sprotty/blob/master/packages/sprotty/CHANGELOG.md).
 
+### v1.1.0 (Jul. 2025)
+
+- Updated `vscode-messenger` to version 0.5.1
+
+-----
+
+### v1.0.0 (Nov. 2023)
+
+This release is part of Sprotty's graduation to a mature project. More details: https://projects.eclipse.org/projects/ecd.sprotty/reviews/eclipse-sprotty-1.0.0-release-review
+
+-----
+
 ### v0.5.0 (Dec. 2022)
 
 This release introduces the usage of the [vscode-messenger](https://github.com/TypeFox/vscode-messenger) library to handle communication between webviews and the host extension ([#77](https://github.com/eclipse/sprotty-vscode/pull/77)). This removes the complexity of handling low-level message objects from sprotty-vscode and delegates it to a dedicated library.

@@ -2,6 +2,19 @@
 
 This change log covers only the VS Code extension integration of Sprotty. See also the change log of [sprotty](https://github.com/eclipse/sprotty/blob/master/packages/sprotty/CHANGELOG.md).
 
+### v1.1.0 (Jul. 2025)
+
+- Added `configureEndpoint` option for diagram webviews
+- Updated `vscode-messenger` to version 0.5.1
+
+-----
+
+### v1.0.0 (Nov. 2023)
+
+This release is part of Sprotty's graduation to a mature project. More details: https://projects.eclipse.org/projects/ecd.sprotty/reviews/eclipse-sprotty-1.0.0-release-review
+
+-----
+
 ### v0.5.0 (Dec. 2022)
 
 This release brings a major redesign of the API of `sprotty-vscode` ([#73](https://github.com/eclipse/sprotty-vscode/pull/73)). The previous main entry point `SprottyVscodeExtension` is now deprecated. You can use the new `WebviewPanelManager` as a replacement for it. In addition, two more classes `SprottyViewProvider` and `SprottyEditorProvider` are provided, offering integration with the [webview views](https://code.visualstudio.com/api/extension-guides/webview) and [custom editors](https://code.visualstudio.com/api/extension-guides/custom-editors) APIs of VS Code. Example code for all three integration types is available with the [States example](https://github.com/eclipse/sprotty-vscode/blob/master/examples/states-langium/extension/src/states-extension.ts).
