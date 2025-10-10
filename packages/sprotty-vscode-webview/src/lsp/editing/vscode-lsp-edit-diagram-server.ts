@@ -48,6 +48,9 @@ export class VscodeLspEditDiagramServer extends VscodeDiagramServer {
                 });
                 return false;
             }
+        } else if (action.kind === 'reconnect') {
+            this.forwardToServer(action);
+            return false;
         }
         return super.handleLocally(action);
     }

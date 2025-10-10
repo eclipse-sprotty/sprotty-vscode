@@ -17,3 +17,7 @@ state YellowLight
 state GreenLight
     switchCapacity => PowerOff
     next => YellowLight
+
+state fooState12
+    doorClosed => YellowLight
+

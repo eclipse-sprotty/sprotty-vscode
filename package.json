@@ -4,6 +4,7 @@
     "prepare": "lerna run prepare",
     "clean": "lerna run clean",
     "build": "lerna run build",
+    "watch": "lerna run watch",
     "lint": "lerna run lint",
     "publish:prepare": "lerna version --ignore-scripts --yes --no-push",
     "publish:latest": "lerna publish from-git --no-verify-access --yes --no-push",

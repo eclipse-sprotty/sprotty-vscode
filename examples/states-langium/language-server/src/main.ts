@@ -14,10 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { startLanguageServer } from 'langium/lsp';
-import { NodeFileSystem } from 'langium/node';
 import { addDiagramHandler, addDiagramSelectionHandler, addHoverPopupHandler, addTextSelectionHandler } from 'langium-sprotty';
-import { createConnection, ProposedFeatures } from 'vscode-languageserver/node.js';
+import { addExecuteCommandHandler, startLanguageServer } from 'langium/lsp';
+import { NodeFileSystem } from 'langium/node';
+import { ProposedFeatures, createConnection } from 'vscode-languageserver/node.js';
 import { createStatesServices } from './states-module.js';
 
 // Create a connection to the client
@@ -29,6 +29,7 @@ const { shared, states } = createStatesServices({ connection, ...NodeFileSystem 
 // Start the language server with the language-specific services
 startLanguageServer(shared);
 addDiagramHandler(connection, shared);
+addExecuteCommandHandler(connection, shared);
 
 addDiagramSelectionHandler(states);
 addTextSelectionHandler(states, { fitToScreen: 'none' });

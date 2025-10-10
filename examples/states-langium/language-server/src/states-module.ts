@@ -16,14 +16,15 @@
 
 const ElkConstructor = require('elkjs/lib/elk.bundled.js').default;
 import { inject, Module } from 'langium';
-import { createDefaultModule, createDefaultSharedModule, PartialLangiumServices, DefaultSharedModuleContext } from 'langium/lsp';
 import { LangiumSprottyServices, LangiumSprottySharedServices, SprottyDefaultModule, SprottyDiagramServices, SprottySharedModule } from 'langium-sprotty';
+import { createDefaultModule, createDefaultSharedModule, DefaultSharedModuleContext, PartialLangiumServices, PartialLangiumSharedServices } from 'langium/lsp';
 import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILayoutConfigurator } from 'sprotty-elk/lib/elk-layout.js';
+import { StatesCodeActionProvider } from './code-actions.js';
+import { StatesCommandHandler } from './command-handler.js';
 import { StatesDiagramGenerator } from './diagram-generator.js';
 import { StatesGeneratedModule, StatesGeneratedSharedModule } from './generated/module.js';
 import { StatesLayoutConfigurator } from './layout-config.js';
 import { registerValidationChecks, StatesValidator } from './states-validator.js';
-import { StatesCodeActionProvider } from './code-actions.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -68,6 +69,13 @@ export const StatesModule: Module<StatesServices, PartialLangiumServices & Sprot
     }
 };
 
+export const StatesSharedModule: Module<LangiumSprottySharedServices, PartialLangiumSharedServices> = {
+    lsp: {
+        ExecuteCommandHandler: (services) => new StatesCommandHandler(services)
+    }
+};
+
+
 /**
  * Create the full set of services required by Langium.
  *
@@ -90,8 +98,10 @@ export function createStatesServices(context: DefaultSharedModuleContext): {
     const shared = inject(
         createDefaultSharedModule(context),
         StatesGeneratedSharedModule,
-        SprottySharedModule
+        SprottySharedModule,
+        StatesSharedModule
     );
+
     const states = inject(
         createDefaultModule({ shared }),
         StatesGeneratedModule,

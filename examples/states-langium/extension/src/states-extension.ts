@@ -19,10 +19,10 @@ import {
     SprottyDiagramIdentifier, WebviewContainer, WebviewEndpoint, createFileUri, createWebviewHtml as doCreateWebviewHtml,
     registerDefaultCommands, registerLspEditCommands, registerTextEditorSync
 } from 'sprotty-vscode';
-import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewEndpoint, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
+import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewEndpoint, LspWebviewPanelManager, convertUri } from 'sprotty-vscode/lib/lsp';
 import { addLspLabelEditActionHandler, addWorkspaceEditActionHandler } from 'sprotty-vscode/lib/lsp/editing';
 import * as vscode from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
+import { ExecuteCommandParams, ExecuteCommandRequest, LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 import { Messenger } from 'vscode-messenger';
 
 let languageClient: LanguageClient;
@@ -43,8 +43,9 @@ export function activate(context: vscode.ExtensionContext) {
     const configureEndpoint = (endpoint: WebviewEndpoint) => {
         addWorkspaceEditActionHandler(endpoint as LspWebviewEndpoint);
         addLspLabelEditActionHandler(endpoint as LspWebviewEndpoint);
+        addLspReconnectActionHandler(endpoint as LspWebviewEndpoint);
     };
-
+    const messenger = new Messenger({ ignoreHiddenViews: false });
     if (diagramMode === 'panel') {
         // Set up webview panel manager for freestyle webviews
         const webviewPanelManager = new LspWebviewPanelManager({
@@ -52,6 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
             defaultDiagramType: 'states',
             languageClient,
             supportedFileExtensions: ['.sm'],
+            messenger,
             localResourceRoots,
             createWebviewHtml,
             configureEndpoint
@@ -68,6 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
             languageClient,
             supportedFileExtensions: ['.sm'],
             localResourceRoots,
+            messenger,
             createWebviewHtml,
             configureEndpoint
         });
@@ -88,7 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
             languageClient,
             supportedFileExtensions: ['.sm'],
             openActiveEditor: true,
-            messenger: new Messenger({ignoreHiddenViews: false}),
+            messenger,
             localResourceRoots,
             createWebviewHtml
         });
@@ -100,7 +103,31 @@ export function activate(context: vscode.ExtensionContext) {
         registerDefaultCommands(webviewViewProvider, context, { extensionPrefix: 'states' });
         registerTextEditorSync(webviewViewProvider, context);
     }
+    return messenger.diagnosticApi({ withParameterData: true, withResponseData: true });
 }
+
+function addLspReconnectActionHandler(endpoint: LspWebviewEndpoint): void {
+    const handler = async (action: any) => {
+        console.warn(`Reconnect action received: ${JSON.stringify(action)}`);
+        const uri = endpoint.diagramIdentifier?.uri!;
+        const response = await endpoint.languageClient.sendRequest(ExecuteCommandRequest.type,
+            <ExecuteCommandParams>{
+                command: 'workspace/createTransition',
+                arguments: [{
+                    ...action,
+                    uri
+                }],
+            });
+        console.warn(`Response: ${JSON.stringify(response)}`);
+        if (response.success) {
+            const textEdit = response.textEdit as vscode.TextEdit;
+            const workspaceEdit = new vscode.WorkspaceEdit();
+            workspaceEdit.set(convertUri(uri), [textEdit]);
+            await vscode.workspace.applyEdit(workspaceEdit);
+        }
+    };
+    endpoint.addActionHandler('reconnect', handler);
+};
 
 function createLanguageClient(context: vscode.ExtensionContext): LanguageClient {
     const serverModule = context.asAbsolutePath(path.join('pack', 'language-server', 'src', 'main.cjs'));
@@ -129,7 +156,7 @@ function createLanguageClient(context: vscode.ExtensionContext): LanguageClient 
     };
 
     // Create the language client and start the client.
-    const languageClient = new LanguageClient(
+    const newLanguageClient = new LanguageClient(
         'states',
         'States',
         serverOptions,
@@ -137,8 +164,8 @@ function createLanguageClient(context: vscode.ExtensionContext): LanguageClient 
     );
 
     // Start the client. This will also launch the server
-    languageClient.start();
-    return languageClient;
+    newLanguageClient.start();
+    return newLanguageClient;
 }
 
 export async function deactivate(): Promise<void> {

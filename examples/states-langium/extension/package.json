@@ -188,6 +188,9 @@
         "sprotty-vscode": "^1.1.0",
         "vscode-languageclient": "^9.0.1"
     },
+    "dependencies": {
+        "vscode-messenger": "^0.5.1"
+    },
     "scripts": {
         "prepare": "yarn run clean && yarn run build",
         "clean": "shx rm -fr pack",
