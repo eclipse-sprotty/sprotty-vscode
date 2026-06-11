@@ -3,6 +3,9 @@
 	"compilerOptions": {
         "rootDir": "src",
         "outDir": "lib",
+        "types": [
+            "node"
+        ],
     },
     "include": [
         "src"
