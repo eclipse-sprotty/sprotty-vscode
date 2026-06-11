@@ -17,7 +17,7 @@
 import { startLanguageServer } from 'langium/lsp';
 import { NodeFileSystem } from 'langium/node';
 import { addDiagramHandler, addDiagramSelectionHandler, addHoverPopupHandler, addTextSelectionHandler } from 'langium-sprotty';
-import { createConnection, ProposedFeatures } from 'vscode-languageserver/node.js';
+import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 import { createStatesServices } from './states-module.js';
 
 // Create a connection to the client

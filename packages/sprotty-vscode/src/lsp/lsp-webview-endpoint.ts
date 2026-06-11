@@ -16,7 +16,7 @@
 
 import { ActionMessage } from 'sprotty-protocol';
 import { LspNotification, LspRequest } from 'sprotty-vscode-protocol/lib/lsp';
-import { ResponseMessage } from 'vscode-jsonrpc/lib/common/messages';
+import { ResponseMessage } from 'vscode-jsonrpc';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { WebviewEndpoint, WebviewEndpointOptions } from '../webview-endpoint';
 import { acceptMessageType } from './protocol';
