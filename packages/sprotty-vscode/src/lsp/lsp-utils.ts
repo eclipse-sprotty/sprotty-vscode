@@ -31,7 +31,7 @@ export function convertWorkspaceEdit(workspaceEdit: lsp.WorkspaceEdit): vscode.W
     }
     workspaceEdit.documentChanges?.forEach(documentChange => {
         if (lsp.TextDocumentEdit.is(documentChange)) {
-            result.set(convertUri(documentChange.textDocument.uri), documentChange.edits.map(convertTextEdit));
+            result.set(convertUri(documentChange.textDocument.uri), documentChange.edits.filter((e): e is lsp.TextEdit => 'newText' in e).map(convertTextEdit));
         } else if (lsp.CreateFile.is(documentChange)) {
             result.createFile(convertUri(documentChange.uri), documentChange.options);
         } else if (lsp.DeleteFile.is(documentChange)) {

@@ -16,14 +16,14 @@
     },
     "type": "module",
     "dependencies": {
-        "langium": "^3.5.0",
-        "langium-sprotty": "^3.5.0",
+        "langium": "4.3.0-next.a52b426",
+        "langium-sprotty": "4.3.0-next.a52b426",
         "sprotty-elk": "^1.4.0",
-        "vscode-languageserver": "^9.0.1"
+        "vscode-languageserver": "^10.0.0"
     },
     "devDependencies": {
         "@types/node": "^14.17.3",
-        "langium-cli": "^3.0.3"
+        "langium-cli": "4.3.0-next.a52b426"
     },
     "scripts": {
         "prepare": "yarn run clean && yarn run langium:generate && yarn run build",

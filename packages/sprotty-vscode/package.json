@@ -22,7 +22,7 @@
     "directory": "packages/sprotty-vscode"
   },
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.91.0"
   },
   "files": [
     "lib",
@@ -33,12 +33,12 @@
   "dependencies": {
     "path": "^0.12.7",
     "sprotty-vscode-protocol": "^1.1.0",
-    "vscode-languageclient": "^9.0.1",
+    "vscode-languageclient": "^10.0.0",
     "vscode-messenger": "^0.5.1"
   },
   "devDependencies": {
     "@types/node": "^14.17.3",
-    "@types/vscode": "1.50.0"
+    "@types/vscode": "1.91.0"
   },
   "scripts": {
     "prepare": "yarn run clean && yarn run build",

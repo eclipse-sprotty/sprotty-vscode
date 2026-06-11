@@ -29,7 +29,7 @@
   "types": "lib/index",
   "dependencies": {
     "sprotty-protocol": "^1.0.0",
-    "vscode-languageserver-protocol": "^3.17.5",
+    "vscode-languageserver-protocol": "^3.18.0",
     "vscode-messenger-common": "^0.5.1"
   },
   "scripts": {

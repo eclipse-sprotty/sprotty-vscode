@@ -10,8 +10,8 @@
         "lib": [
             "ES2017"
         ],
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
         "noUnusedLocals": true,
         "noImplicitOverride": true,
         "skipLibCheck": true,
