@@ -15,7 +15,10 @@ const config = {
     devtool: 'source-map',
 
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
+        alias: {
+            inversify: require.resolve('inversify')
+        }
     },
     module: {
         rules: [
