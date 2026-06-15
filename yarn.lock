@@ -1836,7 +1836,7 @@ combined-stream@1.0.8, combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^14.0.3, commander@~14.0.3:
+commander@^14.0.3:
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-14.0.3.tgz#425d79b48f9af82fcd9e4fc1ea8af6c5ec07bbc2"
   integrity sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==
@@ -1845,6 +1845,11 @@ commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
+commander@~15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-15.0.0.tgz#96f3961f12adac1799ef3fbd8bc61d40572d1b11"
+  integrity sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==
 
 common-ancestor-path@^1.0.1:
   version "1.0.1"
@@ -3320,48 +3325,47 @@ kind-of@^6.0.2, kind-of@^6.0.3:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-langium-cli@4.3.0-next.a52b426:
-  version "4.3.0-next.a52b426"
-  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-4.3.0-next.a52b426.tgz#fab3528efd380c147eb3f02977e033cebdd32834"
-  integrity sha512-/ZCVWWc7zgqHmYKhCUrsKQRc/snVhXTaBTzPQ5z4+r9cmsBGxOHq32PskG1ENc21P4I93NPJ+eQQ5KDgfdmbPA==
+langium-cli@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/langium-cli/-/langium-cli-4.3.0.tgz#1ab3871169c4446790e41de6efab9c1dc0e120d3"
+  integrity sha512-+TtgkhX8Z3exRBJvTFWV1semhWUCnWMhMP+ZKjpKIeyY6GgnQHehf3ZWyCvVL5T95uqgWZb77aoq9rhI2MPNTA==
   dependencies:
     chalk "~5.6.2"
-    commander "~14.0.3"
+    commander "~15.0.0"
     fs-extra "~11.3.5"
     jsonschema "~1.5.0"
-    langium "4.3.0-next.a52b426"
-    langium-railroad "4.3.0-next.a52b426"
+    langium "~4.3.0"
+    langium-railroad "~4.3.0"
     lodash "~4.18.1"
 
-langium-railroad@4.3.0-next.a52b426:
-  version "4.3.0-next.a52b426"
-  resolved "https://registry.yarnpkg.com/langium-railroad/-/langium-railroad-4.3.0-next.a52b426.tgz#5a2d9045d1bc3b235d196e5e6b22ab5ae5738de1"
-  integrity sha512-PvrI3PbxlXrasWFzz3vxAJwhIVpwyGKansZmZYDB8im96Fk2nyI2bkfFmk9avKTQmvOk+kUp/yH4y/DbbAccoA==
+langium-railroad@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/langium-railroad/-/langium-railroad-4.3.0.tgz#2c88a26eacddaacdb3aa3e88b5a3294c477f3499"
+  integrity sha512-dbuv149MQe8XcgM48FagH22JBaqN0MvN9RRJKBdRQWDeHUYAASliiOtLdMfgOl3kV+nLx7idSc+LLdcBSduvHw==
   dependencies:
-    langium "4.3.0-next.a52b426"
+    langium "~4.3.0"
     railroad-diagrams "~1.0.0"
 
-langium-sprotty@4.3.0-next.a52b426:
-  version "4.3.0-next.a52b426"
-  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-4.3.0-next.a52b426.tgz#60c11fea5502068a414151013b048a01f2cfdea3"
-  integrity sha512-7cesoNu+LVD21C3dlBj/mnUggv7ULrANVNXq/Lg6iY8BEDyR39zXl3+/IpTsNmDJ/2+G6EG1DpsIMRa9mgT4Ng==
+langium-sprotty@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/langium-sprotty/-/langium-sprotty-4.3.0.tgz#a733d2881fda2a67b2e70d87fe32730dbfdf3d36"
+  integrity sha512-PmapTCu+G8DHmjZ6i/WntplTJmXTIapQhwAZ8rpWp5+T9ICZvO+Qnf/hxKMgob2jFO18NL01Ziqx5EWiVK/3tQ==
   dependencies:
-    langium "4.3.0-next.a52b426"
+    langium "~4.3.0"
     sprotty-protocol "^1.0.0"
     vscode-languageserver "~10.0.0"
 
-langium@4.3.0-next.a52b426:
-  version "4.3.0-next.a52b426"
-  resolved "https://registry.yarnpkg.com/langium/-/langium-4.3.0-next.a52b426.tgz#a7ce8b2717c13c7a8e9568c8f169a1b273e955ae"
-  integrity sha512-xbexaNeQreNTlLjQqhaYljveeVr47AT89ofBVaTa4fUkte6Kzh5LNoCr1OUDgXZfAc1Z1lgJmM9XdK7XoHhKjQ==
+langium@4.3.0, langium@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/langium/-/langium-4.3.0.tgz#69cfdc444c61fc9757c6d5b49fe34e7e6a701c27"
+  integrity sha512-ehV704taQKTYTuNdKRNjv1sD8huezTW8uTlDuQN6FFK5Cu7qR29vbA1JAibXxLznQXZCAliGO342jH58OzywZA==
   dependencies:
     "@chevrotain/regexp-to-ast" "~12.0.0"
     chevrotain "~12.0.0"
     chevrotain-allstar "~0.4.3"
-    vscode-jsonrpc "~9.0.0"
     vscode-languageserver "~10.0.0"
     vscode-languageserver-protocol "~3.18.0"
-    vscode-languageserver-textdocument "~1.0.12"
+    vscode-languageserver-textdocument "~1.0.13"
     vscode-languageserver-types "~3.18.0"
     vscode-uri "~3.1.0"
 
@@ -5514,7 +5518,7 @@ validate-npm-package-name@^7.0.0:
   resolved "https://registry.yarnpkg.com/validate-npm-package-name/-/validate-npm-package-name-7.0.2.tgz#e57c3d721a4c8bbff454a246e7f7da811559ea0d"
   integrity sha512-hVDIBwsRruT73PbK7uP5ebUt+ezEtCmzZz3F59BSr2F6OVFnJ/6h8liuvdLrQ88Xmnk6/+xGGuq+pG9WwTuy3A==
 
-vscode-jsonrpc@9.0.0, vscode-jsonrpc@~9.0.0:
+vscode-jsonrpc@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/vscode-jsonrpc/-/vscode-jsonrpc-9.0.0.tgz#9ba600c90bee3933fffdf00ea5af57447fac36c5"
   integrity sha512-+VvMmQPJhtvJ+8O+zu2JKIRiLxXF8NW7krWgyMGeOHrp4Cn23T5hc0v2LknNeopDOB70wghHAds7mKtcZ0I4Sg==
@@ -5537,15 +5541,10 @@ vscode-languageserver-protocol@3.18.0, vscode-languageserver-protocol@^3.18.0, v
     vscode-jsonrpc "9.0.0"
     vscode-languageserver-types "3.18.0"
 
-vscode-languageserver-textdocument@1.0.13:
+vscode-languageserver-textdocument@1.0.13, vscode-languageserver-textdocument@~1.0.13:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.13.tgz#81846745d77b9fc787911e64e2e110d244c9b8b2"
   integrity sha512-nx0ZHwMGIsVkzFG3/VLeJYBLTaFBRuNdGDvevvjuoayU5EOS2fEYazOhtCM3PI9ClMMg5igc0uwXtAq4tJj+Dw==
-
-vscode-languageserver-textdocument@~1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.12.tgz#457ee04271ab38998a093c68c2342f53f6e4a631"
-  integrity sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA==
 
 vscode-languageserver-types@3.18.0, vscode-languageserver-types@~3.18.0:
   version "3.18.0"
