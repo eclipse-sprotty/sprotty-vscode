@@ -184,7 +184,7 @@
     "devDependencies": {
         "@types/node": "^22.19.21",
         "@types/vscode": "1.91.0",
-        "esbuild": "^0.28.0",
+        "esbuild": "^0.28.1",
         "sprotty-vscode": "^1.1.0",
         "vscode-languageclient": "^10.0.0"
     },
