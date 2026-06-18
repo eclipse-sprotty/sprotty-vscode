@@ -4,14 +4,15 @@
         "declaration": true,
         "declarationMap": true,
         "downlevelIteration": true,
+        "ignoreDeprecations": "6.0",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "target": "ES2017",
         "lib": [
             "ES2017"
         ],
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
         "noUnusedLocals": true,
         "noImplicitOverride": true,
         "skipLibCheck": true,
