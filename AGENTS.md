@@ -48,6 +48,6 @@ There is no test suite yet — verification is build (tsc strict) + lint; see th
 
 - `docs/ARCHITECTURE.md` — packages, message flow, LSP tunnel, integration modes, gotchas.
 - `docs/adr/` — do not contradict accepted ADRs: 0001 protocol package split, 0002 `diagram/accept` tunnel, 0003 manager/provider API, 0004 vscode-messenger.
-- `docs/product-specs/index.md` — behaviour contracts (extension↔webview↔LS protocol).
+- `docs/product-specs/index.md` — behaviour contracts (extension↔webview↔LS wire protocol; LSP-based diagram editing).
 - `docs/exec-plans/` — multi-session work gets a plan in `active/`; move it to `completed/` when done.
 - Sprotty framework concepts (SModel, actions, DiagramServer, layout) are documented in the sprotty repo and at https://sprotty.org/docs/ — not here.

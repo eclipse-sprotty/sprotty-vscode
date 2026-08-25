@@ -20,6 +20,7 @@
 ## Progress log
 
 - 2026-08-25: AX retrofit session. Audit (6-source analysis: codebase, Langium example, TypeFox blog, EclipseCon transcripts, sprotty `agent-docs` branch), verified command block, docs nucleus written, doc rot fixed. Items 1–2 shipped. A doc-freshness check script was trialled during the session and then removed at the maintainer's request — adding one later is a deferred decision (see open questions).
+- 2026-08-25: LSP editing analysis session. Cross-repo control/data flow of all diagram editing features read (this repo, sprotty 1.4.0, langium-sprotty 4.3.0, the example's code actions) and specified in `docs/product-specs/lsp-editing.md` (second spec; evidence: undocumented cross-repo flows, maintainer request). Corrected ARCHITECTURE.md's claim that the webview LSP tunnel carries completion/rename (it carries code-action requests only). Found: the drag-to-create-transition gesture is client-side only on master (no server handler for `reconnect`) — added as an open question and an `examples/AGENTS.md` trap.
 
 ## Decision log
 
@@ -34,3 +35,4 @@
 - Peer-dependency strategy for `sprotty` and `vscode-messenger` — regular deps risk silent version skew downstream, but converting is a breaking change.
 - CHANGELOG accuracy: the v1.1.0 entries state `vscode-messenger` 0.5.1 while dependencies are `^0.6.1`, and post-release bumps (LSP v10 / 3.18, PR #129) have no entries — correct retroactively or at next release?
 - Upstream feedback: the sprotty repo's `edge-routing` product spec says "sprotty-vscode rebinds `ManhattanEdgeRouter`" — the rebind actually lives in the *States example webview* (`examples/states-langium/webview/src/di.config.ts`), not in the library packages. Report on the `agent-docs` branch before it merges.
+- Drag-to-create transitions: the example ships the client-side gesture (port, edge-in-progress, `reconnect` forwarding) but no server-side handler turns the reconnect into a text edit, so the created edge never persists. Experimental work exists on `origin/dhuebner/reconnect-command` ("Experimental command driven editing", 2025-10) — finish it, or remove the client-side gesture from the example?

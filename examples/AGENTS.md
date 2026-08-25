@@ -22,5 +22,6 @@ Run it: F5 from the repo root (`DIAGRAM_MODE` env in the launch config selects p
 - The `process.env.DIAGRAM_MODE` switch in `states-langium/extension/src/states-extension.ts` is demo scaffolding to show all three integration modes — a real extension picks one class and deletes the branching.
 - `reflect-metadata` must stay the first import of `states-langium/webview/src/main.ts` (inversify decorators).
 - `states-webview/` (if present on your disk) is leftover build litter from the removed Xtext-era example — not part of the repo.
+- Dragging a new transition from a node's triangle port only changes the diagram locally: nothing on master handles the resulting `reconnect` action in the language server, so no text edit is produced and the edge vanishes on the next rebuild (see `docs/product-specs/lsp-editing.md`, feature 5).
 
 Everything else (architecture, protocol, extension points) is in `docs/ARCHITECTURE.md` at the repo root.

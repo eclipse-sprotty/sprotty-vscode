@@ -5,3 +5,4 @@ Current *intended behaviour* per capability — the adjudicator for "bug or inte
 | Capability | Spec |
 |---|---|
 | Extension ↔ webview ↔ language server wire protocol | [webview-protocol.md](webview-protocol.md) |
+| Diagram editing via LSP (label edit, create palette, delete, traces) | [lsp-editing.md](lsp-editing.md) |

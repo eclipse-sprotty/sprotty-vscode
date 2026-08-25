@@ -47,7 +47,7 @@ The LSP variants (`sprotty-vscode/lib/lsp` — deep import, not in the barrel) w
 
 *Why one generic method* — all diagram traffic tunnels through the single `diagram/accept` notification instead of per-feature RPC methods, so downstream projects add custom action kinds without touching JSON-RPC (ADR-0002). The server half of this contract is implemented by [langium-sprotty](https://github.com/eclipse-langium/langium) (`addDiagramHandler`), which embeds a sprotty-protocol `DiagramServer` inside the language server process. The full wire contract is specified in `docs/product-specs/webview-protocol.md`.
 
-`LspWebviewEndpoint.receiveAction` forwards webview actions to the language server *in addition to* local handling. In the other direction, the LSP managers subscribe to `diagram/accept` and dispatch to the endpoint whose `clientId` matches. There is also a generic LSP tunnel for the webview (`LspNotification` / `LspRequest` in `sprotty-vscode-protocol/lib/lsp`): the webview can send arbitrary LSP requests through the extension — `LanguageClientProxy` on the webview side uses it for completion, rename, and code-action requests that implement diagram editing (label edit, create palette, delete). Diagram edits always become text edits via LSP operations; the doctrine behind that (text is the source of truth, never persist the SModel) is documented in the sprotty repo's *view-model doctrine* design doc (docs/design-docs in that repo).
+`LspWebviewEndpoint.receiveAction` forwards webview actions to the language server *in addition to* local handling. In the other direction, the LSP managers subscribe to `diagram/accept` and dispatch to the endpoint whose `clientId` matches. There is also a generic LSP tunnel for the webview (`LspNotification` / `LspRequest` in `sprotty-vscode-protocol/lib/lsp`): the webview can send arbitrary LSP requests through the extension — `LanguageClientProxy` on the webview side uses it for the `textDocument/codeAction` requests behind the create palette; the rename and completion requests for label editing are sent from the extension host directly. Diagram edits always become text edits via LSP operations; the doctrine behind that (text is the source of truth, never persist the SModel) is documented in the sprotty repo's *view-model doctrine* design doc (docs/design-docs in that repo), and the per-feature control/data flows are specified in `docs/product-specs/lsp-editing.md`.
 
 ## Three integration modes
 
@@ -88,6 +88,7 @@ Preferred: options callbacks on the three `*Options` interfaces — `createWebvi
 |---|---|
 | Sprotty concepts (SModel, actions, DI, layout) | https://sprotty.org/docs/ and sprotty repo `docs/` |
 | Wire contract of this layer | `docs/product-specs/webview-protocol.md` |
+| LSP editing flows (label edit, palette, delete, traces) | `docs/product-specs/lsp-editing.md` |
 | Decisions | `docs/adr/` |
 | The example's build wiring | `examples/AGENTS.md` |
 | vscode-messenger API | https://github.com/TypeFox/vscode-messenger |
