@@ -10,11 +10,11 @@ This project is governed by the [Eclipse Community Code of Conduct](https://gith
 
 The following communication channels are available:
 
- * [GitHub issues](https://github.com/eclipse/sprotty-vscode/issues) - for bug reports, feature requests, etc.
+ * [GitHub issues](https://github.com/eclipse-sprotty/sprotty-vscode/issues) - for bug reports, feature requests, etc.
  * [GitHub discussions](https://github.com/eclipse-sprotty/sprotty/discussions) - for questions and project-related discussion
  * [Developer mailing list](https://accounts.eclipse.org/mailing-list/sprotty-dev) - for organizational issues (e.g. elections of new committers)
 
-In case you have a question, please look into the [documentation in the Wiki](https://github.com/eclipse/sprotty-vscode/wiki) first. If you don't find any answer there, feel free to use the chat, forum or issues to get help.
+In case you have a question, please look into the [architecture documentation](./docs/ARCHITECTURE.md) and the [Sprotty documentation](https://sprotty.org/docs/) first. If you don't find any answer there, feel free to use the discussions or issues to get help.
 
 ## How to Contribute
 
