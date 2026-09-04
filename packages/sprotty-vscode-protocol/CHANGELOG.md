@@ -1,6 +1,6 @@
 ## Eclipse Sprotty Change Log (VS Code Protocol)
 
-This change log covers only the VS Code extension-to-webview protocol of Sprotty. See also the change log of [sprotty](https://github.com/eclipse/sprotty/blob/master/packages/sprotty/CHANGELOG.md).
+This change log covers only the VS Code extension-to-webview protocol of Sprotty. See also the change log of [sprotty](https://github.com/eclipse-sprotty/sprotty/blob/main/packages/sprotty/CHANGELOG.md).
 
 ### v1.1.0 (Jul. 2025)
 

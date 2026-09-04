@@ -4,7 +4,7 @@ This library helps you to implement a [VS Code webview](https://code.visualstudi
 
 # Getting Started
 
-The diagram itself is implemented with the Sprotty API. See the [Sprotty Wiki](https://github.com/eclipse/sprotty/wiki), the [states example](https://github.com/eclipse/sprotty-vscode/tree/master/examples/states-webview) and the [Sprotty examples](https://github.com/eclipse/sprotty/tree/master/examples) for reference.
+The diagram itself is implemented with the Sprotty API. See the [Sprotty Wiki](https://github.com/eclipse/sprotty/wiki), the [states example](https://github.com/eclipse/sprotty-vscode/tree/master/examples/states-webview) and the [Sprotty examples](https://github.com/eclipse-sprotty/sprotty/tree/main/examples) for reference.
 
 The next step is to implement a subclass of `SprottyStarter` and instantiate it in your entry module as shown below.
 
