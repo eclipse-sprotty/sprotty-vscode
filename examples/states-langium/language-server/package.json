@@ -5,13 +5,13 @@
     "version": "0.7.0",
     "private": true,
     "homepage": "https://sprotty.org/",
-    "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
+    "bugs": "https://github.com/eclipse-sprotty/sprotty-vscode/issues",
     "author": {
         "name": "Eclipse Sprotty"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/eclipse/sprotty-vscode.git",
+        "url": "https://github.com/eclipse-sprotty/sprotty-vscode.git",
         "directory": "examples/states-langium/language-server"
     },
     "type": "module",

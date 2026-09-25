@@ -1,8 +1,8 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse/sprotty-vscode)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse-sprotty/sprotty-vscode)
 
 # sprotty-vscode
 
-This repository contains the glue code to integrate [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without a language server - in VSCode extensions.
+This repository contains the glue code to integrate [Sprotty diagrams](https://github.com/eclipse-sprotty/sprotty) - with or without a language server - in VSCode extensions.
 
 Also contains an example extension for a domain-specific language for statemachines. The example is also available as _States Example_ from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=typefox.states-extension).
 
@@ -16,11 +16,11 @@ Also contains an example extension for a domain-specific language for statemachi
 
 ## Architecture
 
-In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`vscode-messenger`](https://github.com/TypeFox/vscode-messenger) library. The [`WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) uses this to send and receive Sprotty Actions to and from a [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts). The latter runs a webpacked `bundle.js` that contains the Sprotty diagram code.
+In VS Code, extensions can contribute new UI components using a webview. Webviews communicate with the extension using the [`vscode-messenger`](https://github.com/TypeFox/vscode-messenger) library. A [`WebviewEndpoint`](./packages/sprotty-vscode/src/webview-endpoint.ts) uses this to send and receive Sprotty Actions to and from the webview, which runs a bundled script containing the Sprotty diagram code. Webview lifecycles are managed by one of three integration classes: [`WebviewPanelManager`](./packages/sprotty-vscode/src/webview-panel-manager.ts) (freestyle panels), [`SprottyEditorProvider`](./packages/sprotty-vscode/src/sprotty-editor-provider.ts) (custom editors), or [`SprottyViewProvider`](./packages/sprotty-vscode/src/sprotty-view-provider.ts) (webview views).
 
 ![Architecture Diagram](images/architecture.png)
 
-If your extension provides a language, you can include a [Sprotty-enhanced language server](https://github.com/eclipse/sprotty-server) to get fully synchronized diagrams for your language artifacts. The [`SprottyLspVscodeExtension`](./packages/sprotty-vscode/src/lsp/sprotty-lsp-vscode-extension.ts) acts as a relay between the language server and a [`SprottyLanguageWebview`](./packages/sprotty-vscode/src/lsp/sprotty-lsp-webview.ts), and intercepts actions/LSP messages that require to interact with the VS Code workbench.
+If your extension provides a language, you can include a Sprotty-enhanced language server — for example one built with [langium-sprotty](https://github.com/eclipse-langium/langium/tree/main/packages/langium-sprotty) — to get fully synchronized diagrams for your language artifacts. The `Lsp` variants of the classes above (e.g. [`LspWebviewPanelManager`](./packages/sprotty-vscode/src/lsp/lsp-webview-panel-manager.ts)) relay Sprotty Actions between the language server and the webview, and intercept actions/LSP messages that require interaction with the VS Code workbench. See [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) for details.
 
 ## Contents
 
@@ -37,7 +37,4 @@ Compile the library code and the examples:
 yarn
 ```
 
-If you also want to use the older Xtext-based example, you need to run this command before `yarn`:
-```
-./examples/states-xtext/language-server/gradlew -p examples/states-xtext/language-server/ build
-```
+Then launch the States example with one of the launch configurations in VS Code (F5). See [`AGENTS.md`](./AGENTS.md) for the full command surface.
