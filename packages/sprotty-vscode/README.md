@@ -2,7 +2,7 @@
 
 This library contains glue code for [Sprotty](https://www.npmjs.com/package/sprotty) diagrams in VS Code. The diagrams can optionally be backed by a [language server](https://microsoft.github.io/language-server-protocol/).
 
-A complete example with a [Langium](https://langium.org) language server is available [here](https://github.com/eclipse/sprotty-vscode/tree/master/examples/states-langium).
+A complete example with a [Langium](https://langium.org) language server is available [here](https://github.com/eclipse-sprotty/sprotty-vscode/tree/master/examples/states-langium).
 
 ## Getting Started
 

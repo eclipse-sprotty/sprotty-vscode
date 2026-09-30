@@ -70,7 +70,8 @@ export function createWebviewHtml(identifier: SprottyDiagramIdentifier, containe
         <meta name="viewport" content="width=device-width, height=device-height">
         ${options.title ? `<title>${options.title}</title>` : ''}
         ${options.cssUri ? `<link rel="stylesheet" type="text/css" href="${transformUri(options.cssUri)}" />` : ''}
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src ${container.webview.cspSource}; style-src 'unsafe-inline' ${container.webview.cspSource};">
+        <meta http-equiv="Content-Security-Policy"
+            content="default-src 'none'; script-src ${container.webview.cspSource}; style-src 'unsafe-inline' ${container.webview.cspSource};">
     </head>
     <body>
         <div id="${identifier.clientId}_container" style="height: 100%;"></div>

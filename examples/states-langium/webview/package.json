@@ -11,14 +11,14 @@
     "layout",
     "sprotty"
   ],
-  "homepage": "https://github.com/eclipse/sprotty-vscode",
-  "bugs": "https://github.com/eclipse/sprotty-vscode/issues",
+  "homepage": "https://github.com/eclipse-sprotty/sprotty-vscode",
+  "bugs": "https://github.com/eclipse-sprotty/sprotty-vscode/issues",
   "author": {
     "name": "Eclipse Sprotty"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eclipse/sprotty-vscode.git",
+    "url": "https://github.com/eclipse-sprotty/sprotty-vscode.git",
     "directory": "examples/states-webview"
   },
   "files": [
